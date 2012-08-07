@@ -1,0 +1,80 @@
+laks_dir = Dir('.')
+ld_dir = Dir('ld_scripts')
+main_sconscript = File('SConscript')
+
+def select_arm(env, family):
+	env.SetDefault(
+		TOOLCHAIN = 'arm-none-eabi-',
+	)
+	
+	env.Replace(
+		CC = '${TOOLCHAIN}gcc',
+		CXX = '${TOOLCHAIN}g++',
+		AS = '${TOOLCHAIN}gcc',
+		LINK = '${TOOLCHAIN}gcc',
+		AR = '${TOOLCHAIN}ar',
+		RANLIB = '${TOOLCHAIN}ranlib',
+		
+		CCFLAGS = '-O2 -Wall -ggdb -mcpu=${CPU_FAMILY} -mthumb -ffunction-sections',
+		CXXFLAGS = '-fno-exceptions -fno-rtti -Wno-pmf-conversions',
+		ASFLAGS = '-c -x assembler-with-cpp -mcpu=${CPU_FAMILY} -mthumb',
+		LINKFLAGS = '-Wall -mcpu=${CPU_FAMILY} -mthumb -mhard-float -nostartfiles -Wl,-T${LINK_SCRIPT}', # -Wl,--gc-sections
+		
+		CPPPATH = [laks_dir],
+		LIBPATH = [ld_dir],
+		
+		LIB_SOURCES = [],
+		
+		CPU_FAMILY = family,
+	)
+	
+	if family == 'cortex-m4':
+		env.Append(CCFLAGS = ' -mhard-float')
+
+def select_stm32(env, variant):
+	family = variant[5:9]
+	pin_count = variant[9]
+	flash = variant[10]
+	
+	if family == 'f103':
+		select_arm(env, 'cortex-m3')
+		env.Append(CPPDEFINES = ['STM32F1'])
+		
+		env['LINK_SCRIPT'] = {
+			'8': 'stm32_f1_8.ld',
+			'b': 'stm32_f1_b.ld',
+		}[flash]
+	
+	elif family in ('f405', 'f407'):
+		select_arm(env, 'cortex-m4')
+		env.Append(CPPDEFINES = ['STM32F4'])
+		
+		env['LINK_SCRIPT'] = {
+			'e': 'stm32_f4_e.ld',
+			'g': 'stm32_f4_g.ld',
+		}[flash]
+	
+	else:
+		print 'Unknown stm32 family: %s' % mcu
+		Exit(1)
+
+def SelectMCU(env, mcu):
+	mcu = mcu.lower()
+	
+	if mcu.startswith('stm32'):
+		select_stm32(env, mcu)
+	
+	else:
+		print 'Unknown MCU: %s' % mcu
+		Exit(1)
+	
+	SConscript(main_sconscript, exports = 'env')
+
+AddMethod(Environment, SelectMCU)
+
+def Firmware(env, target, sources):
+	firmware = env.Program(target, [sources, env['LIB_SOURCES']])
+	#env.Depends(firmware, env['LINK_SCRIPT']) # TODO
+	return firmware
+
+AddMethod(Environment, Firmware)

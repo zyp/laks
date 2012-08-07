@@ -1,0 +1,217 @@
+#ifndef RCC_H
+#define RCC_H
+
+#include <stdint.h>
+
+struct RCC_t {
+	#if defined(STM32F1)
+	volatile uint32_t CR;
+	volatile uint32_t CFGR;
+	volatile uint32_t CIR;
+	volatile uint32_t APB2RSTR;
+	volatile uint32_t APB1RSTR;
+	volatile uint32_t AHBENR;
+	volatile uint32_t APB2ENR;
+	volatile uint32_t APB1ENR;
+	volatile uint32_t BDCR;
+	volatile uint32_t CSR;
+	#elif defined(STM32F4)
+	volatile uint32_t CR;
+	volatile uint32_t PLLCFGR;
+	volatile uint32_t CFGR;
+	volatile uint32_t CIR;
+	volatile uint32_t AHB1RSTR;
+	volatile uint32_t AHB2RSTR;
+	volatile uint32_t AHB3RSTR;
+	volatile uint32_t AHB4RSTR; // Reserved
+	volatile uint32_t APB1RSTR;
+	volatile uint32_t APB2RSTR;
+	volatile uint32_t APB3RSTR; // Reserved
+	volatile uint32_t APB4RSTR; // Reserved
+	volatile uint32_t AHB1ENR;
+	volatile uint32_t AHB2ENR;
+	volatile uint32_t AHB3ENR;
+	volatile uint32_t AHB4ENR; // Reserved
+	volatile uint32_t APB1ENR;
+	volatile uint32_t APB2ENR;
+	volatile uint32_t APB3ENR; // Reserved
+	volatile uint32_t APB4ENR; // Reserved
+	volatile uint32_t AHB1LPENR;
+	volatile uint32_t AHB2LPENR;
+	volatile uint32_t AHB3LPENR;
+	volatile uint32_t AHB4LPENR; // Reserved
+	volatile uint32_t APB1LPENR;
+	volatile uint32_t APB2LPENR;
+	volatile uint32_t APB3LPENR; // Reserved
+	volatile uint32_t APB4LPENR; // Reserved
+	volatile uint32_t BDCR;
+	volatile uint32_t CSR;
+	volatile uint32_t _1;
+	volatile uint32_t _2;
+	volatile uint32_t SSCGR;
+	volatile uint32_t PLLI2SCFGR;
+	#endif
+	
+	#if defined(STM32F1)
+	enum AHB_dev {
+		DMA1  = 1 << 0,
+		DMA2  = 1 << 1,
+		SRAM  = 1 << 2,
+		FLITF = 1 << 4,
+		CRC   = 1 << 6,
+		FSMC  = 1 << 8,
+		SDIO  = 1 << 10
+	};
+	
+	enum APB1_dev {
+		TIM2   = 1 << 0,
+		TIM3   = 1 << 1,
+		TIM4   = 1 << 2,
+		TIM5   = 1 << 3,
+		TIM6   = 1 << 4,
+		TIM7   = 1 << 5,
+		TIM12  = 1 << 6,
+		TIM13  = 1 << 7,
+		TIM14  = 1 << 8,
+		WWDG   = 1 << 11,
+		SPI2   = 1 << 14,
+		SPI3   = 1 << 15,
+		USART2 = 1 << 17,
+		USART3 = 1 << 18,
+		UART4  = 1 << 19,
+		UART5  = 1 << 20,
+		I2C1   = 1 << 21,
+		I2C2   = 1 << 22,
+		USB    = 1 << 23,
+		CAN    = 1 << 25,
+		BKP    = 1 << 27,
+		PWR    = 1 << 28,
+		DAC    = 1 << 29
+	};
+	
+	enum APB2_dev {
+		AFIO   = 1 << 0,
+		IOPA   = 1 << 2,
+		IOPB   = 1 << 3,
+		IOPC   = 1 << 4,
+		IOPD   = 1 << 5,
+		IOPE   = 1 << 6,
+		IOPF   = 1 << 7,
+		IOPG   = 1 << 8,
+		ADC1   = 1 << 9,
+		ADC2   = 1 << 10,
+		TIM1   = 1 << 11,
+		SPI1   = 1 << 12,
+		TIM8   = 1 << 13,
+		USART1 = 1 << 14,
+		ADC3   = 1 << 15,
+		TIM9   = 1 << 19,
+		TIM10  = 1 << 20,
+		TIM11  = 1 << 21
+	};
+	#elif defined(STM32F4)
+	enum AHB1_dev {
+		GPIOA   = 1 << 0,
+		GPIOB   = 1 << 1,
+		GPIOC   = 1 << 2,
+		GPIOD   = 1 << 3,
+		GPIOE   = 1 << 4,
+		GPIOF   = 1 << 5,
+		GPIOG   = 1 << 6,
+		GPIOH   = 1 << 7,
+		GPIOI   = 1 << 8,
+		CRC     = 1 << 12,
+		DMA1    = 1 << 21,
+		DMA2    = 1 << 22,
+		ETHMAC  = 1 << 25,
+		OTGHS   = 1 << 29,
+	};
+	
+	enum AHB2_dev {
+		DCMI  = 1 << 0,
+		CRYP  = 1 << 4,
+		HASH  = 1 << 5,
+		RNG   = 1 << 6,
+		OTGFS = 1 << 7,
+	};
+	
+	enum AHB3_dev {
+		FSMC  = 1 << 0,
+	};
+	
+	enum APB1_dev {
+		TIM2   = 1 << 0,
+		TIM3   = 1 << 1,
+		TIM4   = 1 << 2,
+		TIM5   = 1 << 3,
+		TIM6   = 1 << 4,
+		TIM7   = 1 << 5,
+		TIM12  = 1 << 6,
+		TIM13  = 1 << 7,
+		TIM14  = 1 << 8,
+		WWDG   = 1 << 11,
+		SPI2   = 1 << 14,
+		SPI3   = 1 << 15,
+		USART2 = 1 << 17,
+		USART3 = 1 << 18,
+		UART4  = 1 << 19,
+		UART5  = 1 << 20,
+		I2C1   = 1 << 21,
+		I2C2   = 1 << 22,
+		I2C3   = 1 << 23,
+		CAN1   = 1 << 25,
+		CAN2   = 1 << 26,
+		PWR    = 1 << 28,
+		DAC    = 1 << 29,
+	};
+	
+	enum APB2_dev {
+		TIM1   = 1 << 0,
+		TIM8   = 1 << 1,
+		USART1 = 1 << 4,
+		USART6 = 1 << 5,
+		ADC    = 1 << 8,
+		SDIO   = 1 << 11,
+		SPI1   = 1 << 12,
+		SYSCFG = 1 << 14,
+		TIM9   = 1 << 16,
+		TIM10  = 1 << 17,
+		TIM11  = 1 << 18,
+	};
+	#endif
+	
+	#if defined(STM32F1)
+	inline void enable(AHB_dev dev) {
+		AHBENR |= dev;
+	}
+	#elif defined(STM32F4)
+	inline void enable(AHB1_dev dev) {
+		AHB1ENR |= dev;
+	}
+	
+	inline void enable(AHB2_dev dev) {
+		AHB2ENR |= dev;
+	}
+	
+	inline void enable(AHB3_dev dev) {
+		AHB3ENR |= dev;
+	}
+	#endif
+	inline void enable(APB1_dev dev) {
+		APB1ENR |= dev;
+	}
+	
+	inline void enable(APB2_dev dev) {
+		APB2ENR |= dev;
+	}
+};
+
+#if defined(STM32F1)
+static RCC_t& RCC = *(RCC_t*)0x40021000;
+#elif defined(STM32F4)
+static RCC_t& RCC = *(RCC_t*)0x40023800;
+#endif
+
+void rcc_init();
+
+#endif
