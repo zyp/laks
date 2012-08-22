@@ -90,20 +90,22 @@ static USB_t OTG_FS(0x50000000);
 static USB_t OTG_HS(0x40040000);
 #endif
 
-static uint8_t dev_desc[] = {
-	0x12, 0x01, 0x00, 0x02, 0xff, 0x00, 0x00, 0x40, 0x34, 0x12, 0x78, 0x56, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
-};
-
-static uint8_t conf_desc[] = {
-	0x09, 0x02, 0x19, 0x00, 0x01, 0x01, 0x00, 0xc0, 0x00,
-	0x09, 0x04, 0x00, 0x00, 0x01, 0xff, 0x00, 0x00, 0x00,
-	0x07, 0x05, 0x81, 0x02, 0x40, 0x00, 0x00,
-};
-
 static uint32_t buf[16];
 
+struct desc_t {
+	uint32_t size;
+	void* data;
+};
+
 class USB_generic {
+	private:
+		desc_t dev_desc;
+		desc_t conf_desc;
+	
 	public:
+		USB_generic(desc_t dev, desc_t conf) : dev_desc(dev), conf_desc(conf) {}
+		
+		virtual bool ep_ready(uint32_t ep) = 0;
 		virtual void write(uint32_t ep, uint32_t* bufp, uint32_t len) = 0;
 		virtual void hw_set_address(uint8_t addr) = 0;
 		virtual void hw_conf_ep(uint8_t ep, uint32_t conf) = 0;
@@ -111,16 +113,33 @@ class USB_generic {
 	
 	protected:
 		bool get_descriptor(uint16_t wValue, uint16_t wIndex, uint16_t wLength) {
+			desc_t* descp;
+			
 			switch(wValue) {
 				case 0x100:
-					write(0, (uint32_t*)dev_desc, wLength > sizeof(dev_desc) ? sizeof(dev_desc) : wLength);
-					return true;
+					descp = &dev_desc;
+					break;
 				case 0x200:
-					write(0, (uint32_t*)conf_desc, wLength > sizeof(conf_desc) ? sizeof(conf_desc) : wLength);
-					return true;
+					descp = &conf_desc;
+					break;
 				default:
 					return false;
 			}
+			
+			uint32_t* dp = (uint32_t*)descp->data;
+			uint32_t length = wLength > descp->size ? descp->size : wLength;
+			
+			while(length > 64) {
+				write(0, dp, 64);
+				dp += 16;
+				length -= 64;
+				
+				while(!ep_ready(0));
+			}
+			
+			write(0, dp, length);
+			
+			return true;
 		}
 
 		bool set_address(uint16_t wValue, uint16_t wIndex, uint16_t wLength) {
@@ -213,7 +232,7 @@ class USB_otg : public USB_generic {
 		}
 	
 	public:
-		USB_otg(USB_t& otg_periph) : otg(otg_periph) {}
+		USB_otg(USB_t& otg_periph, desc_t dev, desc_t conf) : USB_generic(dev, conf), otg(otg_periph) {}
 		
 		void init() {
 			// Set PHYSEL.
@@ -271,7 +290,7 @@ class USB_otg : public USB_generic {
 			otg.reg.GINTSTS = 0xffffffff;
 		}
 	
-		bool ep_ready(uint32_t ep) {
+		virtual bool ep_ready(uint32_t ep) {
 			return (otg.dev_iep_reg[ep].DIEPCTL & 0x80008000) == 0x8000;
 		}
 		
