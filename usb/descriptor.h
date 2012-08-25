@@ -34,7 +34,7 @@ struct Device_desc {
 	uint8_t iProduct;
 	uint8_t iSerialNumber;
 	uint8_t bNumConfigurations;
-};
+} __attribute__((packed));
 
 constexpr Device_desc device_desc(
 		uint16_t bcdUSB,
