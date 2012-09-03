@@ -166,22 +166,4 @@ vector_t vectors[] __attribute__((section(".vectors"))) = {
 	interrupt<Interrupt::DMA2_Channel2>,
 	interrupt<Interrupt::DMA2_Channel3>,
 	interrupt<Interrupt::DMA2_Channel4_5>,
-	0, // 60
-	0, // 61
-	0, // 62
-	0, // 63
-	0, // 64
-	0, // 65
-	0, // 66
-	0, // 67
-	0, // 68
-	0, // 69
-	0, // 70
-	0, // 71
-	0, // 72
-	0, // 73
-	0, // 74
-	0, // 75
-	0, // 76
-	interrupt<(Interrupt::IRQ)77>, // 77
 };
