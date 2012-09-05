@@ -12,10 +12,17 @@ class Pin {
 		Pin(GPIO_t& gpio, int pin) : g(gpio), n(pin) {}
 		
 		enum Mode {
+			#if defined(STM32F1)
+			Input = 0x4,
+			Output = 0x3,
+			AF = 0xb,
+			Analog = 0x0,
+			#elif defined(STM32F4)
 			Input,
 			Output,
 			AF,
 			Analog,
+			#endif
 		};
 		
 		enum Type {
@@ -30,27 +37,45 @@ class Pin {
 		};
 		
 		void set_mode(Mode m) {
+			#if defined(STM32F1)
+			if(n < 8) {
+				g.CRL = (g.CRL & ~(0xf << (n * 4))) | m << (n * 4);
+			} else {
+				g.CRH = (g.CRH & ~(0xf << (n * 4 - 32))) | m << (n * 4 - 32);
+			}
+			#elif defined(STM32F4)
 			g.MODER = (g.MODER & ~(3 << (n * 2))) | m << (n * 2);
+			#endif
 		}
 		
 		void set_type(Type t) {
+			#if defined(STM32F1)
+			// TODO: Unified configure() method?
+			#elif defined(STM32F4)
 			if(t) {
 				g.OTYPER |= 1 << n;
 			} else {
 				g.OTYPER &= ~(1 << n);
 			}
+			#endif
 		}
 		
 		void set_pull(Pull p) {
+			#if defined(STM32F1)
+			// TODO: Unified configure() method?
+			#elif defined(STM32F4)
 			g.PUPDR = (g.PUPDR & ~(3 << (n * 2))) | p << (n * 2);
+			#endif
 		}
 		
 		void set_af(int af) {
+			#if defined(STM32F4)
 			if(n < 8) {
 				g.AFRL = (g.AFRL & ~(0xf << (n * 4))) | af << (n * 4);
 			} else {
 				g.AFRH = (g.AFRH & ~(0xf << (n * 4 - 32))) | af << (n * 4 - 32);
 			}
+			#endif
 		}
 		
 		void on() {

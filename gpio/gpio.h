@@ -28,6 +28,7 @@ struct GPIO_t {
 static GPIO_t& GPIOA = *(GPIO_t*)0x40010800;
 static GPIO_t& GPIOB = *(GPIO_t*)0x40010c00;
 static GPIO_t& GPIOC = *(GPIO_t*)0x40011000;
+static GPIO_t& GPIOD = *(GPIO_t*)0x40011400;
 #elif defined(STM32F4)
 static GPIO_t& GPIOA = *(GPIO_t*)0x40020000;
 static GPIO_t& GPIOB = *(GPIO_t*)0x40020400;
