@@ -17,6 +17,8 @@ class USB_class_driver {
 		virtual SetupStatus handle_setup(uint8_t bmRequestType, uint8_t bRequest, uint16_t wValue, uint16_t wIndex, uint16_t wLength) {
 			return SetupStatus::Unhandled;
 		}
+		
+		virtual void handle_out(uint8_t ep, uint32_t len) {}
 };
 
 class USB_generic {
@@ -25,12 +27,14 @@ class USB_generic {
 		desc_t conf_desc;
 		
 		USB_class_driver* control_handlers[4];
+		USB_class_driver* out_handlers[6];
 	
 	public:
 		USB_generic(desc_t dev, desc_t conf) : dev_desc(dev), conf_desc(conf) {}
 		
 		virtual bool ep_ready(uint32_t ep) = 0;
 		virtual void write(uint32_t ep, uint32_t* bufp, uint32_t len) = 0;
+		virtual uint32_t read(uint32_t ep, uint32_t* bufp, uint32_t len) = 0;
 		virtual void hw_set_address(uint8_t addr) = 0;
 		virtual void hw_conf_ep(uint8_t ep, uint32_t conf) = 0;
 		virtual void hw_set_stall(uint8_t ep) = 0;
@@ -45,6 +49,16 @@ class USB_generic {
 			
 			// Handler table is full.
 			return false;
+		}
+		
+		bool register_out_handler(USB_class_driver* out_handler, uint8_t ep) {
+			if(ep >= sizeof(out_handlers) / sizeof(*out_handlers)) {
+				return false;
+			}
+			
+			out_handlers[ep] = out_handler;
+			
+			return true;
 		}
 	
 	protected:
@@ -102,6 +116,9 @@ class USB_generic {
 			return true;
 		}
 		
+		void handle_reset() {
+			
+		}
 		
 		void handle_setup(const uint32_t* bufp) {
 			uint8_t bmRequestType = bufp[0] & 0xff;
@@ -150,6 +167,11 @@ class USB_generic {
 			hw_set_stall(0);
 		}
 		
+		void handle_out(uint8_t ep, uint32_t len) {
+			if(out_handlers[ep]) {
+				out_handlers[ep]->handle_out(ep, len);
+			}
+		}
 };
 
 #endif

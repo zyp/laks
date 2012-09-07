@@ -24,8 +24,7 @@ class USB_otg : public USB_generic {
 			
 			// OUT packet.
 			if(type == (0x2 << 17)) {
-				// TODO: Call endpoint callback.
-				(void)ep;
+				handle_out(ep, len);
 			}
 			
 			// SETUP packet.
@@ -97,6 +96,8 @@ class USB_otg : public USB_generic {
 		void process() {
 			// USB reset.
 			if(otg.reg.GINTSTS & (1 << 12)) {
+				handle_reset();
+				
 				otg.dev_oep_reg[0].DOEPCTL = (1 << 27);
 				otg.dev_reg.DAINTMSK = (1 << 16) | 1;
 				otg.dev_reg.DOEPMSK = (1 << 3) | 1;
@@ -135,6 +136,26 @@ class USB_otg : public USB_generic {
 			while(len--) {
 				otg.fifo[ep].reg = *bufp++;
 			}
+		}
+		
+		virtual uint32_t read(uint32_t ep, uint32_t* bufp, uint32_t len) {
+			if(ep != rxfifo_ep) {
+				return 0;
+			}
+			
+			if(len > rxfifo_bytes) {
+				len = rxfifo_bytes;
+			}
+			
+			// TODO: Handle non-mod4 length properly.
+			
+			for(uint32_t i = 0; i < len; i += 4) {
+				bufp[i >> 2] = otg.fifo[0].reg;
+			}
+			
+			rxfifo_bytes -= len;
+			
+			return len;
 		}
 };
 
