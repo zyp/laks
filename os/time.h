@@ -21,6 +21,10 @@ class Time {
 			systime++;
 		}
 		
+		inline static uint32_t time() {
+			return systime;
+		}
+		
 		inline static void sleep(uint32_t ms) {
 			ms += systime;
 			while(systime < ms) {
