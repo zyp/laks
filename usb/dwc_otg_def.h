@@ -23,9 +23,7 @@ class DWC_OTG_t {
 			volatile uint32_t CID;
 			uint32_t _reserved1[48];
 			volatile uint32_t HPTXFSIZ;
-			volatile uint32_t DIEPTXF1;
-			volatile uint32_t DIEPTXF2;
-			volatile uint32_t DIEPTXF3;
+			volatile uint32_t DIEPTXF[5];
 		};
 		
 		struct DWC_OTG_dev_reg_t {

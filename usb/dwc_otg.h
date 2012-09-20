@@ -13,13 +13,18 @@ class USB_otg : public USB_generic {
 		
 		uint32_t setup_buf[16];
 		
+		uint32_t buf_end;
+		
 		void handle_rxfifo() {
 			uint32_t status = otg.reg.GRXSTSP;
 			
-			uint8_t ep = status & 0x4;
+			usb_rblog.log("RXFIFO status: %08x", status);
+			
+			uint8_t ep = status & 0xf;
 			uint32_t len = (status & 0x7ff0) >> 4;
 			uint32_t type = status & (0xf << 17);
 			
+			rxfifo_ep = ep;
 			rxfifo_bytes = len;
 			
 			// OUT packet.
@@ -34,9 +39,11 @@ class USB_otg : public USB_generic {
 				}
 				
 				rxfifo_bytes = 0;
-				
+			}
+			
+			if(type == (0x4 << 17)) {
 				handle_setup(setup_buf);
-				otg.dev_oep_reg[0].DOEPCTL |= (1 << 26); // CNAK
+				otg.dev_oep_reg[0].DOEPCTL |= (1 << 31) | (1 << 26); // CNAK
 			}
 			
 			// Discard remaining bytes from FIFO.
@@ -44,16 +51,56 @@ class USB_otg : public USB_generic {
 				(void)otg.fifo[0].reg;
 			}
 			
+			if(type == (0x2 << 17) && ep != 0) {
+				otg.dev_oep_reg[ep].DOEPCTL |= (1 << 31) | (1 << 26); // CNAK
+			}
+			
 			rxfifo_bytes = 0;
 		}
 	
 	protected:
 		virtual void hw_set_address(uint8_t addr) {
+			usb_rblog.log("SetAddress: %d", addr);
+			
 			otg.dev_reg.DCFG |= addr << 4;
 		}
 		
-		virtual void hw_conf_ep(uint8_t ep, uint32_t conf) {
-			otg.dev_iep_reg[ep].DIEPCTL = conf;
+		virtual void hw_conf_ep(uint8_t ep, EPType type, uint32_t size) {
+			usb_rblog.log("Configuring EP%02x: size=%d", ep, size);
+			
+			uint8_t in = ep & 0x80;
+			ep &= 0x7f;
+			
+			uint32_t epctl = ((type == Control ? 0 : type == Isochronous ? 1 : type == Bulk ? 2 : 3) << 18); 
+			epctl |= (1 << 31) | (1 << 28) | (1 << 15) | (ep == 0 ? 64 : size); // EPENA, USBAEP, SD0PID
+			
+			if(ep == 0) {
+				otg.reg.GRXFSIZ = 64;
+				buf_end = 64;
+				
+				otg.reg.DIEPTXF0 = (buf_end << 16) | (64 >> 2);
+				buf_end += (64 >> 2);
+				
+				otg.dev_iep_reg[ep].DIEPTSIZ = size;
+				otg.dev_oep_reg[ep].DOEPTSIZ = (1 << 29) | (1 << 19) | size;
+				
+				otg.dev_iep_reg[ep].DIEPCTL = epctl | (1 << 27); // SNAK
+				otg.dev_oep_reg[ep].DOEPCTL = epctl | (1 << 26); // CNAK
+				
+				return;
+			}
+			
+			if(in) {
+				otg.dev_iep_reg[ep].DIEPTSIZ = size;
+				otg.dev_iep_reg[ep].DIEPCTL = epctl | (1 << 27) | (ep << 22); // SNAK
+				
+			} else {
+				otg.reg.DIEPTXF[ep - 1] = (buf_end << 16) | (size >> 2);
+				buf_end += (size >> 2);
+				
+				otg.dev_oep_reg[ep].DOEPTSIZ = (1 << 19) | size;
+				otg.dev_oep_reg[ep].DOEPCTL = epctl | (1 << 26); // CNAK
+			}
 		}
 		
 		virtual void hw_set_stall(uint8_t ep) {
@@ -94,31 +141,45 @@ class USB_otg : public USB_generic {
 		}
 		
 		void process() {
+			uint32_t gintsts = otg.reg.GINTSTS;
+			
 			// USB reset.
-			if(otg.reg.GINTSTS & (1 << 12)) {
-				handle_reset();
+			if(gintsts & (1 << 12)) {
+				usb_rblog.log("USB Reset");
 				
+				otg.dev_reg.DCFG = (1 << 2) | 3;
 				otg.dev_oep_reg[0].DOEPCTL = (1 << 27);
+				otg.dev_oep_reg[1].DOEPCTL = (1 << 27);
+				otg.dev_oep_reg[2].DOEPCTL = (1 << 27);
+				otg.dev_oep_reg[3].DOEPCTL = (1 << 27);
 				otg.dev_reg.DAINTMSK = (1 << 16) | 1;
 				otg.dev_reg.DOEPMSK = (1 << 3) | 1;
 				otg.dev_reg.DIEPEMPMSK = (1 << 3) | 1;
-				otg.reg.GRXFSIZ = 256;
-				otg.reg.DIEPTXF0 = (64 << 16) | 256;
-				otg.reg.DIEPTXF1 = (64 << 16) | 320;
-				otg.dev_oep_reg[0].DOEPTSIZ = (3 << 29);
+				
+				buf_end = 0;
+				
+				handle_reset();
+				
+				otg.reg.GINTSTS = 1 << 12;
+			}
+			
+			// Enumeration done.
+			if(gintsts & (1 << 13)) {
+				usb_rblog.log("Enumeration done");
+				
+				otg.reg.GINTSTS = 1 << 13;
+				otg.dev_iep_reg[0].DIEPCTL = 0; // MPSIZ = 64 bytes.
 			}
 			
 			// OTG interrupt.
-			if(otg.reg.GINTSTS & (1 << 2)) {
+			if(gintsts & (1 << 2)) {
 				otg.reg.GOTGINT = (1 << 2); // SEDET
 			}
 			
 			// RxFIFO non-empty.
-			if(otg.reg.GINTSTS & (1 << 4)) {
+			if(gintsts & (1 << 4)) {
 				handle_rxfifo();
 			}
-			
-			otg.reg.GINTSTS = 0xffffffff;
 		}
 	
 		virtual bool ep_ready(uint32_t ep) {
@@ -126,6 +187,8 @@ class USB_otg : public USB_generic {
 		}
 		
 		virtual void write(uint32_t ep, uint32_t* bufp, uint32_t len) {
+			usb_rblog.log("Writing, ep=%d, len=%d", ep, len);
+			
 			otg.dev_iep_reg[ep].DIEPTSIZ = (1 << 19) | len;
 			//                               PKTCNT
 			otg.dev_iep_reg[ep].DIEPCTL |= (1 << 31) | (1 << 26);
@@ -139,6 +202,8 @@ class USB_otg : public USB_generic {
 		}
 		
 		virtual uint32_t read(uint32_t ep, uint32_t* bufp, uint32_t len) {
+			usb_rblog.log("Reading, ep=%d, len=%d", ep, len);
+			
 			if(ep != rxfifo_ep) {
 				return 0;
 			}
@@ -154,6 +219,8 @@ class USB_otg : public USB_generic {
 			}
 			
 			rxfifo_bytes -= len;
+			
+			usb_rblog.log("Read %d bytes.", len);
 			
 			return len;
 		}

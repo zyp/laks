@@ -3,12 +3,17 @@
 
 #include <stdint.h>
 
+#include <util/rblog.h>
+
+RBLog<256, 2> usb_rblog;
+
 struct desc_t {
 	uint32_t size;
 	void* data;
 };
 
 enum SetupStatus {Unhandled, Ok, Stall};
+enum EPType {Control, Bulk, Interrupt, Isochronous};
 
 class USB_class_driver {
 	friend class USB_generic;
@@ -36,7 +41,7 @@ class USB_generic {
 		virtual void write(uint32_t ep, uint32_t* bufp, uint32_t len) = 0;
 		virtual uint32_t read(uint32_t ep, uint32_t* bufp, uint32_t len) = 0;
 		virtual void hw_set_address(uint8_t addr) = 0;
-		virtual void hw_conf_ep(uint8_t ep, uint32_t conf) = 0;
+		virtual void hw_conf_ep(uint8_t ep, EPType type, uint32_t size) = 0;
 		virtual void hw_set_stall(uint8_t ep) = 0;
 		
 		bool register_control_handler(USB_class_driver* control_handler) {
@@ -101,11 +106,11 @@ class USB_generic {
 		bool set_configuration(uint16_t wValue, uint16_t wIndex, uint16_t wLength) {
 			switch(wValue) {
 				case 0:
-					hw_conf_ep(1, 0);
 					break;
 				
 				case 1:
-					hw_conf_ep(1, (1 << 22) | (2 << 18) | (1 << 15) | 64);
+					hw_conf_ep(0x01, Bulk, 64);
+					hw_conf_ep(0x81, Bulk, 64);
 					break;
 				
 				default:
@@ -117,7 +122,7 @@ class USB_generic {
 		}
 		
 		void handle_reset() {
-			
+			hw_conf_ep(0, Control, 64);
 		}
 		
 		void handle_setup(const uint32_t* bufp) {
@@ -126,6 +131,10 @@ class USB_generic {
 			uint16_t wValue = (bufp[0] >> 16) & 0xffff;
 			uint16_t wIndex = bufp[1] & 0xffff;
 			uint16_t wLength = (bufp[1] >> 16) & 0xffff;
+			
+			usb_rblog.log("handle_setup, bmRequestType=%02x, bRequest=%02x", bmRequestType, bRequest);
+			
+			out_handlers[0] = nullptr;
 			
 			// GET_DESCRIPTOR
 			if(bmRequestType == 0x80 && bRequest == 0x06) {
@@ -154,6 +163,10 @@ class USB_generic {
 				if(handler) {
 					res = handler->handle_setup(bmRequestType, bRequest, wValue, wIndex, wLength);
 					
+					if(res == SetupStatus::Ok) {
+						out_handlers[0] = handler;
+					}
+					
 					if(res != SetupStatus::Unhandled) {
 						break;
 					}
@@ -168,6 +181,8 @@ class USB_generic {
 		}
 		
 		void handle_out(uint8_t ep, uint32_t len) {
+			usb_rblog.log("handle_out, ep=%02x, len=%d", ep, len);
+			
 			if(out_handlers[ep]) {
 				out_handlers[ep]->handle_out(ep, len);
 			}
