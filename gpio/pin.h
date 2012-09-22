@@ -154,6 +154,18 @@ static Pin PC13(GPIOC, 13);
 static Pin PC14(GPIOC, 14);
 static Pin PC15(GPIOC, 15);
 
+static Pin PD0(GPIOD, 0);
+static Pin PD1(GPIOD, 1);
+static Pin PD2(GPIOD, 2);
+static Pin PD3(GPIOD, 3);
+static Pin PD4(GPIOD, 4);
+static Pin PD5(GPIOD, 5);
+static Pin PD6(GPIOD, 6);
+static Pin PD7(GPIOD, 7);
+static Pin PD8(GPIOD, 8);
+static Pin PD9(GPIOD, 9);
+static Pin PD10(GPIOD, 10);
+static Pin PD11(GPIOD, 11);
 static Pin PD12(GPIOD, 12);
 static Pin PD13(GPIOD, 13);
 static Pin PD14(GPIOD, 14);
