@@ -91,13 +91,12 @@ class USB_otg : public USB_generic {
 			}
 			
 			if(in) {
-				otg.dev_iep_reg[ep].DIEPTSIZ = size;
-				otg.dev_iep_reg[ep].DIEPCTL = epctl | (1 << 27) | (ep << 22); // SNAK
-				
-			} else {
 				otg.reg.DIEPTXF[ep - 1] = (buf_end << 16) | (size >> 2);
 				buf_end += (size >> 2);
 				
+				otg.dev_iep_reg[ep].DIEPTSIZ = size;
+				otg.dev_iep_reg[ep].DIEPCTL = epctl | (1 << 27) | (ep << 22); // SNAK
+			} else {
 				otg.dev_oep_reg[ep].DOEPTSIZ = (1 << 19) | size;
 				otg.dev_oep_reg[ep].DOEPCTL = epctl | (1 << 26); // CNAK
 			}
