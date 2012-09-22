@@ -174,6 +174,13 @@ class USB_generic {
 				}
 			}
 			
+			// SET_INTERFACE
+			if(bmRequestType == 0x01 && bRequest == 0x0b) {
+				// TODO: Don't ignore this request.
+				write(0, nullptr, 0);
+				return;
+			}
+			
 			SetupStatus res = SetupStatus::Unhandled;
 			
 			for(USB_class_driver*& driver : class_drivers) {
