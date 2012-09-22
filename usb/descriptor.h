@@ -146,13 +146,17 @@ struct Endpoint_desc {
 	uint8_t bmAttributes;
 	uint16_t wMaxPacketSize;
 	uint8_t bInterval;
+	uint8_t bRefresh;
+	uint8_t bSynchAddress;
 } __attribute__((packed));
 
 constexpr Endpoint_desc endpoint_desc(
 		uint8_t bEndpointAddress,
 		uint8_t bmAttributes,
 		uint16_t wMaxPacketSize,
-		uint8_t bInterval
+		uint8_t bInterval,
+		uint8_t bRefresh = 0,
+		uint8_t bSynchAddress = 0
 	) {
 	
 	return {
@@ -161,7 +165,9 @@ constexpr Endpoint_desc endpoint_desc(
 		bEndpointAddress,
 		bmAttributes,
 		wMaxPacketSize,
-		bInterval
+		bInterval,
+		bRefresh,
+		bSynchAddress
 	};
 }
 
