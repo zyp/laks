@@ -53,8 +53,13 @@ class USB_otg : public USB_generic {
 				(void)otg.fifo[0].reg;
 			}
 			
+			// FIXME: Temporary workaround.
 			if(type == (0x2 << 17) && ep != 0) {
-				otg.dev_oep_reg[ep].DOEPCTL |= (1 << 31) | (1 << 26); // CNAK
+				if(otg.dev_oep_reg[ep].DOEPCTL & (1 << 16)) {
+					otg.dev_oep_reg[ep].DOEPCTL |= (1 << 28) | (1 << 26);
+				} else {
+					otg.dev_oep_reg[ep].DOEPCTL |= (1 << 29) | (1 << 26);
+				}
 			}
 			
 			rxfifo_bytes = 0;
