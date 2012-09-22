@@ -23,6 +23,8 @@ class USB_class_driver {
 			return SetupStatus::Unhandled;
 		}
 		
+		virtual void handle_set_configuration(uint8_t configuration) {}
+		
 		virtual void handle_out(uint8_t ep, uint32_t len) {}
 };
 
@@ -31,8 +33,10 @@ class USB_generic {
 		desc_t dev_desc;
 		desc_t conf_desc;
 		
-		USB_class_driver* control_handlers[4];
+		USB_class_driver* class_drivers[4];
 		USB_class_driver* out_handlers[6];
+		
+		uint8_t current_configuration;
 	
 	public:
 		USB_generic(desc_t dev, desc_t conf) : dev_desc(dev), conf_desc(conf) {}
@@ -44,10 +48,10 @@ class USB_generic {
 		virtual void hw_conf_ep(uint8_t ep, EPType type, uint32_t size) = 0;
 		virtual void hw_set_stall(uint8_t ep) = 0;
 		
-		bool register_control_handler(USB_class_driver* control_handler) {
-			for(USB_class_driver*& handler : control_handlers) {
-				if(!handler || handler == control_handler) {
-					handler = control_handler;
+		bool register_driver(USB_class_driver* driver) {
+			for(USB_class_driver*& d : class_drivers) {
+				if(!d || d == driver) {
+					d = driver;
 					return true;
 				}
 			}
@@ -104,17 +108,28 @@ class USB_generic {
 		}
 		
 		bool set_configuration(uint16_t wValue, uint16_t wIndex, uint16_t wLength) {
-			switch(wValue) {
-				case 0:
-					break;
+			// TODO: Handle setting configuration after configuration is set.
+			
+			if(wValue == current_configuration) {
+				// Keeping current configuration.
 				
-				case 1:
-					hw_conf_ep(0x01, Bulk, 64);
-					hw_conf_ep(0x81, Bulk, 64);
-					break;
+			} else if(current_configuration) {
+				// Refusing to set a new configuration.
+				return false;
 				
-				default:
-					return false;
+			} else if(wValue == 1) {
+				// Setting configuration.
+				current_configuration = wValue;
+				
+				for(USB_class_driver*& driver : class_drivers) {
+					if(driver) {
+						driver->handle_set_configuration(wValue);
+					}
+				}
+				
+			} else {
+				// Unknown configuration.
+				return false;
 			}
 			
 			write(0, 0, 0);
@@ -122,6 +137,8 @@ class USB_generic {
 		}
 		
 		void handle_reset() {
+			current_configuration = 0;
+			
 			hw_conf_ep(0, Control, 64);
 		}
 		
@@ -159,12 +176,12 @@ class USB_generic {
 			
 			SetupStatus res = SetupStatus::Unhandled;
 			
-			for(USB_class_driver*& handler : control_handlers) {
-				if(handler) {
-					res = handler->handle_setup(bmRequestType, bRequest, wValue, wIndex, wLength);
+			for(USB_class_driver*& driver : class_drivers) {
+				if(driver) {
+					res = driver->handle_setup(bmRequestType, bRequest, wValue, wIndex, wLength);
 					
 					if(res == SetupStatus::Ok) {
-						out_handlers[0] = handler;
+						out_handlers[0] = driver;
 					}
 					
 					if(res != SetupStatus::Unhandled) {
