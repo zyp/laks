@@ -30,7 +30,7 @@ class USB_f1 : public USB_generic {
 			
 			uint32_t old_epr = usb.reg.EPR[ep];
 			//uint32_t new_epr = 0x3220;
-			uint32_t new_epr = 0x8080 | ((type == Bulk ? 0 : type == Control ? 1 : type == Isochronous ? 2 : 3) << 9) | ep;
+			uint32_t new_epr = 0x8080 | ((type == EPType::Bulk ? 0 : type == EPType::Control ? 1 : type == EPType::Isochronous ? 2 : 3) << 9) | ep;
 			
 			if(in || ep == 0) {
 				usb.bufd[ep].ADDR_TX = buf_end;

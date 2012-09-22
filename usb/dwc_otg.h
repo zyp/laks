@@ -73,7 +73,7 @@ class USB_otg : public USB_generic {
 			uint8_t in = ep & 0x80;
 			ep &= 0x7f;
 			
-			uint32_t epctl = ((type == Control ? 0 : type == Isochronous ? 1 : type == Bulk ? 2 : 3) << 18); 
+			uint32_t epctl = ((type == EPType::Control ? 0 : type == EPType::Isochronous ? 1 : type == EPType::Bulk ? 2 : 3) << 18); 
 			epctl |= (1 << 31) | (1 << 28) | (1 << 15) | (ep == 0 ? 64 : size); // EPENA, USBAEP, SD0PID
 			
 			if(ep == 0) {

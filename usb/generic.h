@@ -13,7 +13,7 @@ struct desc_t {
 };
 
 enum SetupStatus {Unhandled, Ok, Stall};
-enum EPType {Control, Bulk, Interrupt, Isochronous};
+enum class EPType {Control, Bulk, Interrupt, Isochronous};
 
 class USB_class_driver {
 	friend class USB_generic;
@@ -139,7 +139,7 @@ class USB_generic {
 		void handle_reset() {
 			current_configuration = 0;
 			
-			hw_conf_ep(0, Control, 64);
+			hw_conf_ep(0, EPType::Control, 64);
 		}
 		
 		void handle_setup(const uint32_t* bufp) {
