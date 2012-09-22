@@ -8,6 +8,8 @@ class USB_otg : public USB_generic {
 	private:
 		DWC_OTG_t& otg;
 		
+		uint32_t rxfifo_size;
+		
 		uint32_t rxfifo_bytes;
 		uint8_t rxfifo_ep;
 		
@@ -75,8 +77,8 @@ class USB_otg : public USB_generic {
 			epctl |= (1 << 31) | (1 << 28) | (1 << 15) | (ep == 0 ? 64 : size); // EPENA, USBAEP, SD0PID
 			
 			if(ep == 0) {
-				otg.reg.GRXFSIZ = 64;
-				buf_end = 64;
+				otg.reg.GRXFSIZ = rxfifo_size >> 2;
+				buf_end = rxfifo_size >> 2;
 				
 				otg.reg.DIEPTXF0 = (buf_end << 16) | (64 >> 2);
 				buf_end += (64 >> 2);
@@ -107,7 +109,11 @@ class USB_otg : public USB_generic {
 		}
 	
 	public:
-		USB_otg(DWC_OTG_t& otg_periph, desc_t dev, desc_t conf) : USB_generic(dev, conf), otg(otg_periph) {}
+		USB_otg(DWC_OTG_t& otg_periph, desc_t dev, desc_t conf) : USB_generic(dev, conf), otg(otg_periph), rxfifo_size(256) {}
+		
+		void set_rxfifo_size(uint32_t size) {
+			rxfifo_size = size;
+		}
 		
 		void init() {
 			// Set PHYSEL.
