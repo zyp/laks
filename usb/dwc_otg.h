@@ -55,11 +55,17 @@ class USB_otg : public USB_generic {
 			
 			// FIXME: Temporary workaround.
 			if(type == (0x2 << 17) && ep != 0) {
-				if(otg.dev_oep_reg[ep].DOEPCTL & (1 << 16)) {
-					otg.dev_oep_reg[ep].DOEPCTL |= (1 << 28) | (1 << 26);
-				} else {
-					otg.dev_oep_reg[ep].DOEPCTL |= (1 << 29) | (1 << 26);
+				// Odd/even filtering on isochronous endpoints.
+				if((otg.dev_oep_reg[ep].DOEPCTL & (3 << 18)) == (1 << 18)) {
+					if(otg.dev_oep_reg[ep].DOEPCTL & (1 << 16)) {
+						otg.dev_oep_reg[ep].DOEPCTL |= (1 << 28);
+					} else {
+						otg.dev_oep_reg[ep].DOEPCTL |= (1 << 29);
+					}
 				}
+				
+				// Clear NAK.
+				otg.dev_oep_reg[ep].DOEPCTL |= (1 << 26);
 			}
 			
 			rxfifo_bytes = 0;
