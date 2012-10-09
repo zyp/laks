@@ -111,20 +111,21 @@ struct RCC_t {
 	};
 	#elif defined(STM32F4)
 	enum AHB1_dev {
-		GPIOA   = 1 << 0,
-		GPIOB   = 1 << 1,
-		GPIOC   = 1 << 2,
-		GPIOD   = 1 << 3,
-		GPIOE   = 1 << 4,
-		GPIOF   = 1 << 5,
-		GPIOG   = 1 << 6,
-		GPIOH   = 1 << 7,
-		GPIOI   = 1 << 8,
-		CRC     = 1 << 12,
-		DMA1    = 1 << 21,
-		DMA2    = 1 << 22,
-		ETHMAC  = 1 << 25,
-		OTGHS   = 1 << 29,
+		GPIOA     = 1 << 0,
+		GPIOB     = 1 << 1,
+		GPIOC     = 1 << 2,
+		GPIOD     = 1 << 3,
+		GPIOE     = 1 << 4,
+		GPIOF     = 1 << 5,
+		GPIOG     = 1 << 6,
+		GPIOH     = 1 << 7,
+		GPIOI     = 1 << 8,
+		CRC       = 1 << 12,
+		DMA1      = 1 << 21,
+		DMA2      = 1 << 22,
+		ETHMAC    = 1 << 25,
+		OTGHS     = 1 << 29,
+		OTGHSULPI = 1 << 30,
 	};
 	
 	enum AHB2_dev {
