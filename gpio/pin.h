@@ -36,6 +36,13 @@ class Pin {
 			PullDown,
 		};
 		
+		enum Speed {
+			Low,
+			Medium,
+			Fast,
+			High,
+		};
+		
 		void set_mode(Mode m) {
 			#if defined(STM32F1)
 			if(n < 8) {
@@ -76,6 +83,10 @@ class Pin {
 				g.AFRH = (g.AFRH & ~(0xf << (n * 4 - 32))) | af << (n * 4 - 32);
 			}
 			#endif
+		}
+		
+		void set_speed(Speed s) {
+			g.OSPEEDR = (g.OSPEEDR & ~(3 << (n * 2))) | s << (n * 2);
 		}
 		
 		void on() {
