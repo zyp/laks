@@ -5,3 +5,5 @@ Import('env')
 env.Append(
 	LIB_SOURCES = Glob('*.cpp') + Glob('*/*.cpp'),
 )
+
+# vim: syn=python

@@ -58,7 +58,7 @@ def select_stm32(env, variant):
 		print 'Unknown stm32 family: %s' % mcu
 		Exit(1)
 
-def SelectMCU(env, mcu):
+def SelectMCU(env, mcu, variant_dir = None):
 	mcu = mcu.lower()
 	
 	if mcu.startswith('stm32'):
@@ -68,7 +68,7 @@ def SelectMCU(env, mcu):
 		print 'Unknown MCU: %s' % mcu
 		Exit(1)
 	
-	SConscript(main_sconscript, exports = 'env')
+	SConscript(main_sconscript, variant_dir = variant_dir, exports = 'env')
 
 AddMethod(Environment, SelectMCU)
 
@@ -78,3 +78,5 @@ def Firmware(env, target, sources):
 	return firmware
 
 AddMethod(Environment, Firmware)
+
+# vim: syn=python
