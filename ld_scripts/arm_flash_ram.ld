@@ -23,7 +23,7 @@ SECTIONS {
 		PROVIDE(_fini_array_end = .);
 	} > flash
 	
-	.text : ALIGN(16) SUBALIGN(16) {
+	.text : ALIGN(4) SUBALIGN(4) {
 		*(.text.startup.*)
 		*(.text)
 		*(.text.*)
