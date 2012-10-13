@@ -86,7 +86,9 @@ class Pin {
 		}
 		
 		void set_speed(Speed s) {
+			#if defined(STM32F4)
 			g.OSPEEDR = (g.OSPEEDR & ~(3 << (n * 2))) | s << (n * 2);
+			#endif
 		}
 		
 		void on() {
