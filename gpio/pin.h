@@ -9,7 +9,7 @@ class Pin {
 		int n;
 	
 	public:
-		Pin(GPIO_t& gpio, int pin) : g(gpio), n(pin) {}
+		constexpr Pin(GPIO_t& gpio, int pin) : g(gpio), n(pin) {}
 		
 		enum Mode {
 			#if defined(STM32F1)
@@ -46,12 +46,12 @@ class Pin {
 		void set_mode(Mode m) {
 			#if defined(STM32F1)
 			if(n < 8) {
-				g.CRL = (g.CRL & ~(0xf << (n * 4))) | m << (n * 4);
+				g.reg.CRL = (g.reg.CRL & ~(0xf << (n * 4))) | m << (n * 4);
 			} else {
-				g.CRH = (g.CRH & ~(0xf << (n * 4 - 32))) | m << (n * 4 - 32);
+				g.reg.CRH = (g.reg.CRH & ~(0xf << (n * 4 - 32))) | m << (n * 4 - 32);
 			}
 			#elif defined(STM32F4)
-			g.MODER = (g.MODER & ~(3 << (n * 2))) | m << (n * 2);
+			g.reg.MODER = (g.reg.MODER & ~(3 << (n * 2))) | m << (n * 2);
 			#endif
 		}
 		
@@ -60,9 +60,9 @@ class Pin {
 			// TODO: Unified configure() method?
 			#elif defined(STM32F4)
 			if(t) {
-				g.OTYPER |= 1 << n;
+				g.reg.OTYPER |= 1 << n;
 			} else {
-				g.OTYPER &= ~(1 << n);
+				g.reg.OTYPER &= ~(1 << n);
 			}
 			#endif
 		}
@@ -71,32 +71,32 @@ class Pin {
 			#if defined(STM32F1)
 			// TODO: Unified configure() method?
 			#elif defined(STM32F4)
-			g.PUPDR = (g.PUPDR & ~(3 << (n * 2))) | p << (n * 2);
+			g.reg.PUPDR = (g.reg.PUPDR & ~(3 << (n * 2))) | p << (n * 2);
 			#endif
 		}
 		
 		void set_af(int af) {
 			#if defined(STM32F4)
 			if(n < 8) {
-				g.AFRL = (g.AFRL & ~(0xf << (n * 4))) | af << (n * 4);
+				g.reg.AFRL = (g.reg.AFRL & ~(0xf << (n * 4))) | af << (n * 4);
 			} else {
-				g.AFRH = (g.AFRH & ~(0xf << (n * 4 - 32))) | af << (n * 4 - 32);
+				g.reg.AFRH = (g.reg.AFRH & ~(0xf << (n * 4 - 32))) | af << (n * 4 - 32);
 			}
 			#endif
 		}
 		
 		void set_speed(Speed s) {
 			#if defined(STM32F4)
-			g.OSPEEDR = (g.OSPEEDR & ~(3 << (n * 2))) | s << (n * 2);
+			g.reg.OSPEEDR = (g.reg.OSPEEDR & ~(3 << (n * 2))) | s << (n * 2);
 			#endif
 		}
 		
 		void on() {
-			g.BSRR = 1 << n;
+			g.reg.BSRR = 1 << n;
 		}
 		
 		void off() {
-			g.BSRR = 1 << 16 << n;
+			g.reg.BSRR = 1 << 16 << n;
 		}
 		
 		void set(bool value) {
@@ -108,11 +108,11 @@ class Pin {
 		}
 		
 		bool get() {
-			return g.IDR & (1 << n);
+			return g.reg.IDR & (1 << n);
 		}
 		
 		void toggle() {
-			set(!(g.ODR & (1 << n)));
+			set(!(g.reg.ODR & (1 << n)));
 		}
 };
 
