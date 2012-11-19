@@ -15,6 +15,20 @@ struct RCC_t {
 	volatile uint32_t APB1ENR;
 	volatile uint32_t BDCR;
 	volatile uint32_t CSR;
+	#elif defined(STM32F3)
+	volatile uint32_t CR;
+	volatile uint32_t CFGR;
+	volatile uint32_t CIR;
+	volatile uint32_t APB2RSTR;
+	volatile uint32_t APB1RSTR;
+	volatile uint32_t AHBENR;
+	volatile uint32_t APB2ENR;
+	volatile uint32_t APB1ENR;
+	volatile uint32_t BDCR;
+	volatile uint32_t CSR;
+	volatile uint32_t AHBRSTR;
+	volatile uint32_t CFGR2;
+	volatile uint32_t CFGR3;
 	#elif defined(STM32F4)
 	volatile uint32_t CR;
 	volatile uint32_t PLLCFGR;
@@ -109,6 +123,55 @@ struct RCC_t {
 		TIM10  = 1 << 20,
 		TIM11  = 1 << 21
 	};
+	#elif defined(STM32F3)
+	enum AHB_dev {
+		DMA1  = 1 << 0,
+		DMA2  = 1 << 1,
+		SRAM  = 1 << 2,
+		FLITF = 1 << 4,
+		CRC   = 1 << 6,
+		GPIOA = 1 << 17,
+		GPIOB = 1 << 18,
+		GPIOC = 1 << 19,
+		GPIOD = 1 << 20,
+		GPIOE = 1 << 21,
+		GPIOF = 1 << 22,
+		TSC   = 1 << 24,
+		ADC12 = 1 << 28,
+		ADC34 = 1 << 29,
+	};
+	
+	enum APB1_dev {
+		TIM2   = 1 << 0,
+		TIM3   = 1 << 1,
+		TIM4   = 1 << 2,
+		TIM6   = 1 << 4,
+		TIM7   = 1 << 5,
+		WWDG   = 1 << 11,
+		SPI2   = 1 << 14,
+		SPI3   = 1 << 15,
+		USART2 = 1 << 17,
+		USART3 = 1 << 18,
+		UART4  = 1 << 19,
+		UART5  = 1 << 20,
+		I2C1   = 1 << 21,
+		I2C2   = 1 << 22,
+		USB    = 1 << 23,
+		CAN    = 1 << 25,
+		PWR    = 1 << 28,
+		DAC    = 1 << 29,
+	};
+	
+	enum APB2_dev {
+		SYSCFG = 1 << 0,
+		TIM1   = 1 << 11,
+		SPI1   = 1 << 12,
+		TIM8   = 1 << 13,
+		USART1 = 1 << 14,
+		TIM15  = 1 << 16,
+		TIM16  = 1 << 17,
+		TIM17  = 1 << 18,
+	};
 	#elif defined(STM32F4)
 	enum AHB1_dev {
 		GPIOA     = 1 << 0,
@@ -181,7 +244,7 @@ struct RCC_t {
 	};
 	#endif
 	
-	#if defined(STM32F1)
+	#if defined(STM32F1) || defined(STM32F3)
 	inline void enable(AHB_dev dev) {
 		AHBENR |= dev;
 	}
@@ -207,7 +270,7 @@ struct RCC_t {
 	}
 };
 
-#if defined(STM32F1)
+#if defined(STM32F1) || defined(STM32F3)
 static RCC_t& RCC = *(RCC_t*)0x40021000;
 #elif defined(STM32F4)
 static RCC_t& RCC = *(RCC_t*)0x40023800;

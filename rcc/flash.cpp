@@ -1,7 +1,7 @@
 #include "flash.h"
 
 void flash_init() {
-	#if defined(STM32F1)
+	#if defined(STM32F1) || defined(STM32F3)
 	
 	// Set flash latency.
 	FLASH.ACR = 0x12;

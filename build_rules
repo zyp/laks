@@ -7,6 +7,12 @@ def select_arm(env, family):
 		TOOLCHAIN = 'arm-none-eabi-',
 	)
 	
+	if family == 'cortex-m4f':
+		family = 'cortex-m4'
+		has_mcu = True
+	else:
+		has_mcu = False
+	
 	env.Replace(
 		CC = '${TOOLCHAIN}gcc',
 		CXX = '${TOOLCHAIN}g++',
@@ -28,7 +34,7 @@ def select_arm(env, family):
 		CPU_FAMILY = family,
 	)
 	
-	if family == 'cortex-m4':
+	if has_mcu:
 		env.Append(CCFLAGS = ' -mhard-float')
 
 def select_stm32(env, variant):
@@ -45,8 +51,27 @@ def select_stm32(env, variant):
 			'b': 'stm32_f1_b.ld',
 		}[flash]
 	
+	elif family == 'f303':
+		select_arm(env, 'cortex-m4f')
+		env.Append(CPPDEFINES = ['STM32F3'])
+		
+		env['LINK_SCRIPT'] = {
+			'b': 'stm32_f303_b.ld',
+			'c': 'stm32_f303_c.ld',
+		}[flash]
+	
+	elif family == 'f373':
+		select_arm(env, 'cortex-m4f')
+		env.Append(CPPDEFINES = ['STM32F3'])
+		
+		env['LINK_SCRIPT'] = {
+			'8': 'stm32_f373_8.ld',
+			'b': 'stm32_f373_b.ld',
+			'c': 'stm32_f373_c.ld',
+		}[flash]
+	
 	elif family in ('f405', 'f407'):
-		select_arm(env, 'cortex-m4')
+		select_arm(env, 'cortex-m4f')
 		env.Append(CPPDEFINES = ['STM32F4'])
 		
 		env['LINK_SCRIPT'] = {
@@ -55,7 +80,7 @@ def select_stm32(env, variant):
 		}[flash]
 	
 	else:
-		print 'Unknown stm32 family: %s' % mcu
+		print 'Unknown stm32 family: %s' % family
 		Exit(1)
 
 def SelectMCU(env, mcu, variant_dir = None):

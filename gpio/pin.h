@@ -17,7 +17,7 @@ class Pin {
 			Output = 0x3,
 			AF = 0xb,
 			Analog = 0x0,
-			#elif defined(STM32F4)
+			#elif defined(STM32F3) || defined(STM32F4)
 			Input,
 			Output,
 			AF,
@@ -50,7 +50,7 @@ class Pin {
 			} else {
 				g.reg.CRH = (g.reg.CRH & ~(0xf << (n * 4 - 32))) | m << (n * 4 - 32);
 			}
-			#elif defined(STM32F4)
+			#elif defined(STM32F3) || defined(STM32F4)
 			g.reg.MODER = (g.reg.MODER & ~(3 << (n * 2))) | m << (n * 2);
 			#endif
 		}
@@ -58,7 +58,7 @@ class Pin {
 		void set_type(Type t) {
 			#if defined(STM32F1)
 			// TODO: Unified configure() method?
-			#elif defined(STM32F4)
+			#elif defined(STM32F3) || defined(STM32F4)
 			if(t) {
 				g.reg.OTYPER |= 1 << n;
 			} else {
@@ -70,13 +70,13 @@ class Pin {
 		void set_pull(Pull p) {
 			#if defined(STM32F1)
 			// TODO: Unified configure() method?
-			#elif defined(STM32F4)
+			#elif defined(STM32F3) || defined(STM32F4)
 			g.reg.PUPDR = (g.reg.PUPDR & ~(3 << (n * 2))) | p << (n * 2);
 			#endif
 		}
 		
 		void set_af(int af) {
-			#if defined(STM32F4)
+			#if defined(STM32F3) || defined(STM32F4)
 			if(n < 8) {
 				g.reg.AFRL = (g.reg.AFRL & ~(0xf << (n * 4))) | af << (n * 4);
 			} else {
@@ -86,7 +86,7 @@ class Pin {
 		}
 		
 		void set_speed(Speed s) {
-			#if defined(STM32F4)
+			#if defined(STM32F3) || defined(STM32F4)
 			g.reg.OSPEEDR = (g.reg.OSPEEDR & ~(3 << (n * 2))) | s << (n * 2);
 			#endif
 		}

@@ -5,7 +5,7 @@ void rcc_init() {
 	// Initialize flash.
 	flash_init();
 	
-	#if defined(STM32F1)
+	#if defined(STM32F1) || defined(STM32F3)
 	
 	// Enable HSE.
 	RCC.CR |= 0x10000;

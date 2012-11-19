@@ -12,7 +12,7 @@ struct GPIO_reg_t {
 	volatile uint32_t BSRR;
 	volatile uint32_t BRR;
 	volatile uint32_t LCKR;
-	#elif defined(STM32F4)
+	#elif defined(STM32F3) || defined(STM32F4)
 	volatile uint32_t MODER;
 	volatile uint32_t OTYPER;
 	volatile uint32_t OSPEEDR;
@@ -38,6 +38,13 @@ static GPIO_t GPIOA(0x40010800);
 static GPIO_t GPIOB(0x40010c00);
 static GPIO_t GPIOC(0x40011000);
 static GPIO_t GPIOD(0x40011400);
+#elif defined(STM32F3)
+static GPIO_t GPIOA(0x48000000);
+static GPIO_t GPIOB(0x48000400);
+static GPIO_t GPIOC(0x48000800);
+static GPIO_t GPIOD(0x48000c00);
+static GPIO_t GPIOE(0x48001000);
+static GPIO_t GPIOF(0x48001400);
 #elif defined(STM32F4)
 static GPIO_t GPIOA(0x40020000);
 static GPIO_t GPIOB(0x40020400);

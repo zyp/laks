@@ -43,7 +43,7 @@ class USART_t {
 		}
 };
 
-#if defined(STM32F1)
+#if defined(STM32F1) || defined(STM32F3)
 static USART_t USART1(0x40013800, 72000000);
 static USART_t USART2(0x40004400, 36000000);
 static USART_t USART3(0x40004800, 36000000);

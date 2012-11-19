@@ -1,7 +1,7 @@
 #ifndef USB_H
 #define USB_H
 
-#if defined(STM32F1)
+#if defined(STM32F1) || defined(STM32F3)
 #include "f1_usb.h"
 
 static F1_USB_t USB(0x40005c00, 0x40006000);
