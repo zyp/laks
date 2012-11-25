@@ -22,7 +22,7 @@ struct SDIO_reg_t {
 	volatile uint32_t MASK;
 	uint32_t _reserved[2];
 	volatile uint32_t FIFOCNT;
-	uint32_t _reserved1[49];
+	uint32_t _reserved1[13];
 	volatile uint32_t FIFO;
 };
 
