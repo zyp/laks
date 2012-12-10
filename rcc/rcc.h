@@ -187,6 +187,9 @@ struct RCC_t {
 		DMA1      = 1 << 21,
 		DMA2      = 1 << 22,
 		ETHMAC    = 1 << 25,
+		ETHMACTX  = 1 << 26,
+		ETHMACRX  = 1 << 27,
+		ETHMACPTP = 1 << 28,
 		OTGHS     = 1 << 29,
 		OTGHSULPI = 1 << 30,
 	};
