@@ -91,7 +91,7 @@ class USB_otg : public USB_generic {
 				otg.reg.GRXFSIZ = rxfifo_size >> 2;
 				buf_end = rxfifo_size >> 2;
 				
-				otg.reg.DIEPTXF0 = (buf_end << 16) | (64 >> 2);
+				otg.reg.DIEPTXF0 = ((64 >> 2) << 16) | buf_end;
 				buf_end += (64 >> 2);
 				
 				otg.dev_iep_reg[ep].DIEPTSIZ = size;
@@ -104,8 +104,8 @@ class USB_otg : public USB_generic {
 			}
 			
 			if(in) {
-				otg.reg.DIEPTXF[ep - 1] = (buf_end << 16) | (size >> 2);
-				buf_end += (size >> 2);
+				otg.reg.DIEPTXF[ep - 1] = ((size >> 2) << 16) | buf_end;
+				buf_end += size >> 2;
 				
 				otg.dev_iep_reg[ep].DIEPTSIZ = size;
 				otg.dev_iep_reg[ep].DIEPCTL = epctl | (1 << 27) | (ep << 22); // SNAK
