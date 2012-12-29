@@ -9,7 +9,7 @@ void rcc_init() {
 	
 	// Enable HSE.
 	RCC.CR |= 0x10000;
-	while(RCC.CR & 0x20000);
+	while(!(RCC.CR & 0x20000));
 	
 	// Configure and enable PLL.
 	RCC.CFGR = 0x1d0000;
