@@ -34,7 +34,7 @@ class SDIO_t {
 };
 
 #if defined(STM32F1)
-
+static SDIO_t SDIO(0x40018000);
 #elif defined(STM32F4)
 static SDIO_t SDIO(0x40012c00);
 #endif
