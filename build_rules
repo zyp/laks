@@ -14,17 +14,17 @@ def select_arm(env, family):
 		has_mcu = False
 	
 	env.Replace(
-		CC = '${TOOLCHAIN}gcc',
-		CXX = '${TOOLCHAIN}g++',
-		AS = '${TOOLCHAIN}gcc',
-		LINK = '${TOOLCHAIN}gcc',
-		AR = '${TOOLCHAIN}ar',
+		CC     = '${TOOLCHAIN}gcc',
+		CXX    = '${TOOLCHAIN}g++',
+		AS     = '${TOOLCHAIN}gcc',
+		LINK   = '${TOOLCHAIN}gcc',
+		AR     = '${TOOLCHAIN}ar',
 		RANLIB = '${TOOLCHAIN}ranlib',
 		
-		CCFLAGS = '-O2 -Wall -ggdb -mcpu=${CPU_FAMILY} -mthumb -ffunction-sections',
-		CXXFLAGS = '-std=c++11 -fno-exceptions -fno-rtti -Wno-pmf-conversions',
-		ASFLAGS = '-c -x assembler-with-cpp -mcpu=${CPU_FAMILY} -mthumb',
-		LINKFLAGS = '-Wall -mcpu=${CPU_FAMILY} -mthumb -mhard-float -nostartfiles -Wl,-T${LINK_SCRIPT} -Wl,--gc-sections',
+		CCFLAGS   = Split('-O2 -Wall -ggdb -mcpu=${CPU_FAMILY} -mthumb -ffunction-sections'),
+		CXXFLAGS  = Split('-std=c++11 -fno-exceptions -fno-rtti -Wno-pmf-conversions'),
+		ASFLAGS   = Split('-c -x assembler-with-cpp -mcpu=${CPU_FAMILY} -mthumb'),
+		LINKFLAGS = Split('-Wall -mcpu=${CPU_FAMILY} -mthumb -nostartfiles -Wl,-T${LINK_SCRIPT} -Wl,--gc-sections'),
 		
 		CPPPATH = [laks_dir],
 		LIBPATH = [ld_dir],
@@ -35,7 +35,9 @@ def select_arm(env, family):
 	)
 	
 	if has_mcu:
-		env.Append(CCFLAGS = ' -mhard-float')
+		env.Append(CCFLAGS = Split('-mfloat-abi=hard -mfpu=fpv4-sp-d16'))
+		env.Append(LINKFLAGS = Split('-mfloat-abi=hard -mfpu=fpv4-sp-d16'))
+		env.Append(CPPDEFINES = ['HAS_FPU'])
 
 def select_stm32(env, variant):
 	family = variant[5:9]

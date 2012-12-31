@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <rcc/rcc.h>
+#include <cortex_m/fpu.h>
 
 int main();
 
@@ -34,6 +35,11 @@ void __attribute__((naked)) entry() {
 	while(wp < &_bss_end) {
 		*wp++ = 0;
 	}
+	
+	// Enable FPU before calling any functions that can invoke FPU instructions.
+	#ifdef HAS_FPU
+	COPROC.CPAC |= (3 << 22) | (3 << 20);
+	#endif
 	
 	// Call constructors.
 	funcp_t* fp = &_init_array_start;
