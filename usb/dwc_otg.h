@@ -85,7 +85,7 @@ class USB_otg : public USB_generic {
 			ep &= 0x7f;
 			
 			uint32_t epctl = ((type == EPType::Control ? 0 : type == EPType::Isochronous ? 1 : type == EPType::Bulk ? 2 : 3) << 18); 
-			epctl |= (1 << 31) | (1 << 28) | (1 << 15) | (ep == 0 ? 64 : size); // EPENA, USBAEP, SD0PID
+			epctl |= (1 << 28) | (1 << 15) | (ep == 0 ? 64 : size); // USBAEP, SD0PID
 			
 			if(ep == 0) {
 				otg.reg.GRXFSIZ = rxfifo_size >> 2;
@@ -98,7 +98,7 @@ class USB_otg : public USB_generic {
 				otg.dev_oep_reg[ep].DOEPTSIZ = (1 << 29) | (1 << 19) | size;
 				
 				otg.dev_iep_reg[ep].DIEPCTL = epctl | (1 << 27); // SNAK
-				otg.dev_oep_reg[ep].DOEPCTL = epctl | (1 << 26); // CNAK
+				otg.dev_oep_reg[ep].DOEPCTL = epctl | (1 << 31) | (1 << 26); // EPENA, CNAK
 				
 				return;
 			}
@@ -111,7 +111,7 @@ class USB_otg : public USB_generic {
 				otg.dev_iep_reg[ep].DIEPCTL = epctl | (1 << 27) | (ep << 22); // SNAK
 			} else {
 				otg.dev_oep_reg[ep].DOEPTSIZ = (1 << 19) | size;
-				otg.dev_oep_reg[ep].DOEPCTL = epctl | (1 << 26); // CNAK
+				otg.dev_oep_reg[ep].DOEPCTL = epctl | (1 << 31) | (1 << 26); // EPENA, CNAK
 			}
 		}
 		
