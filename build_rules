@@ -22,7 +22,7 @@ def select_arm(env, family):
 		RANLIB = '${TOOLCHAIN}ranlib',
 		
 		CCFLAGS   = Split('-O2 -Wall -ggdb -mcpu=${CPU_FAMILY} -mthumb -ffunction-sections'),
-		CXXFLAGS  = Split('-std=c++11 -fno-exceptions -fno-rtti -Wno-pmf-conversions'),
+		CXXFLAGS  = Split('-std=gnu++11 -fno-exceptions -fno-rtti -Wno-pmf-conversions'),
 		ASFLAGS   = Split('-c -x assembler-with-cpp -mcpu=${CPU_FAMILY} -mthumb'),
 		LINKFLAGS = Split('-Wall -mcpu=${CPU_FAMILY} -mthumb -nostartfiles -Wl,-T${LINK_SCRIPT} -Wl,--gc-sections'),
 		
