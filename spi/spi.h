@@ -1,6 +1,8 @@
 #ifndef SPI_H
 #define SPI_H
 
+#include <os/thread.h>
+
 struct SPI_reg_t {
 	volatile uint32_t CR1;
 	volatile uint32_t CR2;
@@ -18,6 +20,16 @@ class SPI_t {
 		SPI_reg_t& reg;
 		
 		SPI_t(uint32_t reg_addr) : reg(*(SPI_reg_t*)reg_addr) {}
+		
+		uint8_t transfer_byte(uint8_t out = 0) {
+			reg.DR = out;
+			
+			while(!(reg.SR & 0x01)) {
+				Thread::yield();
+			}
+			
+			return reg.DR;
+		}
 };
 
 #if defined(STM32F1)
