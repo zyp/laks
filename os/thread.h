@@ -46,7 +46,7 @@ class Thread {
 			sp->lr_ex = 0xfffffff9;
 			
 			// frame->lr = thread exit handler
-			sp->pc = (uint32_t)func;
+			sp->pc = (uint32_t)func & ~1;
 			sp->psr = 0x01000000;
 		}
 		
