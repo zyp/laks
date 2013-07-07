@@ -2,6 +2,7 @@
 #define THREAD_H
 
 #include <stdint.h>
+#include <util/intrusive_list.h>
 
 class Thread {
 	friend void switch_context();
@@ -32,15 +33,38 @@ class Thread {
 		
 		int_frame_t* sp;
 		
-		Thread* next;
+		ListHandle<Thread> queue_handle;
+		
+		static List<Thread> ready_queue;
 		
 		static Thread* active_thread;
 		static Thread main_thread;
 		
-		Thread() : next(this) {}
+		static bool reschedule() {
+			//active_thread = active_thread->next;
+			
+			// TODO: Check whether active thread still is ready.
+			
+			// Move thread to end of ready queue.
+			ready_queue.append(active_thread->queue_handle);
+			
+			// Check whether any threads are ready to run.
+			if(ready_queue.empty()) {
+				return false;
+			}
+			
+			// Set front of ready queue as active.
+			active_thread = ready_queue.begin()->p;
+			
+			return true;
+		}
+		
+		Thread() : queue_handle(this) {
+			ready_queue.append(queue_handle);
+		}
 	
 	public:
-		Thread(void* stack, uint32_t stack_size, void (*func)()) {
+		Thread(void* stack, uint32_t stack_size, void (*func)()) : queue_handle(this) {
 			sp = (int_frame_t*)((uint8_t*)stack + stack_size - sizeof(int_frame_t));
 			
 			sp->lr_ex = 0xfffffff9;
@@ -51,12 +75,11 @@ class Thread {
 		}
 		
 		void start() {
-			next = active_thread->next;
-			active_thread->next = this;
+			ready_queue.append(queue_handle);
 		}
 		
 		static inline void yield() {
-			asm volatile("svc 0");
+			asm volatile("svc 0" ::: "memory");
 		}
 };
 
