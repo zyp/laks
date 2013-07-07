@@ -85,11 +85,20 @@ def select_stm32(env, variant):
 		print 'Unknown stm32 family: %s' % family
 		Exit(1)
 
+def select_qemu(env, variant):
+	select_arm(env, 'cortex-m3')
+	env.Append(CPPDEFINES = ['QEMU'])
+	
+	env['LINK_SCRIPT'] = 'qemu.ld'
+
 def SelectMCU(env, mcu, variant_dir = None):
 	mcu = mcu.lower()
 	
 	if mcu.startswith('stm32'):
 		select_stm32(env, mcu)
+	
+	elif mcu.startswith('qemu'):
+		select_qemu(env, mcu)
 	
 	else:
 		print 'Unknown MCU: %s' % mcu
