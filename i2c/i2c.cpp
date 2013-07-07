@@ -1,3 +1,5 @@
+#if defined(STM32F1) || defined(STM32F4)
+
 #include "i2c.h"
 
 #include <rcc/rcc.h>
@@ -143,3 +145,5 @@ void I2C_t::read_reg(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t* buf) {
 		Thread::yield();
 	}
 }
+
+#endif
