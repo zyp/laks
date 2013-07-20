@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <util/intrusive_list.h>
 
+#include "time.h"
+
 class Thread {
 	friend void switch_context();
 	
@@ -33,20 +35,42 @@ class Thread {
 		
 		int_frame_t* sp;
 		
+		enum State {
+			Running,
+			Sleeping,
+		};
+		
+		State state;
+		uint32_t sleep_deadline;
+		
 		ListHandle<Thread> queue_handle;
 		
 		static List<Thread> ready_queue;
+		static List<Thread> sleep_queue;
 		
 		static Thread* active_thread;
 		static Thread main_thread;
 		
 		static bool reschedule() {
-			//active_thread = active_thread->next;
+			uint32_t now = Time::time();
 			
-			// TODO: Check whether active thread still is ready.
+			// Go through sleep queue.
+			for(auto h : sleep_queue) {
+				// Move to ready queue if deadline has expired.
+				if(h->p->sleep_deadline <= now) {
+					h->p->state = Running;
+					ready_queue.append(*h);
+					
+					// Moving one element makes the iterator unusable, so break here.
+					break;
+				}
+			}
 			
-			// Move thread to end of ready queue.
-			ready_queue.append(active_thread->queue_handle);
+			// Check whether active thread still is ready.
+			if(active_thread->state == Running) {
+				// Move thread to end of ready queue.
+				ready_queue.append(active_thread->queue_handle);
+			}
 			
 			// Check whether any threads are ready to run.
 			if(ready_queue.empty()) {
@@ -76,6 +100,29 @@ class Thread {
 		
 		void start() {
 			ready_queue.append(queue_handle);
+		}
+		
+		void set_sleeping(uint32_t until) {
+			sleep_deadline = until;
+			state = Sleeping;
+			
+			// Search for thread with later deadline.
+			for(auto h : sleep_queue) {
+				// Insert before if found.
+				if(h->p->sleep_deadline > sleep_deadline) {
+					queue_handle.insert_before(*h);
+					return;
+				}
+			}
+			
+			// Otherwise append to end of queue.
+			sleep_queue.append(queue_handle);
+		}
+		
+		static void sleep(uint32_t delay) {
+			active_thread->set_sleeping(Time::time() + delay);
+			
+			yield();
 		}
 		
 		static inline void yield() {

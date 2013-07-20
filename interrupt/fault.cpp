@@ -13,9 +13,11 @@ inline void __attribute__((naked)) switch_context() {
 	
 	// Update running thread.
 	if(!Thread::reschedule()) {
-		// TODO: Set SLEEPONEXIT
+		// No threads are ready - set SLEEPONEXIT.
+		SCB.SCR = 1 << 1;
 	} else {
-		// TODO: Clear SLEEPONEXIT
+		// Clear SLEEPONEXIT.
+		SCB.SCR = 0 << 1;
 	}
 	
 	// Fetch stack pointer for new thread.
