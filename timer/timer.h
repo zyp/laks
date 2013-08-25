@@ -24,7 +24,7 @@ struct TIM_t {
 	volatile uint32_t DMAR;
 };
 
-#if defined(STM32F1)
+#if defined(STM32F1) || defined(STM32F3)
 static TIM_t& TIM1 = *(TIM_t*)0x40012c00;
 static TIM_t& TIM2 = *(TIM_t*)0x40000000;
 static TIM_t& TIM3 = *(TIM_t*)0x40000400;
