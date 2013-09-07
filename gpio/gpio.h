@@ -143,14 +143,56 @@ class GPIO_t {
 				}
 		};
 		
+		class PinArray {
+			private:
+				const GPIO_t& g;
+				int f;
+				int l;
+				
+				constexpr uint32_t mask1() {
+					return ((2 << l) - 1) ^ ((1 << f) - 1);
+				}
+				
+				constexpr uint32_t mask2() {
+					return ((4 << (l * 2)) - 1) ^ ((1 << (f * 2)) - 1);
+				}
+			
+			public:
+				constexpr PinArray(const GPIO_t& gpio, int first, int last) : g(gpio), f(first), l(last) {}
+				
+				#if defined(STM32F3) || defined(STM32F4)
+				void set_mode(Pin::Mode m) {
+					g.reg.MODER = (g.reg.MODER & ~mask2()) | ((0x55555555 * m) & mask2());
+				}
+				
+				void set_pull(Pin::Pull p) {
+					g.reg.PUPDR = (g.reg.PUPDR & ~mask2()) | ((0x55555555 * p) & mask2());
+				}
+				#endif
+				
+				void set(uint16_t value) {
+					value <<= f;
+					g.reg.BSRR = ((~value & mask1()) << 16) | (value & mask1());
+				}
+				
+				uint16_t get() {
+					return g.reg.IDR & mask1();
+				}
+		};
+		
 		constexpr GPIO_t(uint32_t reg_addr) : reg(*(GPIO_reg_t*)reg_addr) {}
 		
 		constexpr Pin operator[](int pin) {
 			return Pin(*this, pin);
 		}
+		
+		constexpr PinArray array(int first, int last) {
+			return PinArray(*this, first, last);
+		}
 };
 
 typedef GPIO_t::Pin Pin;
+typedef GPIO_t::PinArray PinArray;
 
 #if defined(STM32F1)
 static GPIO_t GPIOA(0x40010800);
