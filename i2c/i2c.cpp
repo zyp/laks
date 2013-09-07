@@ -90,17 +90,7 @@ void I2C_t::handle_error() {
 	busy = 0;
 }
 
-void I2C_t::enable(Pin& scl, Pin& sda) {
-	RCC.enable(RCC.I2C1);
-	asm volatile("nop");
-	
-	scl.set_af(4);
-	sda.set_af(4);
-	scl.set_type(Pin::OpenDrain);
-	sda.set_type(Pin::OpenDrain);
-	scl.set_mode(Pin::AF);
-	sda.set_mode(Pin::AF);
-	
+void I2C_t::enable() {
 	reg.CR1 = 0x8000;
 	reg.CR1 = 0;
 	

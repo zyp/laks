@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 #include <interrupt/interrupt.h>
-#include <gpio/pin.h>
 
 struct I2C_reg_t {
 	volatile uint32_t CR1;
@@ -42,7 +41,7 @@ class I2C_t {
 		
 		void handle_error();
 		
-		void enable(Pin& scl, Pin& sda);
+		void enable();
 		
 		void write_reg(uint8_t addr_, uint8_t reg_, uint8_t data);
 		void read_reg(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t* buf);
