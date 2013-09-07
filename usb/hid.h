@@ -224,4 +224,89 @@ constexpr auto padding_out(uint8_t size) -> decltype(
 	);
 }
 
+class USB_HID : public USB_class_driver {
+	private:
+		USB_generic& usb;
+		
+		desc_t report_desc_p;
+		
+		enum ControlState {
+			None,
+			SetOutputReport,
+		};
+		
+		const uint8_t interface_num;
+		const uint8_t in_ep;
+		const uint8_t in_ep_mps;
+		
+		ControlState controlstate;
+		
+		uint32_t buf[16];
+	
+	public:
+		USB_HID(USB_generic& usbd, desc_t rdesc, uint8_t interface, uint8_t endpoint, uint8_t mps) : usb(usbd), report_desc_p(rdesc), interface_num(interface), in_ep(endpoint), in_ep_mps(mps) {
+			usb.register_driver(this);
+		}
+	
+	protected:
+		virtual SetupStatus handle_setup(uint8_t bmRequestType, uint8_t bRequest, uint16_t wValue, uint16_t wIndex, uint16_t wLength) {
+			controlstate = None;
+			
+			// Get report descriptor.
+			if(bmRequestType == 0x81 && wIndex == interface_num && bRequest == 0x06 && wValue == 0x2200) {
+				if(wLength > report_desc_p.size) {
+					wLength = report_desc_p.size;
+				}
+				
+				uint32_t* p = (uint32_t*)report_desc_p.data;
+				
+				while(wLength >= 64) {
+					usb.write(0, p, 64);
+					p += 64/4;
+					wLength -= 64;
+					
+					while(!usb.ep_ready(0));
+				}
+				
+				usb.write(0, p, wLength);
+				return SetupStatus::Ok;
+			}
+			
+			// Set output report.
+			if(bmRequestType == 0x21 && wIndex == interface_num && bRequest == 0x09 && (wValue & 0xff00) == 0x0200) {
+				controlstate = SetOutputReport;
+				return SetupStatus::Ok;
+			}
+			
+			return SetupStatus::Unhandled;
+		}
+		
+		virtual void handle_set_configuration(uint8_t configuration) {
+			if(configuration) {
+				usb.hw_conf_ep(0x80 | in_ep, EPType::Interrupt, in_ep_mps);
+			}
+		}
+		
+		virtual void handle_out(uint8_t ep, uint32_t len) {
+			if(ep != 0) {
+				return;
+			}
+			
+			switch(controlstate) {
+				case SetOutputReport:
+					usb.read(ep, buf, len);
+					set_output_report(buf, len);
+					break;
+				default:
+					break;
+			}
+			
+			usb.write(0, nullptr, 0);
+		}
+		
+		virtual bool set_output_report(uint32_t* buf, uint32_t len) {
+			return false;
+		}
+};
+
 #endif
