@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <rcc/rcc.h>
 #include <cortex_m/fpu.h>
 
 int main();
@@ -18,9 +17,6 @@ extern funcp_t _fini_array_start;
 extern funcp_t _fini_array_end;
 
 void __attribute__((naked)) entry() {
-	// Initialize HAL.
-	rcc_init();
-	
 	// Load .data from rom image.
 	uint32_t* rp = &_data_rom;
 	uint32_t* wp = &_data_start;
