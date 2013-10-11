@@ -99,8 +99,9 @@ def SelectMCU(env, mcu, variant_dir = None):
 
 AddMethod(Environment, SelectMCU)
 
-def Firmware(env, target, sources):
-	firmware = env.Program(target, [sources, env['LIB_SOURCES']])
+def Firmware(env, target, sources, **kwargs):
+	objects = [env.Object(f) for f in Flatten([sources, env['LIB_SOURCES']])]
+	firmware = env.Program(target, objects, **kwargs)
 	#env.Depends(firmware, env['LINK_SCRIPT']) # TODO
 	return firmware
 
