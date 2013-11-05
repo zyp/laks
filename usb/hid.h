@@ -233,6 +233,7 @@ class USB_HID : public USB_class_driver {
 		enum ControlState {
 			None,
 			SetOutputReport,
+			SetFeatureReport,
 		};
 		
 		const uint8_t interface_num;
@@ -278,6 +279,12 @@ class USB_HID : public USB_class_driver {
 				return SetupStatus::Ok;
 			}
 			
+			// Set feature report.
+			if(bmRequestType == 0x21 && wIndex == interface_num && bRequest == 0x09 && (wValue & 0xff00) == 0x0300) {
+				controlstate = SetFeatureReport;
+				return SetupStatus::Ok;
+			}
+			
 			return SetupStatus::Unhandled;
 		}
 		
@@ -292,19 +299,34 @@ class USB_HID : public USB_class_driver {
 				return;
 			}
 			
+			bool res = false;
+			
 			switch(controlstate) {
 				case SetOutputReport:
 					usb.read(ep, buf, len);
-					set_output_report(buf, len);
+					res = set_output_report(buf, len);
 					break;
+				
+				case SetFeatureReport:
+					usb.read(ep, buf, len);
+					res = set_feature_report(buf, len);
+					break;
+				
 				default:
 					break;
 			}
-			
-			usb.write(0, nullptr, 0);
+			if(res) {
+				usb.write(0, nullptr, 0);
+			} else {
+				usb.hw_set_stall(0);
+			}
 		}
 		
 		virtual bool set_output_report(uint32_t* buf, uint32_t len) {
+			return false;
+		}
+		
+		virtual bool set_feature_report(uint32_t* buf, uint32_t len) {
 			return false;
 		}
 };
