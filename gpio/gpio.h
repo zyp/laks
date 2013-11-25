@@ -165,6 +165,10 @@ class GPIO_t {
 					g.reg.MODER = (g.reg.MODER & ~mask2()) | ((0x55555555 * m) & mask2());
 				}
 				
+				void set_type(Pin::Type t) {
+					g.reg.OTYPER = (g.reg.OTYPER & ~mask2()) | ((0x55555555 * t) & mask2());
+				}
+				
 				void set_pull(Pin::Pull p) {
 					g.reg.PUPDR = (g.reg.PUPDR & ~mask2()) | ((0x55555555 * p) & mask2());
 				}
