@@ -225,9 +225,10 @@ constexpr auto padding_out(uint8_t size) -> decltype(
 }
 
 class USB_HID : public USB_class_driver {
-	private:
+	protected:
 		USB_generic& usb;
 		
+	private:
 		desc_t report_desc_p;
 		
 		enum ControlState {
@@ -285,6 +286,11 @@ class USB_HID : public USB_class_driver {
 				return SetupStatus::Ok;
 			}
 			
+			// Get feature report.
+			if(bmRequestType == 0xa1 && wIndex == interface_num && bRequest == 0x01 && (wValue & 0xff00) == 0x0300) {
+				return get_feature_report(wValue & 0xff) ? SetupStatus::Ok : SetupStatus::Stall;
+			}
+			
 			return SetupStatus::Unhandled;
 		}
 		
@@ -327,6 +333,10 @@ class USB_HID : public USB_class_driver {
 		}
 		
 		virtual bool set_feature_report(uint32_t* buf, uint32_t len) {
+			return false;
+		}
+		
+		virtual bool get_feature_report(uint8_t report_id) {
 			return false;
 		}
 };
