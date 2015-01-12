@@ -5,6 +5,7 @@
 #include <interrupt/interrupt.h>
 #include <os/thread.h>
 
+#if defined(STM32F1) || defined(STM32F4)
 struct USART_reg_t {
 	volatile uint32_t SR;
 	volatile uint32_t DR;
@@ -14,6 +15,21 @@ struct USART_reg_t {
 	volatile uint32_t CR3;
 	volatile uint32_t GTPR;
 };
+#elif defined(STM32F3)
+struct USART_reg_t {
+	volatile uint32_t CR1;
+	volatile uint32_t CR2;
+	volatile uint32_t CR3;
+	volatile uint32_t BRR;
+	volatile uint32_t GTPR;
+	volatile uint32_t RTOR;
+	volatile uint32_t RQR;
+	volatile uint32_t ISR;
+	volatile uint32_t ICR;
+	volatile uint32_t RDR;
+	volatile uint32_t TDR;
+};
+#endif
 
 class USART_t {
 	public:
@@ -24,22 +40,6 @@ class USART_t {
 		
 		inline void set_baudrate(uint32_t baudrate) {
 			reg.BRR = clk / baudrate;
-		}
-		
-		inline void enable() {
-			reg.CR1 = 0x202c;
-		}
-		
-		inline void send(uint8_t data) {
-			while(!(reg.SR & 0x80)) {
-				Thread::yield();
-			} // Wait for TXE.
-			
-			reg.DR = data;
-		}
-		
-		inline uint8_t recv() {
-			return reg.DR;
 		}
 };
 
@@ -52,17 +52,5 @@ static USART_t USART1(0x40011000, 84000000);
 static USART_t USART2(0x40004400, 42000000);
 static USART_t USART3(0x40004800, 42000000);
 #endif
-
-inline void usart_enable() {
-	RCC.enable(RCC.USART1);
-	USART1.set_baudrate(115200);
-	USART1.enable();
-	
-	//Interrupt::enable(Interrupt::USART1);
-}
-
-inline void usart_send(uint8_t data) {
-	USART1.send(data);
-}
 
 #endif
