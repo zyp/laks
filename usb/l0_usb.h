@@ -1,12 +1,12 @@
-#ifndef F1_USB_H
-#define F1_USB_H
+#ifndef L0_USB_H
+#define L0_USB_H
 
 #include "generic.h"
-#include "f1_usb_def.h"
+#include "l0_usb_def.h"
 
-class USB_f1 : public USB_generic {
+class USB_l0 : public USB_generic {
 	private:
-		F1_USB_t& usb;
+		L0_USB_t& usb;
 		
 		uint32_t setupbuf[16];
 		
@@ -60,7 +60,7 @@ class USB_f1 : public USB_generic {
 		}
 	
 	public:
-		USB_f1(F1_USB_t& usb_periph, desc_t dev, desc_t conf) : USB_generic(dev, conf), usb(usb_periph) {}
+		USB_l0(L0_USB_t& usb_periph, desc_t dev, desc_t conf) : USB_generic(dev, conf), usb(usb_periph) {}
 		
 		void init() {
 			usb.reg.CNTR = 3;

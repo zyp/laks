@@ -15,7 +15,7 @@ struct USART_reg_t {
 	volatile uint32_t CR3;
 	volatile uint32_t GTPR;
 };
-#elif defined(STM32F3)
+#elif defined(STM32F3) || defined(STM32L0)
 struct USART_reg_t {
 	volatile uint32_t CR1;
 	volatile uint32_t CR2;
@@ -51,6 +51,9 @@ static USART_t USART3(0x40004800, 36000000);
 static USART_t USART1(0x40011000, 84000000);
 static USART_t USART2(0x40004400, 42000000);
 static USART_t USART3(0x40004800, 42000000);
+#elif defined(STM32L0)
+static USART_t USART1(0x40013800, 32000000);
+static USART_t USART2(0x40004400, 32000000);
 #endif
 
 #endif

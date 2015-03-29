@@ -12,6 +12,7 @@ I2C_t I2C2(0x40005800, 42000000, Interrupt::I2C2_EV, Interrupt::I2C2_ER);
 //I2C_t I2C3(0x40005c00, 42000000, Interrupt::I2C3_EV, Interrupt::I2C3_ER);
 #endif
 
+#if defined(STM32F1) || defined(STM32F4)
 void I2C_t::irq_ev() {
 	uint32_t sr1 = reg.SR1;
 	reg.SR2;
@@ -133,3 +134,4 @@ void I2C_t::read_reg(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t* buf) {
 		Thread::yield();
 	}
 }
+#endif

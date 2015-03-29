@@ -89,8 +89,10 @@ template<> void interrupt<Interrupt::DMA2_Channel4_5>() __attribute__ ((weak, al
 
 typedef void (*vector_t)();
 
+extern uint32_t _ram_end;
+
 vector_t vectors[] __attribute__((section(".vectors"))) = {
-	(vector_t)0x20004ffc,
+	(vector_t)&_ram_end,
 	entry,
 	interrupt<Interrupt::NMI>,
 	interrupt<Interrupt::HardFault>,

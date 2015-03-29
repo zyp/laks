@@ -3,6 +3,8 @@
 #include <os/time.h>
 
 inline void __attribute__((naked)) switch_context() {
+	#if ! defined(STM32L0) // TODO: cortex-m0/+ unsupported for now.
+	
 	asm volatile ("cpsid i");
 	
 	// Save unsaved registers.
@@ -21,6 +23,8 @@ inline void __attribute__((naked)) switch_context() {
 	
 	// Load registers and return.
 	asm volatile ("pop {r4, r5, r6, r7, r8, r9, r10, r11, pc}" ::: "memory");
+	
+	#endif
 }
 
 template<>

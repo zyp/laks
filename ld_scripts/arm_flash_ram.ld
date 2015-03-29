@@ -75,4 +75,6 @@ SECTIONS {
 		. = ALIGN(4);
 		PROVIDE(_bss_end = .);
 	} > ram    
+	
+	PROVIDE(_ram_end = ORIGIN(ram) + LENGTH(ram));
 }
