@@ -44,7 +44,15 @@ def select_stm32(env, variant):
 	pin_count = variant[9]
 	flash = variant[10]
 	
-	if family == 'f103':
+	if family == 'f051':
+		select_arm(env, 'cortex-m0')
+		env.Append(CPPDEFINES = ['STM32F0'])
+		
+		env['LINK_SCRIPT'] = {
+			'8': 'stm32_f0_8.ld',
+		}[flash]
+	
+	elif family == 'f103':
 		select_arm(env, 'cortex-m3')
 		env.Append(CPPDEFINES = ['STM32F1'])
 		
