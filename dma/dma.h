@@ -3,6 +3,32 @@
 
 #include <stdint.h>
 
+#if defined(STM32F3)
+struct DMA_channel_reg_t {
+	volatile uint32_t CR;
+	volatile uint32_t NDTR;
+	volatile uint32_t PAR;
+	volatile uint32_t MAR;
+	uint32_t _reserved;
+};
+
+struct DMA_reg_t {
+	volatile uint32_t ISR;
+	volatile uint32_t IFCR;
+	DMA_channel_reg_t C[7];
+};
+
+class DMA_t {
+	public:
+		DMA_reg_t& reg;
+		
+		DMA_t(uint32_t reg_addr) : reg(*(DMA_reg_t*)reg_addr) {}
+};
+
+static DMA_t DMA1(0x40020000);
+static DMA_t DMA2(0x40020400);
+
+#elif defined(STM32F4)
 struct DMA_stream_reg_t {
 	volatile uint32_t CR;
 	volatile uint32_t NDTR;
@@ -27,9 +53,6 @@ class DMA_t {
 		DMA_t(uint32_t reg_addr) : reg(*(DMA_reg_t*)reg_addr) {}
 };
 
-#if defined(STM32F1)
-
-#elif defined(STM32F4)
 static DMA_t DMA1(0x40026000);
 static DMA_t DMA2(0x40026400);
 #endif
