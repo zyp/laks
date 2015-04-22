@@ -41,6 +41,7 @@ class GPIO_t {
 				enum Mode {
 					#if defined(STM32F1)
 					Input = 0x4,
+					InputPull = 0x8,
 					Output = 0x3,
 					AF = 0xb,
 					Analog = 0x0,
@@ -203,6 +204,7 @@ static GPIO_t GPIOA(0x40010800);
 static GPIO_t GPIOB(0x40010c00);
 static GPIO_t GPIOC(0x40011000);
 static GPIO_t GPIOD(0x40011400);
+static GPIO_t GPIOE(0x40011800);
 #elif defined(STM32F3)
 static GPIO_t GPIOA(0x48000000);
 static GPIO_t GPIOB(0x48000400);
