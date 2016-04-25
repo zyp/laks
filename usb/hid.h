@@ -85,6 +85,7 @@ namespace DesktopUsage {
 	enum _8 : uint8_t {
 		Undefined,
 		Gamepad = 0x05,
+		Keyboard,
 		X = 0x30,
 		Y,
 		Z,
@@ -171,6 +172,24 @@ constexpr auto gamepad(R... r) -> decltype(
 			collection(Collection::Physical,
 				r...
 			)
+		)
+	);
+}
+
+template <typename... R>
+constexpr auto keyboard(R... r) -> decltype(
+	pack(
+		usage_page(UsagePage::Desktop),
+		usage(DesktopUsage::Keyboard),
+		collection(Collection::Application,
+			r...
+		)
+	)) {
+	return pack(
+		usage_page(UsagePage::Desktop),
+		usage(DesktopUsage::Keyboard),
+		collection(Collection::Application,
+			r...
 		)
 	);
 }
