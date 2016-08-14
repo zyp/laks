@@ -7,7 +7,10 @@ struct SPI_reg_t {
 	volatile uint32_t CR1;
 	volatile uint32_t CR2;
 	volatile uint32_t SR;
-	volatile uint32_t DR;
+	union {
+		volatile uint32_t DR;
+		volatile uint8_t DR8;
+	};
 	volatile uint32_t CRCPR;
 	volatile uint32_t RXCRCR;
 	volatile uint32_t TXCRCR;
@@ -22,13 +25,13 @@ class SPI_t {
 		SPI_t(uint32_t reg_addr) : reg(*(SPI_reg_t*)reg_addr) {}
 		
 		uint8_t transfer_byte(uint8_t out = 0) {
-			reg.DR = out;
+			reg.DR8 = out;
 			
 			while(!(reg.SR & 0x01)) {
 				Thread::yield();
 			}
 			
-			return reg.DR;
+			return reg.DR8;
 		}
 };
 
@@ -44,6 +47,8 @@ static SPI_t SPI3(0x40003c00);
 static SPI_t SPI1(0x40013000);
 static SPI_t SPI2(0x40003800);
 static SPI_t SPI3(0x40003c00);
+#elif defined(STM32L0)
+static SPI_t SPI1(0x40013000);
 #endif
 
 #endif
