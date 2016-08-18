@@ -25,7 +25,7 @@ struct FLASH_t {
 	volatile uint32_t ACR;
 	volatile uint32_t PECR;
 	volatile uint32_t PDKEYR;
-	volatile uint32_t PKEYR;
+	volatile uint32_t PEKEYR;
 	volatile uint32_t PRGKEYR;
 	volatile uint32_t OPTKEYR;
 	volatile uint32_t SR;
