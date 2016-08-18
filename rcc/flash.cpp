@@ -13,5 +13,10 @@ void flash_init() {
 	
 	while(FLASH.ACR != 0x105);
 	
+	#elif defined(STM32L0)
+	
+	// SET flash latency.
+	FLASH.ACR = 1 << 0;
+	
 	#endif
 }

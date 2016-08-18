@@ -1,5 +1,6 @@
 #include "rcc.h"
 #include "flash.h"
+#include "../syscfg/syscfg.h"
 
 void rcc_init() {
 	// Initialize flash.
@@ -46,6 +47,35 @@ void rcc_init() {
 	
 	// Set APB2 prescaler to /2.
 	RCC.CFGR |= 4 << 13;
+	
+	#elif defined(STM32L0)
+	
+	// Enable HSI16.
+	RCC.CR |= 1 << 0; // HSI16ON
+	while(!(RCC.CR & (1 << 2))); // HSI16RDYF
+	
+	// Configure PLL.
+	RCC.CFGR |= (1 << 22) | (1 << 18) | (0 << 16); // PLLDIV = /2, PLLMUL = 4x, PLLSRC = HSI16
+	
+	// Enable PLL.
+	RCC.CR |= 1 << 24; // PLLON
+	while(!(RCC.CR & (1 << 25))); // PLLRDY
+	
+	// Switch to PLL.
+	RCC.CFGR |= 3 << 0; // SW = PLL
+	while((RCC.CFGR & (3 << 2)) != (3 << 2)); // SWS = PLL
+	
+	// Enable VREFINT for HSI48.
+	RCC.enable(RCC.SYSCFG);
+	SYSCFG.CFGR3 |= (1 << 13) | (1 << 0); // ENREF_HSI48, EN_VREFINT
+	while(!(SYSCFG.CFGR3 & (1 << 26))); // REF_HSI48_RDYF
+	
+	// Enable HSI48.
+	RCC.CRRCR |= 1 << 0; // HSI48ON
+	while(!(RCC.CRRCR & (1 << 1))); // HSI48RDY
+	
+	// Select HSI48 for USB.
+	RCC.CCIPR |= 1 << 26;
 	
 	#endif
 }
