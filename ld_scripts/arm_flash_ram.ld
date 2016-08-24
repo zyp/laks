@@ -54,6 +54,12 @@ SECTIONS {
 	
 	PROVIDE(_data_rom = .);
 	
+	.bootinfo : {
+		*(.bootinfo)
+	} > ram
+	
+	. = ALIGN(4);
+	
 	.data : {
 		PROVIDE(_data_start = .);
 		*(.data)
