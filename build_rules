@@ -72,6 +72,14 @@ def select_stm32(env, variant):
 			'c': 'stm32_f373_c.ld',
 		}[flash]
 	
+	elif family in ('f401'):
+		select_arm(env, 'cortex-m4f')
+		env.Append(CPPDEFINES = ['STM32F4'])
+		
+		env['LINK_SCRIPT'] = {
+			'e': 'stm32_f401_e.ld',
+		}[flash]
+	
 	elif family in ('f405', 'f407'):
 		select_arm(env, 'cortex-m4f')
 		env.Append(CPPDEFINES = ['STM32F4'])
