@@ -79,3 +79,42 @@ void rcc_init() {
 	
 	#endif
 }
+
+#if defined(STM32F4)
+void rcc_init(uint32_t osc_mhz, uint32_t sysclk_mhz) {
+	// Initialize flash.
+	flash_init();
+	
+	uint32_t pll_mhz = sysclk_mhz > 192 / 2 ? sysclk_mhz * 2 : sysclk_mhz * 4;
+	uint32_t pllp = sysclk_mhz > 192 / 2 ? 0 : 1;
+	
+	// Enable HSE.
+	RCC.CR |= 0x10000;
+	while(!(RCC.CR & 0x20000));
+	
+	// Configure and enable PLL.
+	RCC.PLLCFGR = 0x20400000 | ((pll_mhz / 48) << 24) | (pllp << 16) | (pll_mhz << 6) | osc_mhz;
+	RCC.CR |= 0x1000000;
+	while(!(RCC.CR & 0x2000000));
+	
+	// Switch to PLL.
+	RCC.CFGR |= 0x2;
+	while(!(RCC.CFGR & 0x8));
+	
+	if(sysclk_mhz > 84) {
+		// Set APB1 prescaler to /4.
+		RCC.CFGR |= 5 << 10; // PPRE1
+		
+		// Set APB2 prescaler to /2.
+		RCC.CFGR |= 4 << 13; // PPRE2
+	} else {
+		// Set APB1 prescaler to /2.
+		RCC.CFGR |= 4 << 10; // PPRE1
+		
+		// Set APB2 prescaler to /1.
+		RCC.CFGR |= 0 << 13; // PPRE2
+	}
+	
+}
+#endif
+

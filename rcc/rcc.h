@@ -352,4 +352,9 @@ static RCC_t& RCC = *(RCC_t*)0x40023800;
 
 void rcc_init();
 
+#if defined(STM32F4)
+void rcc_init(uint32_t osc_mhz, uint32_t sysclk_mhz);
+#endif
+
+
 #endif
