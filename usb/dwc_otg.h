@@ -126,6 +126,14 @@ class USB_otg : public USB_generic {
 			rxfifo_size = size;
 		}
 		
+		void set_vbus_sense(bool enabled) {
+			if(enabled) {
+				otg.reg.GCCFG &= ~(1 << 21); // NOVBUSSENS
+			} else {
+				otg.reg.GCCFG |= (1 << 21); // NOVBUSSENS
+			}
+		}
+		
 		void init() {
 			// Set PHYSEL.
 			otg.reg.GUSBCFG |= (1 << 6);
