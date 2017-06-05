@@ -181,7 +181,7 @@ class GPIO_t {
 				}
 				
 				uint16_t get() {
-					return g.reg.IDR & mask1();
+					return (g.reg.IDR & mask1()) >> f;
 				}
 		};
 		
