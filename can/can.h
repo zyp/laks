@@ -80,6 +80,8 @@ static CAN_t CAN1(0x40006400, 36000000);
 #elif defined(STM32F4)
 static CAN_t CAN1(0x40006400, 42000000);
 static CAN_t CAN2(0x40006800, 42000000);
+#elif defined(STM32F0)
+static CAN_t CAN1(0x40006400, 48000000);
 #endif
 
 #endif

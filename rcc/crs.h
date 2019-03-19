@@ -21,7 +21,7 @@ class CRS_t {
 		}
 };
 
-#if defined(STM32L0)
+#if defined(STM32F0) || defined(STM32L0)
 static CRS_t CRS(0x40006c00);
 #endif
 

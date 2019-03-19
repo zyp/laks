@@ -48,6 +48,16 @@ void rcc_init() {
 	// Set APB2 prescaler to /2.
 	RCC.CFGR |= 4 << 13;
 	
+	#elif defined(STM32F0)
+
+	// Enable HSI48.
+	RCC.CR2 |= 1 << 16; // HSI48ON
+	while(!(RCC.CR2 & (1 << 17))); // HSI48RDY
+
+	// Switch to HSI48.
+	RCC.CFGR |= 3 << 0; // SW = HSI48
+	while((RCC.CFGR & (3 << 2)) != (3 << 2)); // SWS = HSI48
+
 	#elif defined(STM32L0)
 	
 	// Enable HSI16.

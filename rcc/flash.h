@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 struct FLASH_t {
-	#if defined(STM32F1) || defined(STM32F3)
+	#if defined(STM32F0) || defined(STM32F1) || defined(STM32F3)
 	volatile uint32_t ACR;
 	volatile uint32_t KEYR;
 	volatile uint32_t OPTKEYR;
@@ -34,7 +34,7 @@ struct FLASH_t {
 	#endif
 };
 
-#if defined(STM32F1) || defined(STM32F3)
+#if defined(STM32F0) || defined(STM32F1) || defined(STM32F3)
 static FLASH_t& FLASH = *(FLASH_t*)0x40022000;
 #elif defined(STM32F4)
 static FLASH_t& FLASH = *(FLASH_t*)0x40023c00;

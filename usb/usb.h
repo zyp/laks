@@ -12,7 +12,7 @@ static F1_USB_t USB(0x40005c00, 0x40006000);
 static DWC_OTG_t OTG_FS(0x50000000);
 static DWC_OTG_t OTG_HS(0x40040000);
 
-#elif defined(STM32L0)
+#elif defined(STM32F0) || defined(STM32L0)
 #include "l0_usb.h"
 
 static L0_USB_t USB(0x40005c00, 0x40006000);
