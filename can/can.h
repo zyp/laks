@@ -7,35 +7,21 @@ struct CAN_reg_t {
 	volatile uint32_t MCR;
 	volatile uint32_t MSR;
 	volatile uint32_t TSR;
-	volatile uint32_t RF0R;
-	volatile uint32_t RF1R;
+	volatile uint32_t RFR[2];
 	volatile uint32_t IER;
 	volatile uint32_t ESR;
 	volatile uint32_t BTR;
 };
 
 struct CAN_mb_reg_t {
-	volatile uint32_t TI0R;
-	volatile uint32_t TDT0R;
-	volatile uint32_t TDL0R;
-	volatile uint32_t TDH0R;
-	volatile uint32_t TI1R;
-	volatile uint32_t TDT1R;
-	volatile uint32_t TDL1R;
-	volatile uint32_t TDH1R;
-	volatile uint32_t TI2R;
-	volatile uint32_t TDT2R;
-	volatile uint32_t TDL2R;
-	volatile uint32_t TDH2R;
-	volatile uint32_t RI0R;
-	volatile uint32_t RDT0R;
-	volatile uint32_t RDL0R;
-	volatile uint32_t RDH0R;
-	volatile uint32_t RI1R;
-	volatile uint32_t RDT1R;
-	volatile uint32_t RDL1R;
-	volatile uint32_t RDH1R;
-	
+	struct mb_t {
+		volatile uint32_t IR;
+		volatile uint32_t DTR;
+		volatile uint32_t DLR;
+		volatile uint32_t DHR;
+	};
+	mb_t T[3];
+	mb_t R[2];
 };
 
 struct CAN_f_reg_t {
