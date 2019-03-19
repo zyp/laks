@@ -171,6 +171,40 @@ constexpr Endpoint_desc endpoint_desc(
 	};
 }
 
+struct IAD_desc {
+	uint8_t bLength;
+	uint8_t bDescriptorType;
+	uint8_t bFirstInterface;
+	uint8_t bInterfaceCount;
+	uint8_t bFunctionClass;
+	uint8_t bFunctionSubClass;
+	uint8_t bFunctionProtocol;
+	uint8_t iFunction;
+} __attribute__((packed));
+
+template <typename... R>
+constexpr auto iad_desc(
+		uint8_t bFirstInterface,
+		uint8_t bInterfaceCount,
+		uint8_t bFunctionClass,
+		uint8_t bFunctionSubClass,
+		uint8_t bFunctionProtocol,
+		uint8_t iFunction,
+		R... r
+	) -> decltype(pack(IAD_desc(), r...)) {
+	
+	return pack(IAD_desc {
+		sizeof(IAD_desc),
+		0x0b,
+		bFirstInterface,
+		bInterfaceCount,
+		bFunctionClass,
+		bFunctionSubClass,
+		bFunctionProtocol,
+		iFunction
+	}, r...);
+}
+
 struct CDC_Header_desc {
 	uint8_t bLength;
 	uint8_t bDescriptorType;
