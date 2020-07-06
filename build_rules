@@ -109,7 +109,7 @@ def select_stm32(env, variant):
 		}[flash]
 	
 	else:
-		print 'Unknown stm32 family: %s' % family
+		print('Unknown stm32 family: %s' % family)
 		Exit(1)
 
 def SelectMCU(env, mcu, variant_dir = None):
@@ -119,7 +119,7 @@ def SelectMCU(env, mcu, variant_dir = None):
 		select_stm32(env, mcu)
 	
 	else:
-		print 'Unknown MCU: %s' % mcu
+		print('Unknown MCU: %s' % mcu)
 		Exit(1)
 	
 	SConscript(main_sconscript, variant_dir = variant_dir, exports = 'env')
