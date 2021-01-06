@@ -1,6 +1,8 @@
-laks_dir = Dir('.')
-ld_dir = Dir('ld_scripts')
-main_sconscript = File('SConscript')
+from SCons.Script import *
+
+laks_dir = Dir('..')
+ld_dir = Dir('../ld_scripts')
+main_sconscript = File('../SConscript')
 
 def select_arm(env, family):
 	env.SetDefault(
@@ -22,7 +24,7 @@ def select_arm(env, family):
 		RANLIB = '${TOOLCHAIN}ranlib',
 		
 		CCFLAGS   = Split('-O2 -Wall -ggdb -mcpu=${CPU_FAMILY} -mthumb -ffunction-sections'),
-		CXXFLAGS  = Split('-std=gnu++11 -fno-exceptions -fno-rtti -Wno-pmf-conversions'),
+		CXXFLAGS  = Split('-std=c++20 -fno-exceptions -fno-rtti -Wno-pmf-conversions'),
 		ASFLAGS   = Split('-c -x assembler-with-cpp -mcpu=${CPU_FAMILY} -mthumb'),
 		LINKFLAGS = Split('-Wall -mcpu=${CPU_FAMILY} -mthumb -nostartfiles -Wl,-T${LINK_SCRIPT} -Wl,--gc-sections'),
 		
@@ -123,15 +125,8 @@ def SelectMCU(env, mcu, variant_dir = None):
 		Exit(1)
 	
 	SConscript(main_sconscript, variant_dir = variant_dir, exports = 'env')
+def exists():
+    return True
 
-AddMethod(Environment, SelectMCU)
-
-def Firmware(env, target, sources, **kwargs):
-	objects = [env.Object(f) for f in Flatten([sources, env['LIB_SOURCES']])]
-	firmware = env.Program(target, objects, **kwargs)
-	#env.Depends(firmware, env['LINK_SCRIPT']) # TODO
-	return firmware
-
-AddMethod(Environment, Firmware)
-
-# vim: syn=python
+def generate(env):
+    env.AddMethod(SelectMCU)
