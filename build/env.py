@@ -8,6 +8,7 @@ env = Environment(
         'default',
         'tool_selectmcu',
         'tool_firmware',
+        'tool_jinja2',
     ],
 )
 
