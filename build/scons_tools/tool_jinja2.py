@@ -1,8 +1,17 @@
 from SCons.Script import *
 import jinja2
 
+loader = jinja2.FileSystemLoader('.')
+
+jinja2_env = jinja2.Environment(
+    loader = loader,
+)
+
+jinja2_env.filters['hex'] = lambda value: '%#x' % value
+jinja2_env.filters['size_prefix'] = lambda value: '%d%s' % next((value / 1024**i, c) for i, c in [(2, 'M'), (1, 'k'), (0, '')] if value % 1024**i == 0)
+
 def jinja2_build(target, source, env):
-    template = jinja2.Template(open(str(source[0])).read())
+    template = jinja2_env.get_template(str(source[0]))
 
     template_env = env.get('TEMPLATE_ENV', {})
 

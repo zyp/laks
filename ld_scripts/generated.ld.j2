@@ -1,6 +1,6 @@
 MEMORY {
     {% for name, m in mem.items() %}
-        {{ name }} ({{ 'rx' if name == 'flash' else 'rwx' }}) : org = {{ m.origin }}, len = {{ m.size }}
+        {{ name }} ({{ 'rx' if name == 'flash' else 'rwx' }}) : org = {{ m.origin | hex }}, len = {{ m.size | size_prefix }}
     {% endfor %}
 }
 
