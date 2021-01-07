@@ -1,0 +1,8 @@
+- match:
+    mcu: !re stm32(?P<family>..)(?P<variant>..).(?P<mem>.)
+
+  -:
+    - match:
+        family: f4
+
+      -: !import f4.yaml

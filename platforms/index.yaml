@@ -1,0 +1,9 @@
+- match:
+    mcu: !re stm32
+  
+  -: !import stm32/index.yaml
+
+- match:
+    cpu: !re cortex-m
+  
+  -: !import cortex-m.yaml

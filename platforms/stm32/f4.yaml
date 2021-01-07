@@ -1,0 +1,30 @@
+- match:
+    mem: e
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 512k
+  ld_script: stm32_f4_e.ld
+
+- match:
+    mem: g
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 1M
+  ld_script: stm32_f4_g.ld
+
+- mem:
+    ram:
+      origin: 0x20000000
+      size: 128k
+
+    ccm:
+      origin: 0x10000000
+      size: 64k
+
+  define:
+    - STM32F4
+
+  meta:
+    cpu: cortex-m4f

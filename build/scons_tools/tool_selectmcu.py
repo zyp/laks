@@ -1,19 +1,16 @@
 from SCons.Script import *
 
-laks_dir = Dir('..')
-ld_dir = Dir('../ld_scripts')
-main_sconscript = File('../SConscript')
+def SelectMCU(env, mcu, variant_dir = None):
 
-def select_arm(env, family):
+	spec = env.PlatformSpec(mcu = mcu)
+
+	if len(spec) <= 1:
+		print('Unknown MCU: %s' % mcu)
+		Exit(1)
+
 	env.SetDefault(
-		TOOLCHAIN = 'arm-none-eabi-',
+		TOOLCHAIN = '%s-' % spec['toolchains'][0],
 	)
-	
-	if family == 'cortex-m4f':
-		family = 'cortex-m4'
-		has_mcu = True
-	else:
-		has_mcu = False
 	
 	env.Replace(
 		CC     = '${TOOLCHAIN}gcc',
@@ -23,108 +20,29 @@ def select_arm(env, family):
 		AR     = '${TOOLCHAIN}ar',
 		RANLIB = '${TOOLCHAIN}ranlib',
 		
-		CCFLAGS   = Split('-O2 -Wall -ggdb -mcpu=${CPU_FAMILY} -mthumb -ffunction-sections'),
+		CCFLAGS   = Split('-O2 -Wall -ggdb -ffunction-sections'),
 		CXXFLAGS  = Split('-std=c++20 -fno-exceptions -fno-rtti -Wno-pmf-conversions'),
-		ASFLAGS   = Split('-c -x assembler-with-cpp -mcpu=${CPU_FAMILY} -mthumb'),
-		LINKFLAGS = Split('-Wall -mcpu=${CPU_FAMILY} -mthumb -nostartfiles -Wl,-T${LINK_SCRIPT} -Wl,--gc-sections'),
+		ASFLAGS   = Split('-c -x assembler-with-cpp'),
+		LINKFLAGS = Split('-Wall -nostartfiles -Wl,-T${LINK_SCRIPT} -Wl,--gc-sections'),
 		
-		CPPPATH = [laks_dir],
-		LIBPATH = [ld_dir],
+		CPPPATH = ['${LAKS_PATH}'],
+		LIBPATH = ['${LAKS_PATH}/ld_scripts'],
 		
 		LIB_SOURCES = [],
-		
-		CPU_FAMILY = family,
+	)
+
+	env.Replace(
+		LINK_SCRIPT = spec.get('ld_script'),
+	)
+
+	env.Append(
+		CCFLAGS = spec.get('cflags', []),
+		LINKFLAGS = spec.get('cflags', []),
+		CPPDEFINES = spec.get('define', []),
 	)
 	
-	if has_mcu:
-		env.Append(CCFLAGS = Split('-mfloat-abi=hard -mfpu=fpv4-sp-d16'))
-		env.Append(LINKFLAGS = Split('-mfloat-abi=hard -mfpu=fpv4-sp-d16'))
-		env.Append(CPPDEFINES = ['HAS_FPU'])
+	env.SConscript('${LAKS_PATH}/SConscript', variant_dir = variant_dir, exports = 'env')
 
-def select_stm32(env, variant):
-	family = variant[5:9]
-	pin_count = variant[9]
-	flash = variant[10]
-	
-	if family.startswith('f0'):
-		select_arm(env, 'cortex-m0')
-		env.Append(CPPDEFINES = ['STM32F0'])
-
-		sram = family[2]
-		
-		env['LINK_SCRIPT'] = {
-			('4', '6'): 'stm32_f04_6.ld',
-			('5', '8'): 'stm32_f05_8.ld',
-		}[sram, flash]
-	
-	elif family == 'f103':
-		select_arm(env, 'cortex-m3')
-		env.Append(CPPDEFINES = ['STM32F1'])
-		
-		env['LINK_SCRIPT'] = {
-			'8': 'stm32_f1_8.ld',
-			'b': 'stm32_f1_b.ld',
-		}[flash]
-	
-	elif family == 'f303':
-		select_arm(env, 'cortex-m4f')
-		env.Append(CPPDEFINES = ['STM32F3'])
-		
-		env['LINK_SCRIPT'] = {
-			'b': 'stm32_f303_b.ld',
-			'c': 'stm32_f303_c.ld',
-		}[flash]
-	
-	elif family == 'f373':
-		select_arm(env, 'cortex-m4f')
-		env.Append(CPPDEFINES = ['STM32F3'])
-		
-		env['LINK_SCRIPT'] = {
-			'8': 'stm32_f373_8.ld',
-			'b': 'stm32_f373_b.ld',
-			'c': 'stm32_f373_c.ld',
-		}[flash]
-	
-	elif family in ('f401'):
-		select_arm(env, 'cortex-m4f')
-		env.Append(CPPDEFINES = ['STM32F4'])
-		
-		env['LINK_SCRIPT'] = {
-			'e': 'stm32_f401_e.ld',
-		}[flash]
-	
-	elif family in ('f405', 'f407'):
-		select_arm(env, 'cortex-m4f')
-		env.Append(CPPDEFINES = ['STM32F4'])
-		
-		env['LINK_SCRIPT'] = {
-			'e': 'stm32_f4_e.ld',
-			'g': 'stm32_f4_g.ld',
-		}[flash]
-	
-	elif family in ('l051', 'l052', 'l053'):
-		select_arm(env, 'cortex-m0plus')
-		env.Append(CPPDEFINES = ['STM32L0'])
-		
-		env['LINK_SCRIPT'] = {
-			'8': 'stm32_l0_8.ld',
-		}[flash]
-	
-	else:
-		print('Unknown stm32 family: %s' % family)
-		Exit(1)
-
-def SelectMCU(env, mcu, variant_dir = None):
-	mcu = mcu.lower()
-	
-	if mcu.startswith('stm32'):
-		select_stm32(env, mcu)
-	
-	else:
-		print('Unknown MCU: %s' % mcu)
-		Exit(1)
-	
-	SConscript(main_sconscript, variant_dir = variant_dir, exports = 'env')
 def exists():
     return True
 
