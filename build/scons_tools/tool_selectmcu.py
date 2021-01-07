@@ -13,6 +13,8 @@ def SelectMCU(env, mcu, variant_dir = None):
 	)
 	
 	env.Replace(
+		PLATFORM_SPEC = spec,
+
 		CC     = '${TOOLCHAIN}gcc',
 		CXX    = '${TOOLCHAIN}g++',
 		AS     = '${TOOLCHAIN}gcc',
@@ -32,7 +34,7 @@ def SelectMCU(env, mcu, variant_dir = None):
 	)
 
 	env.Replace(
-		LINK_SCRIPT = spec.get('ld_script'),
+		LINK_SCRIPT = 'generated.ld',
 	)
 
 	env.Append(

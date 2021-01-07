@@ -4,7 +4,6 @@
     flash:
       origin: 0x08000000
       size: 512k
-  ld_script: stm32_f4_e.ld
 
 - match:
     mem: g
@@ -12,7 +11,6 @@
     flash:
       origin: 0x08000000
       size: 1M
-  ld_script: stm32_f4_g.ld
 
 - mem:
     ram:

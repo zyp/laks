@@ -1,0 +1,3 @@
+Import('env')
+
+env.Jinja2('generated.ld', 'generated.ld.j2', mem = env['PLATFORM_SPEC']['mem'])
