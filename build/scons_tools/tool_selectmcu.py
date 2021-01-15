@@ -23,7 +23,7 @@ def SelectMCU(env, mcu, variant_dir = None):
 		RANLIB = '${TOOLCHAIN}ranlib',
 		
 		CCFLAGS   = Split('-O2 -Wall -ggdb -ffunction-sections'),
-		CXXFLAGS  = Split('-std=c++20 -fno-exceptions -fno-rtti -Wno-pmf-conversions'),
+		CXXFLAGS  = Split('-std=c++20 -fno-exceptions -fno-rtti'),
 		ASFLAGS   = Split('-c -x assembler-with-cpp'),
 		LINKFLAGS = Split('-Wall -nostartfiles -Wl,-T${LINK_SCRIPT} -Wl,--gc-sections'),
 		

@@ -99,9 +99,6 @@ void I2C_t::enable() {
 	reg.TRISE = clk / 1000000 + 1;
 	reg.CCR = clk / 2 / 100000;
 	
-	Interrupt::enable(irq_ev_n, &I2C_t::irq_ev, this);
-	Interrupt::enable(irq_er_n, &I2C_t::irq_er, this);
-	
 	reg.CR1 = 1;
 }
 

@@ -1,20 +1,8 @@
 #include "interrupt.h"
 
-namespace Interrupt {
-	MFP mf_vectors[16 + NUM_IRQs];
-};
-
 void entry();
 
-void member_function_interrupt_gate() {
-	uint32_t interrupt_num;
-	asm ("mrs %0, ipsr" : "=r" (interrupt_num));
-	
-	Interrupt::mf_vectors[interrupt_num].func_p(Interrupt::mf_vectors[interrupt_num].instance_p);
-}
-
 extern "C" void unused_interrupt() {
-	member_function_interrupt_gate();
 	//while(1);
 }
 

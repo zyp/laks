@@ -120,26 +120,6 @@ namespace Interrupt {
 	inline void set_priority(IRQ n, uint8_t priority) {
 		NVIC.IPR[n] = priority;
 	}
-	
-	struct MFP {
-		void (*func_p)(void*);
-		void* instance_p;
-	};
-	
-	extern MFP mf_vectors[];
-	
-	template<class T>
-	inline void set_handler(IRQ n, void (T::*f)(), T* i) {
-		MFP& mfp = mf_vectors[16 + n];
-		mfp.func_p = reinterpret_cast<void (*)(void*)>(f);
-		mfp.instance_p = i;
-	}
-	
-	template<class T>
-	inline void enable(IRQ n, void (T::*f)(), T* i) {
-		set_handler(n, f, i);
-		enable(n);
-	}
 };
 
 template<Interrupt::Exception>
