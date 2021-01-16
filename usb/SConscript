@@ -1,0 +1,19 @@
+Import('env')
+
+headers = []
+instances = []
+
+periph = env['PLATFORM_SPEC'].get('periph', {})
+
+if 'dwc_otg' in periph:
+    headers.append('dwc_otg.h')
+    for name, data in periph['dwc_otg'].items():
+        instances.append({
+            'type': 'DWC_OTG_t',
+            'name': name,
+            'args': [data['offset']],
+        })
+
+env.Jinja2('usb.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances)
+
+Return()

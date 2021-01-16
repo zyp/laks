@@ -4,6 +4,7 @@ Import('env')
 Export('env')
 
 env.SConscript('ld_scripts/SConscript')
+env.SConscript('usb/SConscript')
 
 env.Append(
 	LIB_SOURCES = Glob('*.cpp') + Glob('*/*.cpp'),

@@ -5,6 +5,8 @@ loader = jinja2.FileSystemLoader('.')
 
 jinja2_env = jinja2.Environment(
     loader = loader,
+    trim_blocks = True,
+    lstrip_blocks = True,
 )
 
 jinja2_env.filters['hex'] = lambda value: '%#x' % value

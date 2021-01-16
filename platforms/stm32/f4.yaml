@@ -21,6 +21,19 @@
       origin: 0x10000000
       size: 64k
 
+  periph:
+    uart_stm32:
+      USART1:
+        offset: 0x40011000
+      USART2:
+        offset: 0x40004400
+
+    dwc_otg:
+      OTG_FS:
+        offset: 0x50000000
+      OTG_HS:
+        offset: 0x40040000
+
   define:
     - STM32F4
 
