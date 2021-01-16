@@ -1,0 +1,18 @@
+Import('env')
+
+sources = []
+
+interrupt_controller = env['PLATFORM_SPEC'].get('interrupt_controller')
+
+exceptions = env['PLATFORM_SPEC'].get('exception', {})
+irqs = env['PLATFORM_SPEC'].get('irq', {})
+
+env.Jinja2('interrupt_enums.h', 'interrupt_enums.h.j2', exceptions = exceptions, irqs = irqs),
+
+if interrupt_controller == 'nvic':
+    sources.extend([
+        env.Jinja2('vectors_nvic.cpp', 'vectors_nvic.cpp.j2', exceptions = exceptions, irqs = irqs),
+        env.Jinja2('default_handlers.cpp', 'default_handlers.cpp.j2', exceptions = exceptions, irqs = irqs),
+    ])
+
+Return('sources')

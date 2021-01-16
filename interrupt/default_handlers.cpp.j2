@@ -1,0 +1,19 @@
+#include "interrupt.h"
+
+extern "C" void default_blocking_handler() {
+	while(1);
+}
+
+{% for exc in exceptions.values() %}
+template<>
+[[gnu::weak, gnu::alias("default_blocking_handler")]]
+void interrupt<Exception::{{ exc }}>();
+
+{% endfor %}
+
+{% for irq in irqs.values() %}
+template<>
+[[gnu::weak, gnu::alias("default_blocking_handler")]]
+void interrupt<IRQ::{{ irq }}>();
+
+{% endfor %}

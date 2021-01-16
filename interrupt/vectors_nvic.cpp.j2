@@ -1,0 +1,28 @@
+#include "interrupt.h"
+
+void entry();
+extern uint32_t _ram_end;
+
+typedef void (*vector_t)();
+
+[[gnu::section(".vectors")]]
+vector_t vectors[] = {
+	(vector_t)&_ram_end,
+	entry,
+
+    {% for i in range(2, 16) %}
+        {% if i in exceptions %}
+    interrupt<Exception::{{ exceptions[i] }}>,
+        {% else %}
+    0,
+        {% endif %}
+    {% endfor %}
+
+    {% for i in range(irqs | max + 1 if irqs else 0) %}
+        {% if i in irqs %}
+    interrupt<IRQ::{{ irqs[i] }}>,
+        {% else %}
+    0,
+        {% endif %}
+    {% endfor %}
+};

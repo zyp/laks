@@ -1,6 +1,18 @@
 - match:
     cpu: cortex-m4f
   
+  interrupt_controller: nvic
+
+  exception:
+    2: NMI
+    3: HardFault
+    4: MemManage
+    5: BusFault
+    6: UsageFault
+    11: SVCall
+    14: PendSV
+    15: SysTick
+
   cflags:
     - -mcpu=cortex-m4
     - -mfloat-abi=hard

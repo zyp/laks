@@ -4,12 +4,12 @@
 #include <os/thread.h>
 
 #if defined(STM32F1)
-I2C_t I2C1(0x40005400, 36000000, Interrupt::I2C1_EV, Interrupt::I2C1_ER);
-I2C_t I2C2(0x40005800, 36000000, Interrupt::I2C2_EV, Interrupt::I2C2_ER);
+I2C_t I2C1(0x40005400, 36000000);
+I2C_t I2C2(0x40005800, 36000000);
 #elif defined(STM32F4)
-I2C_t I2C1(0x40005400, 42000000, Interrupt::I2C1_EV, Interrupt::I2C1_ER);
-I2C_t I2C2(0x40005800, 42000000, Interrupt::I2C2_EV, Interrupt::I2C2_ER);
-//I2C_t I2C3(0x40005c00, 42000000, Interrupt::I2C3_EV, Interrupt::I2C3_ER);
+I2C_t I2C1(0x40005400, 42000000);
+I2C_t I2C2(0x40005800, 42000000);
+//I2C_t I2C3(0x40005c00, 42000000);
 #endif
 
 #if defined(STM32F1) || defined(STM32F4)

@@ -29,10 +29,8 @@ class I2C_t {
 	public:
 		I2C_reg_t& reg;
 		const uint32_t clk;
-		Interrupt::IRQ irq_ev_n;
-		Interrupt::IRQ irq_er_n;
 		
-		I2C_t(uint32_t reg_addr, uint32_t bus_clk, Interrupt::IRQ ev_n, Interrupt::IRQ er_n) : reg(*(I2C_reg_t*)reg_addr), clk(bus_clk), irq_ev_n(ev_n), irq_er_n(er_n) {
+		I2C_t(uint32_t reg_addr, uint32_t bus_clk) : reg(*(I2C_reg_t*)reg_addr), clk(bus_clk) {
 			reading = writing = 0;
 		}
 		

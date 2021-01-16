@@ -4,10 +4,14 @@ Import('env')
 Export('env')
 
 env.SConscript('ld_scripts/SConscript')
-env.SConscript('usb/SConscript')
 
 env.Append(
-	LIB_SOURCES = Glob('*.cpp') + Glob('*/*.cpp'),
+	LIB_SOURCES = [
+		env.SConscript('interrupt/SConscript'),
+		env.SConscript('usb/SConscript'),
+		Glob('startup/*.cpp'),
+		Glob('i2c/*.cpp'),
+		Glob('os/*.cpp'),
+		Glob('rcc/*.cpp'),
+	],
 )
-
-# vim: syn=python

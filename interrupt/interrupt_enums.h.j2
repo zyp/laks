@@ -1,0 +1,13 @@
+#pragma once
+
+enum class Exception {
+    {% for num, name in exceptions.items() %}
+        {{ name }} = {{ num }},
+    {% endfor %}
+};
+
+enum class IRQ {
+    {% for num, name in irqs.items() %}
+        {{ name }} = {{ num }},
+    {% endfor %}
+};
