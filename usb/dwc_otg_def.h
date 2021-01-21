@@ -1,10 +1,8 @@
 #ifndef DWC_OTG_DEF_H
 #define DWC_OTG_DEF_H
 
-#include <stdint.h>
+#include <mmio/mmio.h>
 
-class DWC_OTG_t {
-	private:
 		struct DWC_OTG_reg_t {
 			volatile uint32_t GOTGCTL;
 			volatile uint32_t GOTGINT;
@@ -67,19 +65,19 @@ class DWC_OTG_t {
 			volatile uint32_t buf[1024];
 		};
 		
+class DWC_OTG_t : public mmio_ptr<DWC_OTG_reg_t> {
 	public:
-		DWC_OTG_reg_t& reg;
-		DWC_OTG_dev_reg_t& dev_reg;
-		DWC_OTG_dev_iep_reg_t* const dev_iep_reg;
-		DWC_OTG_dev_oep_reg_t* const dev_oep_reg;
-		DWC_OTG_fifo_reg_t* const fifo;
+		mmio_ptr<DWC_OTG_dev_reg_t> dev_reg;
+		mmio_ptr<DWC_OTG_dev_iep_reg_t> dev_iep_reg;
+		mmio_ptr<DWC_OTG_dev_oep_reg_t> dev_oep_reg;
+		mmio_ptr<DWC_OTG_fifo_reg_t> fifo;
 		
-		DWC_OTG_t(uint32_t reg_addr) :
-			reg(*(DWC_OTG_reg_t*)reg_addr),
-			dev_reg(*(DWC_OTG_dev_reg_t*)(reg_addr + 0x800)),
-			dev_iep_reg((DWC_OTG_dev_iep_reg_t*)(reg_addr + 0x900)),
-			dev_oep_reg((DWC_OTG_dev_oep_reg_t*)(reg_addr + 0xb00)),
-			fifo((DWC_OTG_fifo_reg_t*)(reg_addr + 0x1000)) {}
+		constexpr DWC_OTG_t(uint32_t reg_addr) :
+			mmio_ptr(reg_addr),
+			dev_reg(reg_addr + 0x800),
+			dev_iep_reg(reg_addr + 0x900),
+			dev_oep_reg(reg_addr + 0xb00),
+			fifo(reg_addr + 0x1000) {}
 };
 
 #endif

@@ -6,7 +6,7 @@
 
 class USB_otg : public USB_generic {
 	private:
-		DWC_OTG_t& otg;
+		const DWC_OTG_t& otg;
 		
 		uint32_t rxfifo_size;
 		
@@ -18,7 +18,7 @@ class USB_otg : public USB_generic {
 		uint32_t buf_end;
 		
 		void handle_rxfifo() {
-			uint32_t status = otg.reg.GRXSTSP;
+			uint32_t status = otg->GRXSTSP;
 			
 			usb_rblog.log("RXFIFO status: %08x", status);
 			
@@ -75,7 +75,7 @@ class USB_otg : public USB_generic {
 		virtual void hw_set_address(uint8_t addr) {
 			usb_rblog.log("SetAddress: %d", addr);
 			
-			otg.dev_reg.DCFG |= addr << 4;
+			otg.dev_reg->DCFG |= addr << 4;
 		}
 		
 		virtual void hw_conf_ep(uint8_t ep, EPType type, uint32_t size) {
@@ -88,10 +88,10 @@ class USB_otg : public USB_generic {
 			epctl |= (1 << 28) | (1 << 15) | (ep == 0 ? 64 : size); // USBAEP, SD0PID
 			
 			if(ep == 0) {
-				otg.reg.GRXFSIZ = rxfifo_size >> 2;
+				otg->GRXFSIZ = rxfifo_size >> 2;
 				buf_end = rxfifo_size >> 2;
 				
-				otg.reg.DIEPTXF0 = ((64 >> 2) << 16) | buf_end;
+				otg->DIEPTXF0 = ((64 >> 2) << 16) | buf_end;
 				buf_end += (64 >> 2);
 				
 				otg.dev_iep_reg[ep].DIEPTSIZ = size;
@@ -104,7 +104,7 @@ class USB_otg : public USB_generic {
 			}
 			
 			if(in) {
-				otg.reg.DIEPTXF[ep - 1] = ((size >> 2) << 16) | buf_end;
+				otg->DIEPTXF[ep - 1] = ((size >> 2) << 16) | buf_end;
 				buf_end += size >> 2;
 				
 				otg.dev_iep_reg[ep].DIEPTSIZ = size;
@@ -120,7 +120,7 @@ class USB_otg : public USB_generic {
 		}
 	
 	public:
-		USB_otg(DWC_OTG_t& otg_periph, desc_t dev, desc_t conf) : USB_generic(dev, conf), otg(otg_periph), rxfifo_size(256) {}
+		USB_otg(const DWC_OTG_t& otg_periph, desc_t dev, desc_t conf) : USB_generic(dev, conf), otg(otg_periph), rxfifo_size(256) {}
 		
 		void set_rxfifo_size(uint32_t size) {
 			rxfifo_size = size;
@@ -128,76 +128,76 @@ class USB_otg : public USB_generic {
 		
 		void set_vbus_sense(bool enabled) {
 			if(enabled) {
-				otg.reg.GCCFG &= ~(1 << 21); // NOVBUSSENS
+				otg->GCCFG &= ~(1 << 21); // NOVBUSSENS
 			} else {
-				otg.reg.GCCFG |= (1 << 21); // NOVBUSSENS
+				otg->GCCFG |= (1 << 21); // NOVBUSSENS
 			}
 		}
 		
 		void init() {
 			// Set PHYSEL.
-			otg.reg.GUSBCFG |= (1 << 6);
+			otg->GUSBCFG |= (1 << 6);
 			
-			Time::sleep(10);
+			//Time::sleep(10);
 			
-			while(!(otg.reg.GRSTCTL & (1 << 31)));
-			otg.reg.GRSTCTL |= 1;
-			while(otg.reg.GRSTCTL & 1);
+			while(!(otg->GRSTCTL & (1 << 31)));
+			otg->GRSTCTL |= 1;
+			while(otg->GRSTCTL & 1);
 			
-			otg.reg.GAHBCFG = 0;
+			otg->GAHBCFG = 0;
 			
 			// USB configuration
-			otg.reg.GUSBCFG = (1 << 30) | (0xf << 10) | (0 << 9) | (0 << 8) | (1 << 6);
+			otg->GUSBCFG = (1 << 30) | (0xf << 10) | (0 << 9) | (0 << 8) | (1 << 6);
 			//                 FDMOD       TRDT          HNPCAP     SRPCAP     PHYSEL
 			
 			// interrupt mask
-			otg.reg.GINTMSK = (1 << 13) | (1 << 12) | (1 << 11) | (1 << 10) | (1 << 3) | (1 << 2) | (1 << 1) | (1 << 4);
+			otg->GINTMSK = (1 << 13) | (1 << 12) | (1 << 11) | (1 << 10) | (1 << 3) | (1 << 2) | (1 << 1) | (1 << 4);
 			//                 ENUMDNEM    USBRST      USBSUSPM    ESUSPM      SOFM       OTGINT     MMISM
 			
 			// device configuration
-			otg.dev_reg.DCFG = (1 << 2) | 3;
+			otg.dev_reg->DCFG = (1 << 2) | 3;
 			//                 NZLSOHSK   DSPD
 			
 			// core configuration
-			otg.reg.GCCFG = (1 << 19) | (1 << 16);
+			otg->GCCFG = (1 << 19) | (1 << 16);
 			//               VBUSBSEN    PWRDWN
 			
 		}
 		
 		void process() {
-			uint32_t gintsts = otg.reg.GINTSTS;
+			uint32_t gintsts = otg->GINTSTS;
 			
 			// USB reset.
 			if(gintsts & (1 << 12)) {
 				usb_rblog.log("USB Reset");
 				
-				otg.dev_reg.DCFG = (1 << 2) | 3;
+				otg.dev_reg->DCFG = (1 << 2) | 3;
 				otg.dev_oep_reg[0].DOEPCTL = (1 << 27);
 				otg.dev_oep_reg[1].DOEPCTL = (1 << 27);
 				otg.dev_oep_reg[2].DOEPCTL = (1 << 27);
 				otg.dev_oep_reg[3].DOEPCTL = (1 << 27);
-				otg.dev_reg.DAINTMSK = (1 << 16) | 1;
-				otg.dev_reg.DOEPMSK = (1 << 3) | 1;
-				otg.dev_reg.DIEPEMPMSK = (1 << 3) | 1;
+				otg.dev_reg->DAINTMSK = (1 << 16) | 1;
+				otg.dev_reg->DOEPMSK = (1 << 3) | 1;
+				otg.dev_reg->DIEPEMPMSK = (1 << 3) | 1;
 				
 				buf_end = 0;
 				
 				handle_reset();
 				
-				otg.reg.GINTSTS = 1 << 12;
+				otg->GINTSTS = 1 << 12;
 			}
 			
 			// Enumeration done.
 			if(gintsts & (1 << 13)) {
 				usb_rblog.log("Enumeration done");
 				
-				otg.reg.GINTSTS = 1 << 13;
+				otg->GINTSTS = 1 << 13;
 				otg.dev_iep_reg[0].DIEPCTL = 0; // MPSIZ = 64 bytes.
 			}
 			
 			// OTG interrupt.
 			if(gintsts & (1 << 2)) {
-				otg.reg.GOTGINT = (1 << 2); // SEDET
+				otg->GOTGINT = (1 << 2); // SEDET
 			}
 			
 			// RxFIFO non-empty.
