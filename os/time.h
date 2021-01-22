@@ -1,7 +1,7 @@
 #ifndef TIME_H
 #define TIME_H
 
-#include "thread.h"
+#include <cstdint>
 
 struct STK_t {
 	volatile uint32_t CTRL;
@@ -28,7 +28,6 @@ class Time {
 		inline static void sleep(uint32_t ms) {
 			ms += systime;
 			while(systime < ms) {
-				Thread::yield();
 			}
 		}
 };

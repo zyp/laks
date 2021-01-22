@@ -3,7 +3,6 @@
 
 #include <rcc/rcc.h>
 #include <interrupt/interrupt.h>
-#include <os/thread.h>
 
 #if defined(STM32F1) || defined(STM32F4)
 struct USART_reg_t {

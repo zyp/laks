@@ -1,7 +1,6 @@
 #include "i2c.h"
 
 #include <rcc/rcc.h>
-#include <os/thread.h>
 
 #if defined(STM32F1)
 I2C_t I2C1(0x40005400, 36000000);
@@ -113,7 +112,6 @@ void I2C_t::write_reg(uint8_t addr_, uint8_t reg_, uint8_t data) {
 	reg.CR1 |= 0x100;
 	
 	while(busy) {
-		Thread::yield();
 	}
 }
 
@@ -128,7 +126,6 @@ void I2C_t::read_reg(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t* buf) {
 	reg.CR1 |= 0x100;
 	
 	while(busy) {
-		Thread::yield();
 	}
 }
 #endif

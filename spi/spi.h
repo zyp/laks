@@ -1,7 +1,7 @@
 #ifndef SPI_H
 #define SPI_H
 
-#include <os/thread.h>
+#include <cstdint>
 
 struct SPI_reg_t {
 	volatile uint32_t CR1;
@@ -28,7 +28,6 @@ class SPI_t {
 			reg.DR8 = out;
 			
 			while(!(reg.SR & 0x01)) {
-				Thread::yield();
 			}
 			
 			return reg.DR8;
