@@ -1,11 +1,17 @@
 #pragma once
 
-{% for header in headers %}#include "{{ header }}"{% endfor %}
+{% for header in (headers if headers else []) %}
+#include "{{ header }}"
+{% endfor %}
 
-{% for instance in instances %}
+{% for instance in (instances if instances else []) %}
 constexpr {{ instance.type }} {{ instance.name }}{
     {% for arg in instance.args %}
         {{ arg | hex }},
     {% endfor %}
 };
+{% endfor %}
+
+{% for alias, ref in (aliases.items() if aliases else {}) %}
+constexpr auto {{ alias }} = {{ ref }};
 {% endfor %}
