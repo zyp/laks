@@ -1,18 +1,33 @@
 Import('env')
 
+headers = []
+instances = []
 sources = []
+aliases = {}
 
-interrupt_controller = env['PLATFORM_SPEC'].get('interrupt_controller')
+interrupts = env['PLATFORM_SPEC'].get('interrupt', {})
 
-exceptions = env['PLATFORM_SPEC'].get('exception', {})
-irqs = env['PLATFORM_SPEC'].get('irq', {})
+env.Jinja2('interrupt_enums.h', 'interrupt_enums.h.j2', interrupts = interrupts)
+headers.append('interrupt_enums.h')
 
-env.Jinja2('interrupt_enums.h', 'interrupt_enums.h.j2', exceptions = exceptions, irqs = irqs),
+sources.append(env.Jinja2('default_handlers.cpp', 'default_handlers.cpp.j2', interrupts = interrupts))
 
-if interrupt_controller == 'nvic':
+periph = env['PLATFORM_SPEC'].get('periph', {})
+
+if 'nvic' in periph:
+    headers.append('nvic.h')
+    for name, data in periph['nvic'].items():
+        instances.append({
+            'type': 'NVIC_t',
+            'name': name,
+            'args': [data['offset']],
+        })
+
+    aliases['SCB'] = 'NVIC.SCB'
+    aliases['interrupt_ctl'] = 'NVIC'
+
     sources.extend([
-        env.Jinja2('vectors_nvic.cpp', 'vectors_nvic.cpp.j2', exceptions = exceptions, irqs = irqs),
-        env.Jinja2('default_handlers.cpp', 'default_handlers.cpp.j2', exceptions = exceptions, irqs = irqs),
+        env.Jinja2('vectors_nvic.cpp', 'vectors_nvic.cpp.j2', interrupts = interrupts),
     ])
 
 Return('sources')

@@ -4,16 +4,12 @@ extern "C" void default_blocking_handler() {
 	while(1);
 }
 
-{% for exc in exceptions.values() %}
+{% for type, entries in interrupts.items() %}
+	{% for name in entries.values() %}
 template<>
 [[gnu::weak, gnu::alias("default_blocking_handler")]]
-void interrupt<Exception::{{ exc }}>();
+void interrupt::handler<interrupt::{{ type }}::{{ name }}>();
 
-{% endfor %}
-
-{% for irq in irqs.values() %}
-template<>
-[[gnu::weak, gnu::alias("default_blocking_handler")]]
-void interrupt<IRQ::{{ irq }}>();
+	{% endfor %}
 
 {% endfor %}

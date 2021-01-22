@@ -1,13 +1,17 @@
 #pragma once
 
-enum class Exception {
-    {% for num, name in exceptions.items() %}
-        {{ name }} = {{ num }},
-    {% endfor %}
-};
+namespace interrupt {
+    {% for type, entries in interrupts.items() %}
+        enum class {{ type }} {
+            {% for num, name in entries.items() %}
+                {{ name }} = {{ num }},
+            {% endfor %}
+        };
 
-enum class IRQ {
-    {% for num, name in irqs.items() %}
-        {{ name }} = {{ num }},
+        template<{{ type }}>
+        void handler();
+
     {% endfor %}
+
+	typedef void (*vector_t)();
 };

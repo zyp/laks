@@ -1,17 +1,21 @@
 - match:
     cpu: cortex-m4f
   
-  interrupt_controller: nvic
+  periph:
+    nvic:
+      NVIC:
+        offset: 0xe000e100
 
-  exception:
-    2: NMI
-    3: HardFault
-    4: MemManage
-    5: BusFault
-    6: UsageFault
-    11: SVCall
-    14: PendSV
-    15: SysTick
+  interrupt:
+    exception:
+      2: NMI
+      3: HardFault
+      4: MemManage
+      5: BusFault
+      6: UsageFault
+      11: SVCall
+      14: PendSV
+      15: SysTick
 
   cflags:
     - -mcpu=cortex-m4
