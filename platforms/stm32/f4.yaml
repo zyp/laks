@@ -34,6 +34,79 @@
       OTG_HS:
         offset: 0x40040000
 
+    rcc:
+      RCC:
+        offset: 0x40023800
+        type: f4
+        bus:
+          AHB1:
+            0: GPIOA
+            1: GPIOB
+            2: GPIOC
+            3: GPIOD
+            4: GPIOE
+            5: GPIOF
+            6: GPIOG
+            7: GPIOH
+            8: GPIOI
+            12: CRC
+            21: DMA1
+            22: DMA2
+            25: ETHMAC
+            26: ETHMACTX
+            27: ETHMACRX
+            28: ETHMACPTP
+            29: OTGHS
+            30: OTGHSULPI
+
+          AHB2:
+            0: DCMI
+            4: CRYP
+            5: HASH
+            6: RNG
+            7: OTGFS
+
+          AHB3:
+            0: FSMC
+
+          APB1:
+            0: TIM2
+            1: TIM3
+            2: TIM4
+            3: TIM5
+            4: TIM6
+            5: TIM7
+            6: TIM12
+            7: TIM13
+            8: TIM14
+            11: WWDG
+            14: SPI2
+            15: SPI3
+            17: USART2
+            18: USART3
+            19: UART4
+            20: UART5
+            21: I2C1
+            22: I2C2
+            23: I2C3
+            25: CAN1
+            26: CAN2
+            28: PWR
+            29: DAC
+
+          APB2:
+            0: TIM1
+            1: TIM8
+            4: USART1
+            5: USART6
+            8: ADC
+            11: SDIO
+            12: SPI1
+            14: SYSCFG
+            16: TIM9
+            17: TIM10
+            18: TIM11
+
   interrupt:
     irq:
       0: WWDG

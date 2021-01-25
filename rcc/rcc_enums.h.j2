@@ -1,0 +1,17 @@
+#pragma once
+
+namespace rcc {
+    {% for bus, devices in buses.items() %}
+        enum {{ bus }}_dev {
+            {% for num, name in devices.items() %}
+                {{ name }} = 1 << {{ num }},
+            {% endfor %}
+        };
+
+        template <typename T>
+        void enable(const T& rcc, {{ bus }}_dev dev) {
+            rcc->{{ bus }}ENR |= dev;
+        }
+
+    {% endfor %}
+}
