@@ -1,5 +1,8 @@
 #include "flash.h"
 
+/**
+ * Configure the flash for maximum speed access.
+ */
 void flash_init() {
 	#if defined(STM32F1) || defined(STM32F3)
 	
@@ -17,6 +20,10 @@ void flash_init() {
 	
 	// SET flash latency.
 	FLASH.ACR = 1 << 0;
+	
+	#elif defined(STM32WB)
+	// Prefetch and both caches, plus 3WS for 64MHz
+	FLASH.ACR = 0x700 | 3;
 	
 	#endif
 }
