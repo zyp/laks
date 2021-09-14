@@ -30,4 +30,6 @@ if 'nvic' in periph:
         env.Jinja2('vectors_nvic.cpp', 'vectors_nvic.cpp.j2', interrupts = interrupts),
     ])
 
+env.Jinja2('interrupt.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases)
+
 Return('sources')
