@@ -11,6 +11,7 @@ if 'rcc' in periph:
     buses = env['PLATFORM_SPEC']['periph']['rcc']['RCC']['bus']
     env.Jinja2('rcc_enums.h', 'rcc_enums.h.j2', buses = buses)
 
+    headers.append('rcc_methods.h')
     headers.append('rcc_reg.h')
     for name, data in periph['rcc'].items():
         instances.append({
