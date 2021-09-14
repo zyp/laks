@@ -1,3 +1,7 @@
+/*
+ * This file is auto-generated from a template!
+ * You should reconsider editing!
+ */
 MEMORY {
     {% for name, m in mem.items() %}
         {{ name }} ({{ 'rx' if name == 'flash' else 'rwx' }}) : org = {{ m.origin | hex }}, len = {{ m.size | size_prefix }}
