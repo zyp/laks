@@ -111,6 +111,52 @@ struct RCC_reg_l0_t {
 	volatile uint32_t CSR;
 };
 
+struct RCC_reg_wb_t {
+	volatile uint32_t CR;
+	volatile uint32_t ICSCR;
+	volatile uint32_t CFGR;
+	volatile uint32_t PLLCFGR;
+	volatile uint32_t PLLSAI1CFGR;
+	volatile uint32_t _1; // reserved 0x14
+	volatile uint32_t CIER;
+	volatile uint32_t CIFR;
+	volatile uint32_t CICR;
+	volatile uint32_t SMPSCR;
+	volatile uint32_t AHB1RSTR;
+	volatile uint32_t AHB2RSTR;
+	volatile uint32_t AHB3RSTR;
+	volatile uint32_t _2; // reserved 0x34
+	volatile uint32_t APB1RSTR1;
+	volatile uint32_t APB1RSTR2;
+	volatile uint32_t APB2RSTR;
+	volatile uint32_t APB3RSTR;
+	volatile uint32_t AHB1ENR;
+	volatile uint32_t AHB2ENR;
+	volatile uint32_t AHB3ENR;
+	volatile uint32_t _3; // reserved 0x54
+	volatile uint32_t APB1ENR1;
+	volatile uint32_t APB1ENR2;
+	volatile uint32_t APB2ENR;
+	volatile uint32_t _4; // reserved 0x64
+	volatile uint32_t AHB1SMENR;
+	volatile uint32_t AHB2SMENR;
+	volatile uint32_t AHB3SMENR;
+	volatile uint32_t _5; // reserved 0x74
+	volatile uint32_t APB1SMENR1;
+	volatile uint32_t APB1SMENR2;
+	volatile uint32_t APB2SMENR;
+	volatile uint32_t _6; // reserved 0x84
+	volatile uint32_t CCIPR;
+	volatile uint32_t _7; // reserved 0x8c
+	volatile uint32_t BDCR;
+	volatile uint32_t CSR;
+	volatile uint32_t CRRCR;
+	volatile uint32_t HSECR;
+	// FIXME: reserved 0xa0-0x104, then EXTCFGR
+	// FIXME: reserved 0x10c-0x144, then C2xxxx starts
+};
+
+
 template <typename T>
 class RCC_t : public mmio_ptr<T> {
     public:

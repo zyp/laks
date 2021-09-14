@@ -9,3 +9,7 @@
     - match:
         family: f7
       -: !import f7.yaml
+
+    - match:
+        family: wb
+      -: !import wb.yaml

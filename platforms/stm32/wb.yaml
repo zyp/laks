@@ -1,0 +1,161 @@
+- match:
+    mem: c
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 256k
+
+- match:
+    mem: e
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 512k
+
+- match:
+    mem: g
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 1M
+
+- mem:
+    ram:
+      origin: 0x20000000
+      size: 192k
+    ram_shared:
+      origin: 0x20030000
+      size: 10k
+
+  periph:
+    stm32_uart:
+      USART1:
+        type: v2
+        offset: 0x40013800
+
+    rcc:
+      RCC:
+        offset: 0x58000000
+        type: wb
+        bus:
+          AHB1:
+            0: DMA1
+            1: DMA2
+            2: DMAMUX1
+            12: CRC
+            16: TSC
+
+          AHB2:
+            0: GPIOA
+            1: GPIOB
+            2: GPIOC
+            3: GPIOD
+            4: GPIOE
+            7: GPIOH
+            13: ADC1
+
+          AHB3:
+            8: QUADSPI
+            16: PKA
+            17: AES2
+            18: RNG
+            19: HSEM
+            20: IPCC
+            25: FLASH
+            7: OTGFS
+
+          APB1:
+            0: TIM2
+            9: LCD
+            10: RTCAPB
+            11: WWDG
+            14: SPI2
+            21: I2C1
+            23: I2C3
+            24: CRS
+            26: USB
+            31: LPTIM1
+
+          APB1_2:
+            0: LPUART1
+            5: LPTIM2
+
+          APB2:
+            11: TIM1
+            12: SPI1
+            14: USART1
+            17: TIM16
+            18: TIM17
+            21: SAI1
+
+  interrupt:
+    irq:
+      0: WWDG
+      1: PVD
+      2: TAMP_STAMP
+      3: RTC_WKUP
+      4: FLASH
+      5: RCC
+      6: EXTI0
+      7: EXTI1
+      8: EXTI2
+      9: EXTI3
+      10: EXTI4
+      11: DMA1_CH1
+      12: DMA1_CH2
+      13: DMA1_CH3
+      14: DMA1_CH4
+      15: DMA1_CH5
+      16: DMA1_CH6
+      17: DMA1_CH7
+      18: ADC1
+      19: USB_HP
+      20: USB_LP
+      21: C2SEV
+      22: COMP
+      23: EXTI9_5
+      24: TIM1_BRK
+      25: TIM1_UP_TIM16
+      26: TIM1_TRG_COM_TIM17
+      27: TIM1_CC
+      28: TIM2
+      29: PKA
+      30: I2C1_EV
+      31: I2C1_ER
+      32: I2C3_EV
+      33: I2C3_ER
+      34: SPI1
+      35: SPI2
+      36: USART1
+      37: LPUART1
+      38: SAI1
+      39: TSC
+      40: EXTI15_10
+      41: RTC_Alarm
+      42: CRS_IT
+      43: SOTF_BLEACT_802ACT_RFPHASE
+      44: IPCC_C1_RX
+      45: IPCC_C1_TX
+      46: HSEM
+      47: LPTIM1
+      48: LPTIM2
+      49: LCD
+      50: QUADSPI
+      51: AES1
+      52: AES2
+      53: TRNG
+      54: FPU
+      55: DMA2_CH1
+      56: DMA2_CH2
+      57: DMA2_CH3
+      58: DMA2_CH4
+      59: DMA2_CH5
+      60: DMA2_CH6
+      61: DMA2_CH7
+      62: DMAMUX1_OVR
+
+  define:
+    - STM32WB
+
+  meta:
+    cpu: cortex-m4f
