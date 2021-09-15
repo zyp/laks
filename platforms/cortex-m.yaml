@@ -1,5 +1,6 @@
+# All cortex-m
 - match:
-    cpu: cortex-m4f
+    cpu: !re cortex-m
   
   periph:
     nvic:
@@ -17,13 +18,31 @@
       14: PendSV
       15: SysTick
 
+  toolchains:
+    - arm-none-eabi
+
+# cortex-m4
+- match:
+    cpu: !re cortex-m4
+
   cflags:
     - -mcpu=cortex-m4
+
+# cortex-m7
+- match:
+    cpu: !re cortex-m7
+
+  cflags:
+    - -mcpu=cortex-m7
+
+# FPU
+- match:
+    cpu: !re cortex-m.f
+  
+  cflags:
     - -mfloat-abi=hard
     - -mfpu=fpv4-sp-d16
   
   define:
     - HAS_FPU
   
-  toolchains:
-    - arm-none-eabi
