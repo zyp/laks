@@ -12,6 +12,13 @@
       origin: 0x08000000
       size: 1M
 
+- match:
+    mem: i
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 2M
+
 - mem:
     ram:
       origin: 0x20000000

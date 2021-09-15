@@ -9,9 +9,9 @@ void flash_init() {
 	#elif defined(STM32F4)
 	
 	// Set flash latency.
-	FLASH.ACR = 0x105;
+	FLASH.ACR = 0x107;
 	
-	while(FLASH.ACR != 0x105);
+	while(FLASH.ACR != 0x107);
 	
 	#elif defined(STM32F0) || defined(STM32L0)
 	
