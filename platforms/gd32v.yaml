@@ -1,0 +1,88 @@
+- match:
+    mcu: !re gd32vf103
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 128k
+
+    ram:
+      origin: 0x20000000
+      size: 32k
+
+  periph:
+    clic:
+      CLIC:
+        offset: 0xd2000000
+
+    dwc_otg:
+      OTG_FS:
+        offset: 0x50000000 
+
+    rcc:
+      RCC:
+        offset: 0x40021000
+        type: f1
+        bus:
+          AHB:
+            0: DMA1
+            1: DMA2
+            2: SRAM
+            4: FLITF
+            6: CRC
+            8: FSMC
+            10: SDIO
+            12: USBFS
+
+          APB1:
+            0: TIM2
+            1: TIM3
+            2: TIM4
+            3: TIM5
+            4: TIM6
+            5: TIM7
+            6: TIM12
+            7: TIM13
+            8: TIM14
+            11: WWDG
+            14: SPI2
+            15: SPI3
+            17: USART2
+            18: USART3
+            19: UART4
+            20: UART5
+            21: I2C1
+            22: I2C2
+            25: CAN
+            27: BKP
+            28: PWR
+            29: DAC
+
+          APB2:
+            0: AFIO
+            2: GPIOA
+            3: GPIOB
+            4: GPIOC
+            5: GPIOD
+            6: GPIOE
+            7: GPIOF
+            8: GPIOG
+            9: ADC1
+            10: ADC2
+            11: TIM1
+            12: SPI1
+            13: TIM8
+            14: USART1
+            15: ADC3
+            19: TIM9
+            20: TIM10
+            21: TIM11
+
+  interrupt:
+    irq:
+      56: USART1
+
+  define:
+    - STM32F1
+
+  meta:
+    cpu: rv32imac

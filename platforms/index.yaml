@@ -4,6 +4,16 @@
   -: !import stm32/index.yaml
 
 - match:
+    mcu: !re gd32v
+
+  -: !import gd32v.yaml
+
+- match:
     cpu: !re cortex-m
   
   -: !import cortex-m.yaml
+
+- match:
+    cpu: !re rv
+
+  -: !import riscv.yaml

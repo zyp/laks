@@ -1,0 +1,23 @@
+#include "interrupt.h"
+
+interrupt::vector_t vectors_clic[] = {
+    {% for i in range(interrupts.irq | max + 1 if interrupts.irq else interrupts.internal | max + 1 if interrupts.internal else 0) %}
+        {% if i in interrupts.internal %}
+            interrupt::handler<interrupt::internal::{{ interrupts.internal[i] }}>,
+        {% elif i in interrupts.irq %}
+            interrupt::handler<interrupt::irq::{{ interrupts.irq[i] }}>,
+        {% else %}
+            0,
+        {% endif %}
+    {% endfor %}
+};
+
+interrupt::vector_t vectors_exception[] = {
+    {% for i in range(interrupts.exception | max + 1 if interrupts.exception else 0) %}
+        {% if i in interrupts.exception %}
+            interrupt::handler<interrupt::exception::{{ interrupts.exception[i] }}>,
+        {% else %}
+            0,
+        {% endif %}
+    {% endfor %}
+};

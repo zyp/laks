@@ -1,0 +1,38 @@
+- match:
+    cpu: rv32imac
+  
+  cflags:
+    - -march=rv32imac
+    - -mabi=ilp32
+    - -msmall-data-limit=0
+  
+  interrupt:
+    exception:
+      0: InstructionMisaligned
+      1: InstructionFault
+      2: IllegalInstruction
+      3: Breakpoint
+      4: LoadMisaligned
+      5: LoadFault
+      6: StoreMisaligned
+      7: StoreFault
+      8: ECall_U
+      9: ECall_S
+      11: ECall_M
+      12: InstructionPageFault
+      13: LoadPageFault
+      15: StorePageFault
+
+    internal:
+      0: USI
+      1: SSI
+      3: MSI
+      4: UTI
+      5: STI
+      7: MTI
+      8: UEI
+      9: SEI
+      11: MEI
+  
+  toolchains:
+    - riscv64-unknown-elf

@@ -1,0 +1,14 @@
+#include "interrupt.h"
+
+{% for type, entries in interrupts.items() %}
+    interrupt::vector_t vectors_{{ type }}[] = {
+        {% for i in range(entries | max + 1 if entries else 0) %}
+            {% if i in entries %}
+                interrupt::handler<interrupt::{{ type }}::{{ entries[i] }}>,
+            {% else %}
+                0,
+            {% endif %}
+        {% endfor %}
+    };
+
+{% endfor %}
