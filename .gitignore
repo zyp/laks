@@ -2,3 +2,15 @@
 *.swp
 *.pyc
 __pycache__
+docs
+
+# Generated source files:
+ld_scripts/generated.ld
+interrupt/interrupt.h
+interrupt/interrupt_enums.h
+interrupt/default_handlers.cpp
+interrupt/vectors_*.cpp
+rcc/rcc.h
+rcc/rcc_enums.h
+usb/usb.h
+uart/uart.h
