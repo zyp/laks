@@ -22,11 +22,13 @@
       size: 64k
 
   periph:
-    uart_stm32:
+    stm32_uart:
       USART1:
         offset: 0x40011000
+        type: v1
       USART2:
         offset: 0x40004400
+        type: v1
 
     dwc_otg:
       OTG_FS:

@@ -9,6 +9,7 @@ env.Append(
 	LIB_SOURCES = [
 		env.SConscript('interrupt/SConscript'),
 		env.SConscript('rcc/SConscript'),
+		env.SConscript('uart/SConscript'),
 		env.SConscript('usb/SConscript'),
 		Glob('startup/*.cpp'),
 		Glob('i2c/*.cpp'),
