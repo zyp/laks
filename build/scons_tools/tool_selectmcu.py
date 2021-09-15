@@ -18,11 +18,11 @@ def SelectMCU(env, mcu, variant_dir = None):
 		CC     = '${TOOLCHAIN}gcc',
 		CXX    = '${TOOLCHAIN}g++',
 		AS     = '${TOOLCHAIN}gcc',
-		LINK   = '${TOOLCHAIN}gcc',
+		LINK   = '${TOOLCHAIN}g++',
 		AR     = '${TOOLCHAIN}ar',
 		RANLIB = '${TOOLCHAIN}ranlib',
 		
-		CCFLAGS   = Split('-O2 -Wall -ggdb -ffunction-sections'),
+		CCFLAGS   = Split('-O2 -Wall -ggdb -ffunction-sections -fdata-sections'),
 		CXXFLAGS  = Split('-std=c++20 -fno-exceptions -fno-rtti'),
 		ASFLAGS   = Split('-c -x assembler-with-cpp'),
 		LINKFLAGS = Split('-Wall -nostartfiles -Wl,-T${LINK_SCRIPT} -Wl,--gc-sections'),
