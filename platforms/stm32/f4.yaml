@@ -29,6 +29,33 @@
       size: 64k
 
   periph:
+
+    stm32_timer:
+      TIM1:
+        type: v1
+        offset: 0x40010000
+      TIM2:
+        type: v1
+        offset: 0x40000000
+      TIM3:
+        type: v1
+        offset: 0x40000400
+      TIM4:
+        type: v1
+        offset: 0x40000800
+      TIM5:
+        type: v1
+        offset: 0x40000c00
+      TIM6:
+        type: v1
+        offset: 0x40001000
+      TIM7:
+        type: v1
+        offset: 0x40001400
+      TIM8:
+        type: v1
+        offset: 0x40010400
+
     stm32_uart:
       USART1:
         offset: 0x40011000

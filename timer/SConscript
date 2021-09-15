@@ -1,0 +1,21 @@
+Import('env')
+
+headers = []
+instances = []
+sources = []
+aliases = {}
+
+periph = env['PLATFORM_SPEC'].get('periph', {})
+
+if 'stm32_timer' in periph:
+    headers.append('stm32_timer.h')
+    for name, data in periph['stm32_timer'].items():
+        instances.append({
+            'type': 'STM32_TIMER_t<STM32_TIMER_reg_%s_t>' % data['type'],
+            'name': name,
+            'args': [data['offset']],
+        })
+
+env.Jinja2('timer.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases)
+
+Return('sources')

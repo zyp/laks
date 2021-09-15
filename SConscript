@@ -10,6 +10,7 @@ env.Append(
 		env.SConscript('dma/SConscript'),
 		env.SConscript('interrupt/SConscript'),
 		env.SConscript('rcc/SConscript'),
+		env.SConscript('timer/SConscript'),
 		env.SConscript('uart/SConscript'),
 		env.SConscript('usb/SConscript'),
 		Glob('startup/*.cpp'),

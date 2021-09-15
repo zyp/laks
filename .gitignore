@@ -13,5 +13,6 @@ interrupt/default_handlers.cpp
 interrupt/vectors_*.cpp
 rcc/rcc.h
 rcc/rcc_enums.h
+timer/timer.h
 usb/usb.h
 uart/uart.h
