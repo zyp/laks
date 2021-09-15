@@ -37,6 +37,14 @@
         offset: 0x40004400
         type: v1
 
+    stm32_dma:
+      DMA1:
+        type: v2
+        offset: 0x40026000
+      DMA2:
+        type: v2
+        offset: 0x40026400
+
     dwc_otg:
       OTG_FS:
         offset: 0x50000000

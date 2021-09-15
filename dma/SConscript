@@ -1,0 +1,29 @@
+Import('env')
+
+headers = []
+instances = []
+sources = []
+aliases = {}
+
+periph = env['PLATFORM_SPEC'].get('periph', {})
+
+if 'stm32_dmamux' in periph:
+    headers.append('stm32_dmamux.h')
+    for name, data in periph['stm32_dmamux'].items():
+        instances.append({
+            'type': 'STM32_DMAMUX_t<STM32_DMAMUX_reg_%s_t>' % data['type'],
+            'name': name,
+            'args': [data['offset']],
+        })
+if 'stm32_dma' in periph:
+    headers.append('stm32_dma.h')
+    for name, data in periph['stm32_dma'].items():
+        instances.append({
+            'type': 'STM32_DMA_t<STM32_DMA_reg_%s_t>' % data['type'],
+            'name': name,
+            'args': [data['offset']],
+        })
+env.Jinja2('dma.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases)
+
+
+Return('sources')
