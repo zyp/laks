@@ -24,6 +24,7 @@ struct STM32_UART_reg_v2_t {
 	volatile uint32_t ICR;
 	volatile uint32_t RDR;
 	volatile uint32_t TDR;
+	volatile uint32_t PRESC; // Gx, L4+, Wx etc
 };
 
 template <typename T>
