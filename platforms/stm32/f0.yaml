@@ -19,20 +19,3 @@
       GPIOF:
         offset: 0x48001400
         type: v2
-    stm32_timer:
-      TIM1:
-        offset: 0x40012c00
-      TIM2:
-        offset: 0x40000000
-      TIM3:
-        offset: 0x40000400
-      TIM4:
-        offset: 0x40000800
-      TIM5:
-        offset: 0x40000c00
-      TIM6:
-        offset: 0x40001000
-      TIM7:
-        offset: 0x40001400
-      TIM8:
-        offset: 0x40013400

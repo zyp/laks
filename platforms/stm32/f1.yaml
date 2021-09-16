@@ -1,5 +1,21 @@
 # This is incomplete, just preserving register addresses!
 - periph:
+    stm32_gpio:
+      GPIOA:
+        offset: 0x40010800
+        type: v1
+      GPIOB:
+        offset: 0x40010c00
+        type: v1
+      GPIOC:
+        offset: 0x40011000
+        type: v1
+      GPIOD:
+        offset: 0x40011400
+        type: v1
+      GPIOE:
+        offset: 0x40011800
+        type: v1
     stm32_timer:
       TIM1:
         offset: 0x40012c00

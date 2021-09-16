@@ -17,3 +17,7 @@ constexpr {{ instance.type }} {{ instance.name }}{
 {% for alias, ref in (aliases.items() if aliases else {}) %}
 constexpr auto {{ alias }} = {{ ref }};
 {% endfor %}
+
+{% for alias, ref in (type_aliases.items() if type_aliases else {}) %}
+using {{ alias }} = {{ ref }};
+{% endfor %}

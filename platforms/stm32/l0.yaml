@@ -1,0 +1,18 @@
+# This is incomplete, just preserving register addresses!
+- periph:
+    stm32_gpio:
+      GPIOA:
+        offset: 0x50000000
+        type: v2
+      GPIOB:
+        offset: 0x50000400
+        type: v2
+      GPIOC:
+        offset: 0x50000800
+        type: v2
+      GPIOD:
+        offset: 0x50000c00
+        type: v2
+      GPIOH:
+        offset: 0x50001c00
+        type: v2
