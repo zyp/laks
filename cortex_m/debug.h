@@ -5,7 +5,11 @@
 #include <mmio/mmio.h>
 
 struct ITM_reg_t {
-    volatile uint32_t STIM[256];
+	union {
+		volatile uint32_t u32;
+		volatile uint16_t u16;
+		volatile uint8_t u8;
+	} STIM[256];
     uint32_t _reserved[640];
     volatile uint32_t TER[8];
     uint32_t _reserved2[8];
