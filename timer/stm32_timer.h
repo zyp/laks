@@ -23,6 +23,12 @@ struct STM32_TIMER_reg_v1_t {
 	volatile uint32_t BDTR;
 	volatile uint32_t DCR;
 	volatile uint32_t DMAR;
+	// Many of the following are only on "new" parts like G/U/W
+	volatile uint32_t OR1;
+	volatile uint32_t _reserved1[4];
+	volatile uint32_t AF1;
+	volatile uint32_t _reserved2;
+	volatile uint32_t TISEL;
 };
 
 template <typename T>
