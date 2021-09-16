@@ -64,7 +64,7 @@
             25: FLASH
             7: OTGFS
 
-          APB1:
+          APB1_1:
             0: TIM2
             9: LCD
             10: RTCAPB

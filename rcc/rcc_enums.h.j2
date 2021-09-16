@@ -12,7 +12,7 @@ namespace rcc {
 
         template <typename T>
         void enable(const T& rcc, {{ bus }}_dev dev) {
-            rcc->{{ bus }}ENR |= dev;
+            rcc->{{ bus.split('_')[0] }}ENR{{ bus.split('_')[1] if '_' in bus else '' }} |= dev;
         }
 
     {% endfor %}
