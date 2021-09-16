@@ -30,16 +30,12 @@
   periph:
     stm32_timer:
       TIM1:
-        type: v1
         offset: 0x40012C00
       TIM2:
-        type: v1
         offset: 0x40000000
       TIM16:
-        type: v1
         offset: 0x40014400
       TIM17:
-        type: v1
         offset: 0x40014800
 
     stm32_uart:
