@@ -83,6 +83,9 @@ def get_mmio_ptr_type(pt):
     return None
 
 class MMIOPtr(gdb.Function):
+  """
+  Usage is, for instance, p /x *$mmio_ptr(RCC)
+  """
   def __init__(self):
     gdb.Function.__init__(self, 'mmio_ptr')
 
