@@ -11,14 +11,16 @@ periph = env['PLATFORM_SPEC'].get('periph', {})
 if 'stm32_gpio' in periph:
     headers.append('stm32_gpio.h')
     for name, data in periph['stm32_gpio'].items():
+        # Default to v2, ie, everyone but f1
+        real_type = data.get('type', 'v2')
         instances.append({
-            'type': 'STM32_GPIO_%s_t' % data['type'],
+            'type': 'STM32_GPIO_%s_t' % real_type,
             'name': name,
             'args': [data['offset']],
         })
 
-        type_aliases['Pin'] = 'STM32_GPIO_%s_t::Pin' % data['type']
-        type_aliases['PinArray'] = 'STM32_GPIO_%s_t::PinArray' % data['type']
+        type_aliases['Pin'] = 'STM32_GPIO_%s_t::Pin' % real_type
+        type_aliases['PinArray'] = 'STM32_GPIO_%s_t::PinArray' % real_type
 
 env.Jinja2('gpio.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases, type_aliases = type_aliases)
 

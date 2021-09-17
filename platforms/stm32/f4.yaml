@@ -32,31 +32,22 @@
     stm32_gpio:
       GPIOA:
         offset: 0x40020000
-        type: v2
       GPIOB:
         offset: 0x40020400
-        type: v2
       GPIOC:
         offset: 0x40020800
-        type: v2
       GPIOD:
         offset: 0x40020c00
-        type: v2
       GPIOE:
         offset: 0x40021000
-        type: v2
       GPIOF:
         offset: 0x40021400
-        type: v2
       GPIOG:
         offset: 0x40021800
-        type: v2
       GPIOH:
         offset: 0x40021c00
-        type: v2
       GPIOI:
         offset: 0x40022000
-        type: v2
 
     stm32_timer:
       TIM1:
