@@ -117,7 +117,7 @@ struct RCC_reg_wb_t {
 	volatile uint32_t CFGR;
 	volatile uint32_t PLLCFGR;
 	volatile uint32_t PLLSAI1CFGR;
-	volatile uint32_t _1; // reserved 0x14
+	uint32_t _1; // reserved 0x14
 	volatile uint32_t CIER;
 	volatile uint32_t CIFR;
 	volatile uint32_t CICR;
@@ -125,7 +125,7 @@ struct RCC_reg_wb_t {
 	volatile uint32_t AHB1RSTR;
 	volatile uint32_t AHB2RSTR;
 	volatile uint32_t AHB3RSTR;
-	volatile uint32_t _2; // reserved 0x34
+	uint32_t _2; // reserved 0x34
 	volatile uint32_t APB1RSTR1;
 	volatile uint32_t APB1RSTR2;
 	volatile uint32_t APB2RSTR;
@@ -133,27 +133,44 @@ struct RCC_reg_wb_t {
 	volatile uint32_t AHB1ENR;
 	volatile uint32_t AHB2ENR;
 	volatile uint32_t AHB3ENR;
-	volatile uint32_t _3; // reserved 0x54
+	uint32_t _3; // reserved 0x54
 	volatile uint32_t APB1ENR1;
 	volatile uint32_t APB1ENR2;
 	volatile uint32_t APB2ENR;
-	volatile uint32_t _4; // reserved 0x64
+	uint32_t _4; // reserved 0x64
 	volatile uint32_t AHB1SMENR;
 	volatile uint32_t AHB2SMENR;
 	volatile uint32_t AHB3SMENR;
-	volatile uint32_t _5; // reserved 0x74
+	uint32_t _5; // reserved 0x74
 	volatile uint32_t APB1SMENR1;
 	volatile uint32_t APB1SMENR2;
 	volatile uint32_t APB2SMENR;
-	volatile uint32_t _6; // reserved 0x84
+	uint32_t _6; // reserved 0x84
 	volatile uint32_t CCIPR;
-	volatile uint32_t _7; // reserved 0x8c
+	uint32_t _7; // reserved 0x8c
 	volatile uint32_t BDCR;
 	volatile uint32_t CSR;
 	volatile uint32_t CRRCR;
 	volatile uint32_t HSECR;
-	// FIXME: reserved 0xa0-0x104, then EXTCFGR
-	// FIXME: reserved 0x10c-0x144, then C2xxxx starts
+	uint32_t _8[26];
+	volatile uint32_t EXTCFGR;
+	uint32_t _9[15];
+	volatile uint32_t C2AHB1ENR;
+	volatile uint32_t C2AHB2ENR;
+	volatile uint32_t C2AHB3ENR;
+	uint32_t _10;
+	volatile uint32_t C2APB1ENR1;
+	volatile uint32_t C2APB1ENR2;
+	volatile uint32_t C2APB2ENR;
+	volatile uint32_t C2APB3ENR;
+	volatile uint32_t C2AHB1SMENR;
+	volatile uint32_t C2AHB2SMENR;
+	volatile uint32_t C2AHB3SMENR;
+	uint32_t _11;
+	volatile uint32_t C2APB1SMENR1;
+	volatile uint32_t C2APB1SMENR2;
+	volatile uint32_t C2APB2SMENR;
+	volatile uint32_t C2APB3SMENR;
 };
 
 

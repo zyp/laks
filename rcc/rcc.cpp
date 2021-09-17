@@ -90,7 +90,31 @@ void rcc_init() {
 	
 	// Select HSI48 for USB.
 	RCC->CCIPR |= 1 << 26;
-	
+
+	#elif defined(STM32WB)
+	// Enable HSE.
+	RCC->CR |= (1<<16);
+	while(!(RCC->CR & (1<<17)));
+
+	// Configure and enable PLL.
+	// R=2, Q = 2, P = 2, M = 2, N = 8, src=HSE
+	const auto m = 2;
+	const auto n = 8;
+	const auto p = 2;
+	const auto q = 2;
+	const auto r = 2;
+
+	RCC->PLLCFGR = ((r-1)<<29) | (1<<28) | ((q-1)<<25) | ((p-1)<<17) | (n<<8) | ((m-1)<<4) | (3<<0);
+	RCC->CR |= (1<<24);
+	while(!(RCC->CR & (1<<25)));
+
+	// 64MHz/2 to keep CPU2 in bounds
+	RCC->EXTCFGR |= (0b1000 << 4);
+
+	// Switch to PLL.
+	RCC->CFGR |= 0x3;
+	while((RCC->CFGR & (3 << 2)) != (3 << 2)); // SWS = PLL
+
 	#endif
 }
 

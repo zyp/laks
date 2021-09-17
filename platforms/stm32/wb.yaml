@@ -93,6 +93,7 @@
             GPIOE: 4
             GPIOH: 7
             ADC1: 13
+            AES1: 16
 
           AHB3:
             QUADSPI: 8
@@ -102,7 +103,6 @@
             HSEM: 19
             IPCC: 20
             FLASH: 25
-            OTGFS: 7
 
           APB1_1:
             TIM2: 0
@@ -127,6 +127,59 @@
             TIM16: 17
             TIM17: 18
             SAI1: 21
+
+          C2AHB1:
+            C2DMA1: 0
+            C2DMA2: 1
+            C2DMAMUX1: 2
+            C2SRAM1: 9
+            C2CRC: 12
+            C2TSC: 16
+
+          C2AHB2:
+            C2GPIOA: 0
+            C2GPIOB: 1
+            C2GPIOC: 2
+            C2GPIOD: 3
+            C2GPIOE: 4
+            C2GPIOH: 7
+            C2ADC1: 13
+            C2AES1: 16
+
+          C2AHB3:
+            C2PKA: 16
+            C2AES2: 17
+            C2RNG: 18
+            C2HSEM: 19
+            C2IPCC: 20
+            C2FLASH: 25
+
+          C2APB1_1:
+            C2TIM2: 0
+            C2LCD: 9
+            C2RTCAPB: 10
+            C2SPI2: 14
+            C2I2C1: 21
+            C2I2C3: 23
+            C2CRS: 24
+            C2USB: 26
+            C2LPTIM1: 31
+
+          C2APB1_2:
+            C2LPUART1: 0
+            C2LPTIM2: 5
+
+          C2APB2:
+            C2TIM1: 11
+            C2SPI1: 12
+            C2USART1: 14
+            C2TIM16: 17
+            C2TIM17: 18
+            C2SAI1: 21
+
+          C2APB3:
+            C2BLESM: 0
+            C2802SM: 1
 
   interrupt:
     irq:
