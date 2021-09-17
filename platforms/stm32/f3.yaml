@@ -1,5 +1,80 @@
-# This is incomplete, just preserving register addresses!
-- periph:
+- match:
+    mem: 6
+  mem:
+    flash:
+      size: 32k
+    ram:
+      size: 12k
+    ccm:
+      size: 4k
+
+- match:
+    mem: 8
+  mem:
+    flash:
+      size: 64k
+    ram:
+      size: 12k
+    ccm:
+      size: 4k
+
+- match:
+    mem: b
+  mem:
+    flash:
+      size: 128k
+    ram:
+      size: 32k
+    ccm:
+      size: 8k
+
+- match:
+    mem: c
+  mem:
+    flash:
+      size: 256k
+    ram:
+      size: 40k
+    ccm:
+      size: 8k
+
+- match:
+    mem: d
+  mem:
+    flash:
+      size: 384k
+    ram:
+      size: 64k
+    ccm:
+      size: 16k
+
+- match:
+    mem: e
+  mem:
+    flash:
+      size: 512k
+    ram:
+      size: 64k
+    ccm:
+      size: 16k
+
+- mem:
+    flash:
+      origin: 0x08000000
+    ram:
+      origin: 0x20000000
+    ccm:
+      origin: 0x10000000
+
+  periph:
+    stm32_dma:
+      DMA1:
+        type: v1
+        offset: 0x40020000
+      DMA2:
+        type: v1
+        offset: 0x40020400
+
     stm32_gpio:
       GPIOA:
         offset: 0x48000000
@@ -13,6 +88,7 @@
         offset: 0x48001000
       GPIOF:
         offset: 0x48001400
+
     stm32_timer:
       TIM1:
         offset: 0x40012c00
@@ -30,3 +106,153 @@
         offset: 0x40001400
       TIM8:
         offset: 0x40013400
+
+    rcc:
+      RCC:
+        offset: 0x40021000
+        type: f3
+        bus:
+          AHB:
+            0: DMA1
+            1: DMA2
+            2: SRAM
+            4: FLITF
+            5: FSMC
+            6: CRC
+            16: GPIOH
+            17: GPIOA
+            18: GPIOB
+            19: GPIOC
+            20: GPIOD
+            21: GPIOE
+            22: GPIOF
+            23: GPIOG
+            24: TSC
+            28: ADC12
+            29: ADC34
+
+          APB1:
+            0: TIM2
+            1: TIM3
+            2: TIM4
+            4: TIM6
+            5: TIM7
+            11: WWDG
+            14: SPI2
+            15: SPI3
+            17: USART2
+            18: USART3
+            19: UART4
+            20: UART5
+            21: I2C1
+            22: I2C2
+            23: USB
+            25: CAN
+            26: DAC2
+            28: PWR
+            29: DAC1
+            30: I2C3
+
+          APB2:
+            0: SYSCFG
+            11: TIM1
+            12: SPI1
+            13: TIM8
+            14: USART1
+            15: SPI4
+            16: TIM15
+            17: TIM16
+            18: TIM17
+            20: TIM10
+
+  interrupt:
+    irq:
+      0: WWDG
+      1: PVD
+      2: TAMP_STAMP
+      3: RTC_WKUP
+      4: FLASH
+      5: RCC
+      6: EXTI0
+      7: EXTI1
+      8: EXTI2_TS
+      9: EXTI3
+      10: EXTI4
+      11: DMA1_CH1
+      12: DMA1_CH2
+      13: DMA1_CH3
+      14: DMA1_CH4
+      15: DMA1_CH5
+      16: DMA1_CH6
+      17: DMA1_CH7
+      18: ADC12
+      19: USB_HP_CAN_TX
+      20: USB_LP_CAN_RX0
+      21: CAN_RX1
+      22: CAN_SCE
+      23: EXTI9_5
+      24: TIM1_BRK_TIM15
+      25: TIM1_UP_TIM16
+      26: TIM1_TRG_COM_TIM17
+      27: TIM1_CC
+      28: TIM2
+      29: TIM3
+      30: TIM4
+      31: I2C1_EV
+      32: I2C1_ER
+      33: I2C2_EV
+      34: I2C2_ER
+      35: SPI1
+      36: SPI2
+      37: USART1
+      38: USART2
+      39: USART3
+      40: EXTI15_10
+      41: RTC_Alarm
+      42: USB_WKUP
+      43: TIM8_BRK
+      44: TIM8_UP
+      45: TIM8_TRG_COM
+      46: TIM8_CC
+      47: ADC3
+      48: FSMC
+      51: SPI3
+      52: UART4
+      53: UART5
+      54: TIM6_DAC1
+      55: TIM7_DAC2
+      56: DMA2_CH1
+      57: DMA2_CH2
+      58: DMA2_CH3
+      59: DMA2_CH4
+      60: DMA2_CH5
+      61: ADC4
+      64: COMP1_2_3
+      65: COMP4_5_6
+      66: COMP7
+      72: I2C3_EV
+      73: I2C3_ER
+      74: USB_HP_2
+      75: USB_LP_2
+      76: USB_WKUP_2
+      77: TIM20_BRK
+      78: TIM20_UP
+      79: TIM20_TRG_COM
+      80: TIM20_CC
+      81: FPU
+      84: SPI4
+      57: DMA2_Stream1
+      58: DMA2_Stream2
+      59: DMA2_Stream3
+      60: DMA2_Stream4
+      61: ETH
+      62: ETH_WKUP
+      63: CAN2_TX
+      64: CAN2_RX0
+      65: CAN2_RX1
+
+  define:
+    - STM32F3
+
+  meta:
+    cpu: cortex-m4f

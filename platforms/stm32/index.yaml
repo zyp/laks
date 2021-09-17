@@ -3,6 +3,10 @@
 
   -:
     - match:
+        family: f3
+      -: !import f3.yaml
+
+    - match:
         family: f4
       -: !import f4.yaml
 

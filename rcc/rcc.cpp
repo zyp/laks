@@ -7,13 +7,13 @@ void rcc_init() {
 	flash_init();
 	
 	#if defined(STM32F1) || defined(STM32F3)
-	
-	// Enable HSE.
+	// Enable (assumed 8MHz!) HSE
 	RCC->CR |= 0x10000;
 	while(!(RCC->CR & 0x20000));
-	
-	// Configure and enable PLL.
-	RCC->CFGR = 0x1d0000;
+
+	// Configure and enable PLL from HSE.
+	auto pll_mul = 9;
+	RCC->CFGR = ((pll_mul-2)<<18) | (0x2 << 15);
 	RCC->CR |= 0x1000000;
 	while(!(RCC->CR & 0x2000000));
 	
