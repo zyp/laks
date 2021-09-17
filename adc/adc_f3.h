@@ -52,9 +52,11 @@ static ADC_t& ADC1 = *(ADC_t*)0x50000000;
 static ADC_t& ADC2 = *(ADC_t*)0x50000100;
 static ADC_t& ADC3 = *(ADC_t*)0x50000400;
 static ADC_t& ADC4 = *(ADC_t*)0x50000500;
+static ADC_COMMON_t& ADC_COMMON1 = *(ADC_COMMON_t*)0x50000300;
+static ADC_COMMON_t& ADC_COMMON3 = *(ADC_COMMON_t*)0x50000700;
 #elif defined(STM32WB)
 static ADC_t& ADC1 = *(ADC_t*)0x50040000;
 static ADC_COMMON_t& ADC_COMMON = *(ADC_COMMON_t*)0x50040300;
 #endif
 
-#endif 
+#endif

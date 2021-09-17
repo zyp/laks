@@ -23,10 +23,14 @@ void rcc_init() {
 	
 	// Set APB1 prescaler to /2.
 	RCC->CFGR |= 0x400;
-	
-	// Set ADCCLK prescaler to /6.
+
+	// Set ADCCLK prescaler to /6. => 12MHz is ~sufficient
+#if defined(STM32F1)
 	RCC->CFGR |= 0x8000;
-	
+#else
+	RCC->CFGR2 = (0b10011 << 9) | (0b10011 << 4);
+#endif
+
 	#elif defined(STM32F4)
 	
 	// Enable HSE.
