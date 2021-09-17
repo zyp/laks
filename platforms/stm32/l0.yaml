@@ -1,5 +1,10 @@
 # This is incomplete, just preserving register addresses!
 - periph:
+    stm32_flash:
+      FLASH:
+        type: l0
+        offset: 0x40022000
+
     stm32_gpio:
       GPIOA:
         offset: 0x50000000

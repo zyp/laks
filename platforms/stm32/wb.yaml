@@ -28,6 +28,11 @@
       size: 10k
 
   periph:
+    stm32_flash:
+      FLASH:
+        type: wb
+        offset: 0x58004000
+
     stm32_gpio:
       GPIOA:
         offset: 0x48000000

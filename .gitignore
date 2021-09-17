@@ -11,6 +11,7 @@ interrupt/interrupt.h
 interrupt/interrupt_enums.h
 interrupt/default_handlers.cpp
 interrupt/vectors_*.cpp
+rcc/flash.h
 rcc/rcc.h
 rcc/rcc_enums.h
 gpio/gpio.h

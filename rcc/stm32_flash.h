@@ -1,10 +1,10 @@
-#ifndef FLASH_H
-#define FLASH_H
+#pragma once
 
 #include <stdint.h>
+#include <mmio/mmio.h>
 
-struct FLASH_t {
-	#if defined(STM32F0) || defined(STM32F1) || defined(STM32F3)
+// Also f0 and f3
+struct STM32_FLASH_reg_f1_t {
 	volatile uint32_t ACR;
 	volatile uint32_t KEYR;
 	volatile uint32_t OPTKEYR;
@@ -14,14 +14,18 @@ struct FLASH_t {
 	volatile uint32_t RESERVED;
 	volatile uint32_t OBR;
 	volatile uint32_t WRPR;
-	#elif defined(STM32F4)
+};
+
+struct STM32_FLASH_reg_f4_t {
 	volatile uint32_t ACR;
 	volatile uint32_t KEYR;
 	volatile uint32_t OPTKEYR;
 	volatile uint32_t SR;
 	volatile uint32_t CR;
 	volatile uint32_t OPTCR;
-	#elif defined(STM32L0)
+};
+
+struct STM32_FLASH_reg_l0_t {
 	volatile uint32_t ACR;
 	volatile uint32_t PECR;
 	volatile uint32_t PDKEYR;
@@ -31,7 +35,9 @@ struct FLASH_t {
 	volatile uint32_t SR;
 	volatile uint32_t OPTR;
 	volatile uint32_t WRPROT;
-	#elif defined(STM32WB)
+};
+
+struct STM32_FLASH_reg_wb_t {
 	volatile uint32_t ACR;
 	volatile uint32_t KEYR;
 	volatile uint32_t OPTKEYR;
@@ -53,19 +59,10 @@ struct FLASH_t {
 	volatile uint32_t _reserved2[7];
 	volatile uint32_t SFR; // 0x80
 	volatile uint32_t SRRVR;
-	#endif
 };
 
-#if defined(STM32F0) || defined(STM32F1) || defined(STM32F3)
-static FLASH_t& FLASH = *(FLASH_t*)0x40022000;
-#elif defined(STM32F4)
-static FLASH_t& FLASH = *(FLASH_t*)0x40023c00;
-#elif defined(STM32L0)
-static FLASH_t& FLASH = *(FLASH_t*)0x40022000;
-#elif defined(STM32WB)
-static FLASH_t& FLASH = *(FLASH_t*)0x58004000;
-#endif
-
-void flash_init();
-
-#endif
+template <typename T>
+class STM32_FLASH_t : public mmio_ptr<T> {
+    public:
+        using mmio_ptr<T>::ptr;
+};

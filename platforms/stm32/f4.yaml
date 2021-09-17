@@ -29,6 +29,11 @@
       size: 64k
 
   periph:
+    stm32_flash:
+      FLASH:
+        type: f4
+        offset: 0x40023c00
+
     stm32_gpio:
       GPIOA:
         offset: 0x40020000

@@ -27,4 +27,22 @@ if 'rcc' in periph:
 
 env.Jinja2('rcc.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases)
 
+
+headers = []
+instances = []
+aliases = {}
+
+if 'stm32_flash' in periph:
+    headers.append('flash_methods.h')
+    headers.append('stm32_flash.h')
+    for name, data in periph['stm32_flash'].items():
+        instances.append({
+            'type': 'STM32_FLASH_t<STM32_FLASH_reg_%s_t>' % data['type'],
+            'name': name,
+            'args': [data['offset']],
+        })
+
+env.Jinja2('flash.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases)
+
+
 Return('sources')
