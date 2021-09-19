@@ -1,0 +1,213 @@
+# Careful, this doesn't handle old non-A suffix parts, nor does it handle L100!
+# careful, this doesn't handle some of ther bigger parts!
+- match:
+    mem: 6
+  mem:
+    flash:
+      size: 32k
+    ram:
+      size: 16k
+
+- match:
+    mem: 8
+  mem:
+    flash:
+      size: 64k
+    ram:
+      size: 32k
+
+- match:
+    mem: b
+  mem:
+    flash:
+      size: 128k
+    ram:
+      size: 32k
+
+- match:
+    mem: c
+  mem:
+    flash:
+      size: 256k
+    ram:
+      size: 32k
+
+- match:
+    mem: d
+  mem:
+    flash:
+      size: 384k
+    ram:
+      size: 80k
+
+
+- mem:
+    flash:
+      origin: 0x08000000
+    ram:
+      origin: 0x20000000
+    # TODO - eeprom?
+
+  periph:
+    stm32_dma:
+      DMA1:
+        type: v1
+        offset: 0x40026000
+      DMA2:
+        type: v1
+        offset: 0x40026400
+
+    stm32_gpio:
+      GPIOA:
+        offset: 0x40020000
+      GPIOB:
+        offset: 0x40020400
+      GPIOC:
+        offset: 0x40020800
+      GPIOD:
+        offset: 0x40020c00
+      GPIOE:
+        offset: 0x40021000
+      GPIOF:
+        offset: 0x40021800
+      GPIOG:
+        offset: 0x40021c00
+      GPIOH:
+        offset: 0x40021400
+
+    stm32_timer:
+      TIM2:
+        offset: 0x40000000
+      TIM3:
+        offset: 0x40000400
+      TIM4:
+        offset: 0x40000800
+      TIM5:
+        offset: 0x40000c00
+      TIM6:
+        offset: 0x40001000
+      TIM7:
+        offset: 0x40001400
+      TIM9:
+        offset: 0x40010800
+      TIM10:
+        offset: 0x40010c00
+      TIM11:
+        offset: 0x40011000
+
+    rcc:
+      RCC:
+        offset: 0x40023800
+        type: l1
+        bus:
+          AHB:
+            GPIOA: 0
+            GPIOB: 1
+            GPIOC: 2
+            GPIOD: 3
+            GPIOE: 4
+            GPIOH: 5
+            GPIOF: 6
+            GPIOG: 7
+            CRC: 12
+            FLITF: 15
+            DMA1: 24
+            DMA2: 25
+            AES: 27
+            FSMC: 30
+
+          APB1:
+            TIM2: 0
+            TIM3: 1
+            TIM4: 2
+            TIM5: 3
+            TIM6: 4
+            TIM7: 5
+            LCD: 9
+            WWDG: 11
+            SPI2: 14
+            SPI3: 15
+            USART2: 17
+            USART3: 18
+            UART4: 19
+            UART5: 20
+            I2C1: 21
+            I2C2: 22
+            USB: 23
+            PWR: 28
+            DAC1: 29
+            COMP: 31
+
+          APB2:
+            SYSCFG: 0
+            TIM9: 2
+            TIM10: 3
+            TIM11: 4
+            DC1: 9
+            SDIO: 11
+            SPI1: 12
+            USART1: 14
+
+  # Careful, this covers cat 1,2,3 devices, but has conflicts for cat 4,5,6!
+  interrupt:
+    irq:
+      0: WWDG
+      1: PVD
+      2: TAMP_STAMP
+      3: RTC_WKUP
+      4: FLASH
+      5: RCC
+      6: EXTI0
+      7: EXTI1
+      8: EXTI2
+      9: EXTI3
+      10: EXTI4
+      11: DMA1_CH1
+      12: DMA1_CH2
+      13: DMA1_CH3
+      14: DMA1_CH4
+      15: DMA1_CH5
+      16: DMA1_CH6
+      17: DMA1_CH7
+      18: ADC1
+      19: USB_HP
+      20: USB_LP
+      21: DAC
+      22: COMP_TSC
+      23: EXTI9_5
+      24: LCD
+      25: TIM9
+      26: TIM10
+      27: TIM11
+      28: TIM2
+      29: TIM3
+      30: TIM4
+      31: I2C1_EV
+      32: I2C1_ER
+      33: I2C2_EV
+      34: I2C2_ER
+      35: SPI1
+      36: SPI2
+      37: USART1
+      38: USART2
+      39: USART3
+      40: EXTI15_10
+      41: RTC_Alarm
+      42: USB_FS_WKUP
+      43: TIM6
+      44: TIM7
+      45: TIM5
+      46: SPI3
+      47: DMA2_CH1
+      48: DMA2_CH2
+      49: DMA2_CH3
+      50: DMA2_CH4
+      51: DMA2_CH5
+      52: AES
+      53: COMP_ACQ
+
+  define:
+    - STM32L1
+
+  meta:
+    cpu: cortex-m3

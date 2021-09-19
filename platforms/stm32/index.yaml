@@ -15,5 +15,9 @@
       -: !import f7.yaml
 
     - match:
+        family: l1
+      -: !import l1.yaml
+
+    - match:
         family: wb
       -: !import wb.yaml

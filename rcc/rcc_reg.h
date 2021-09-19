@@ -111,6 +111,24 @@ struct RCC_reg_l0_t {
 	volatile uint32_t CSR;
 };
 
+struct RCC_reg_l1_t {
+	volatile uint32_t CR;
+	volatile uint32_t ICSCR;
+	volatile uint32_t CFGR;
+	volatile uint32_t CIR;
+	volatile uint32_t AHBRSTR;
+	volatile uint32_t APB2RSTR;
+	volatile uint32_t APB1RSTR;
+	volatile uint32_t AHBENR;
+	volatile uint32_t APB2ENR;
+	volatile uint32_t APB1ENR;
+	// Use "standard" _SM_ names, not _LP_ as in Refman.
+	volatile uint32_t AHBSMENR;
+	volatile uint32_t APB2SMENR;
+	volatile uint32_t APB1SMENR;
+	volatile uint32_t CSR;
+};
+
 struct RCC_reg_wb_t {
 	volatile uint32_t CR;
 	volatile uint32_t ICSCR;

@@ -21,6 +21,13 @@
   toolchains:
     - arm-none-eabi
 
+# cortex-m3
+- match:
+    cpu: !re cortex-m3
+
+  cflags:
+    - -mcpu=cortex-m3
+
 # cortex-m4
 - match:
     cpu: !re cortex-m4
