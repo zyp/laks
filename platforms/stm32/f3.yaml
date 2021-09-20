@@ -133,7 +133,11 @@
             GPIOF: 22
             GPIOG: 23
             TSC: 24
+            ADC1: 28
+            ADC2: 28
             ADC12: 28
+            ADC3: 29
+            ADC4: 29
             ADC34: 29
 
           APB1:
