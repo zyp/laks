@@ -18,6 +18,32 @@ struct ITM_reg_t {
     volatile uint32_t TCR;
     uint32_t _reserved4[76];
     volatile uint32_t LSR;
+
+    // FIXME - only supports first 32 stimulus ports
+    void stim_blocking(unsigned stim, uint8_t data) {
+	    if (!(this->TER[0] & (1<<stim))) {
+		    return;
+	    }
+	    while (!(this->STIM[stim].u8 & 1))
+		    ;
+	    this->STIM[stim].u8 = data;
+    }
+    void stim_blocking(unsigned stim, uint16_t data) {
+	    if (!(this->TER[0] & (1<<stim))) {
+		    return;
+	    }
+	    while (!(this->STIM[stim].u16 & 1))
+		    ;
+	    this->STIM[stim].u16 = data;
+    }
+    void stim_blocking(unsigned stim, uint32_t data) {
+	    if (!(this->TER[0] & (1<<stim))) {
+		    return;
+	    }
+	    while (!(this->STIM[stim].u32 & 1))
+		    ;
+	    this->STIM[stim].u32 = data;
+    }
 };
 
 struct DWT_reg_t {
