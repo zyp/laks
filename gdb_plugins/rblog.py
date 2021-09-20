@@ -5,7 +5,7 @@ class RBlog(gdb.Command):
 	def invoke(self, arg, from_tty):
 		args = gdb.string_to_argv(arg)
 		if len(args) != 1:
-			print 'Usage: rblog <object>'
+			print('Usage: rblog <object>')
 			return
 		
 		rblog = gdb.parse_and_eval(args[0])
@@ -32,6 +32,6 @@ class RBlog(gdb.Command):
 			except:
 				pass
 			
-			print '%8d  %-80s  %s' % (timestamp, string, ' '.join('%08x' % a for a in arguments))
+			print('%8d  %-80s  %s' % (timestamp, string, ' '.join('%08x' % a for a in arguments)))
 
 RBlog()
