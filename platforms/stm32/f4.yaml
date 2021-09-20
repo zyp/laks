@@ -100,72 +100,72 @@
         type: f4
         bus:
           AHB1:
-            0: GPIOA
-            1: GPIOB
-            2: GPIOC
-            3: GPIOD
-            4: GPIOE
-            5: GPIOF
-            6: GPIOG
-            7: GPIOH
-            8: GPIOI
-            12: CRC
-            21: DMA1
-            22: DMA2
-            25: ETHMAC
-            26: ETHMACTX
-            27: ETHMACRX
-            28: ETHMACPTP
-            29: OTGHS
-            30: OTGHSULPI
+            GPIOA: 0
+            GPIOB: 1
+            GPIOC: 2
+            GPIOD: 3
+            GPIOE: 4
+            GPIOF: 5
+            GPIOG: 6
+            GPIOH: 7
+            GPIOI: 8
+            CRC: 12
+            DMA1: 21
+            DMA2: 22
+            ETHMAC: 25
+            ETHMACTX: 26
+            ETHMACRX: 27
+            ETHMACPTP: 28
+            OTGHS: 29
+            OTGHSULPI: 30
 
           AHB2:
-            0: DCMI
-            4: CRYP
-            5: HASH
-            6: RNG
-            7: OTGFS
+            DCMI: 0
+            CRYP: 4
+            HASH: 5
+            RNG: 6
+            OTGFS: 7
 
           AHB3:
-            0: FSMC
+            FSMC: 0
 
           APB1:
-            0: TIM2
-            1: TIM3
-            2: TIM4
-            3: TIM5
-            4: TIM6
-            5: TIM7
-            6: TIM12
-            7: TIM13
-            8: TIM14
-            11: WWDG
-            14: SPI2
-            15: SPI3
-            17: USART2
-            18: USART3
-            19: UART4
-            20: UART5
-            21: I2C1
-            22: I2C2
-            23: I2C3
-            25: CAN1
-            26: CAN2
-            28: PWR
-            29: DAC
+            TIM2: 0
+            TIM3: 1
+            TIM4: 2
+            TIM5: 3
+            TIM6: 4
+            TIM7: 5
+            TIM12: 6
+            TIM13: 7
+            TIM14: 8
+            WWDG: 11
+            SPI2: 14
+            SPI3: 15
+            USART2: 17
+            USART3: 18
+            UART4: 19
+            UART5: 20
+            I2C1: 21
+            I2C2: 22
+            I2C3: 23
+            CAN1: 25
+            CAN2: 26
+            PWR: 28
+            DAC: 29
 
           APB2:
-            0: TIM1
-            1: TIM8
-            4: USART1
-            5: USART6
-            8: ADC
-            11: SDIO
-            12: SPI1
-            14: SYSCFG
-            16: TIM9
-            17: TIM10
-            18: TIM11
+            TIM1: 0
+            TIM8: 1
+            USART1: 4
+            USART6: 5
+            ADC: 8
+            SDIO: 11
+            SPI1: 12
+            SYSCFG: 14
+            TIM9: 16
+            TIM10: 17
+            TIM11: 18
 
   interrupt:
     irq:

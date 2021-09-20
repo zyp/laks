@@ -118,57 +118,57 @@
         type: f3
         bus:
           AHB:
-            0: DMA1
-            1: DMA2
-            2: SRAM
-            4: FLITF
-            5: FSMC
-            6: CRC
-            16: GPIOH
-            17: GPIOA
-            18: GPIOB
-            19: GPIOC
-            20: GPIOD
-            21: GPIOE
-            22: GPIOF
-            23: GPIOG
-            24: TSC
-            28: ADC12
-            29: ADC34
+            DMA1: 0
+            DMA2: 1
+            SRAM: 2
+            FLITF: 4
+            FSMC: 5
+            CRC: 6
+            GPIOH: 16
+            GPIOA: 17
+            GPIOB: 18
+            GPIOC: 19
+            GPIOD: 20
+            GPIOE: 21
+            GPIOF: 22
+            GPIOG: 23
+            TSC: 24
+            ADC12: 28
+            ADC34: 29
 
           APB1:
-            0: TIM2
-            1: TIM3
-            2: TIM4
-            4: TIM6
-            5: TIM7
-            11: WWDG
-            14: SPI2
-            15: SPI3
-            17: USART2
-            18: USART3
-            19: UART4
-            20: UART5
-            21: I2C1
-            22: I2C2
-            23: USB
-            25: CAN
-            26: DAC2
-            28: PWR
-            29: DAC1
-            30: I2C3
+            TIM2: 0
+            TIM3: 1
+            TIM4: 2
+            TIM6: 4
+            TIM7: 5
+            WWDG: 11
+            SPI2: 14
+            SPI3: 15
+            USART2: 17
+            USART3: 18
+            UART4: 19
+            UART5: 20
+            I2C1: 21
+            I2C2: 22
+            USB: 23
+            CAN: 25
+            DAC2: 26
+            PWR: 28
+            DAC1: 29
+            I2C3: 30
 
           APB2:
-            0: SYSCFG
-            11: TIM1
-            12: SPI1
-            13: TIM8
-            14: USART1
-            15: SPI4
-            16: TIM15
-            17: TIM16
-            18: TIM17
-            20: TIM10
+            SYSCFG: 0
+            TIM1: 11
+            SPI1: 12
+            TIM8: 13
+            USART1: 14
+            SPI4: 15
+            TIM15: 16
+            TIM16: 17
+            TIM17: 18
+            TIM10: 20
 
   interrupt:
     irq:

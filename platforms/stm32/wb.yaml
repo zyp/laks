@@ -79,54 +79,54 @@
         type: wb
         bus:
           AHB1:
-            0: DMA1
-            1: DMA2
-            2: DMAMUX1
-            12: CRC
-            16: TSC
+            DMA1: 0
+            DMA2: 1
+            DMAMUX1: 2
+            CRC: 12
+            TSC: 16
 
           AHB2:
-            0: GPIOA
-            1: GPIOB
-            2: GPIOC
-            3: GPIOD
-            4: GPIOE
-            7: GPIOH
-            13: ADC1
+            GPIOA: 0
+            GPIOB: 1
+            GPIOC: 2
+            GPIOD: 3
+            GPIOE: 4
+            GPIOH: 7
+            ADC1: 13
 
           AHB3:
-            8: QUADSPI
-            16: PKA
-            17: AES2
-            18: RNG
-            19: HSEM
-            20: IPCC
-            25: FLASH
-            7: OTGFS
+            QUADSPI: 8
+            PKA: 16
+            AES2: 17
+            RNG: 18
+            HSEM: 19
+            IPCC: 20
+            FLASH: 25
+            OTGFS: 7
 
           APB1_1:
-            0: TIM2
-            9: LCD
-            10: RTCAPB
-            11: WWDG
-            14: SPI2
-            21: I2C1
-            23: I2C3
-            24: CRS
-            26: USB
-            31: LPTIM1
+            TIM2: 0
+            LCD: 9
+            RTCAPB: 10
+            WWDG: 11
+            SPI2: 14
+            I2C1: 21
+            I2C3: 23
+            CRS: 24
+            USB: 26
+            LPTIM1: 31
 
           APB1_2:
-            0: LPUART1
-            5: LPTIM2
+            LPUART1: 0
+            LPTIM2: 5
 
           APB2:
-            11: TIM1
-            12: SPI1
-            14: USART1
-            17: TIM16
-            18: TIM17
-            21: SAI1
+            TIM1: 11
+            SPI1: 12
+            USART1: 14
+            TIM16: 17
+            TIM17: 18
+            SAI1: 21
 
   interrupt:
     irq:

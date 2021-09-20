@@ -5,7 +5,7 @@
 namespace rcc {
     {% for bus, devices in buses.items() %}
         enum {{ bus }}_dev {
-            {% for num, name in devices.items() %}
+            {% for name, num in devices.items() %}
                 {{ name }} = 1 << {{ num }},
             {% endfor %}
         };
