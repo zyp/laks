@@ -6,6 +6,7 @@
 
 struct ITM_reg_t {
 	union {
+		volatile float f32;
 		volatile uint32_t u32;
 		volatile uint16_t u16;
 		volatile uint8_t u8;
@@ -51,6 +52,14 @@ struct ITM_reg_t {
 	    while (!(this->STIM[stim].u32 & 1))
 		    ;
 	    this->STIM[stim].u32 = data;
+    }
+    void stim_blocking(unsigned stim, float data) {
+	    if (!(this->TER[0] & (1<<stim))) {
+		    return;
+	    }
+	    while (!(this->STIM[stim].u32 & 1))
+		    ;
+	    this->STIM[stim].f32 = data;
     }
 };
 
