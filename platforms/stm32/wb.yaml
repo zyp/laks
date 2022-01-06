@@ -58,6 +58,11 @@
       GPIOE:
         offset: 0x48001000
 
+    stm32_pwr:
+      PWR:
+        type: wb
+        offset: 0x58000400
+
     stm32_timer:
       TIM1:
         offset: 0x40012C00

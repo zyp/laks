@@ -10,6 +10,7 @@ env.Append(
 		env.SConscript('dma/SConscript'),
 		env.SConscript('gpio/SConscript'),
 		env.SConscript('interrupt/SConscript'),
+		env.SConscript('pwr/SConscript'),
 		env.SConscript('rcc/SConscript'),
 		env.SConscript('timer/SConscript'),
 		env.SConscript('uart/SConscript'),
