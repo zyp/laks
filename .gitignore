@@ -19,3 +19,5 @@ rcc/rcc_enums.h
 timer/timer.h
 usb/usb.h
 uart/uart.h
+wpan/hsem.h
+wpan/ipcc.h

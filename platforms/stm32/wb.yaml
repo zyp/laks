@@ -58,6 +58,14 @@
       GPIOE:
         offset: 0x48001000
 
+    stm32_hsem:
+      HSEM:
+        offset: 0x58001400
+
+    stm32_ipcc:
+      IPCC:
+        offset: 0x58000c00
+
     stm32_pwr:
       PWR:
         type: wb

@@ -1,0 +1,29 @@
+Import('env')
+
+periph = env['PLATFORM_SPEC'].get('periph', {})
+
+headers, instances, sources, aliases = [], [], [], {}
+if 'stm32_hsem' in periph:
+    headers.append('stm32_hsem.h')
+    for name, data in periph['stm32_hsem'].items():
+        real_type = data.get('type', 'v1') # Default
+        instances.append({
+            'type': 'STM32_HSEM_t<STM32_HSEM_reg_%s_t>' % real_type,
+            'name': name,
+            'args': [data['offset']],
+        })
+env.Jinja2('hsem.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases)
+
+headers, instances, sources, aliases = [], [], [], {}
+if 'stm32_ipcc' in periph:
+    headers.append('stm32_ipcc.h')
+    for name, data in periph['stm32_ipcc'].items():
+        real_type = data.get('type', 'v1') # Default
+        instances.append({
+            'type': 'STM32_IPCC_t<STM32_IPCC_reg_%s_t>' % real_type,
+            'name': name,
+            'args': [data['offset']],
+        })
+env.Jinja2('ipcc.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases)
+
+Return('sources')
