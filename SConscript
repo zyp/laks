@@ -8,6 +8,7 @@ env.SConscript('ld_scripts/SConscript')
 env.Append(
 	LIB_SOURCES = [
 		env.SConscript('dma/SConscript'),
+		env.SConscript('exti/SConscript'),
 		env.SConscript('gpio/SConscript'),
 		env.SConscript('interrupt/SConscript'),
 		env.SConscript('pwr/SConscript'),

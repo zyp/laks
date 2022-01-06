@@ -7,6 +7,7 @@ docs
 # Generated source files:
 ld_scripts/generated.ld
 dma/dma.h
+exti/exti.h
 gpio/gpio.h
 interrupt/interrupt.h
 interrupt/interrupt_enums.h

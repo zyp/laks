@@ -41,6 +41,11 @@
         type: v1
         offset: 0x40020800
 
+    stm32_exti:
+      EXTI:
+        type: wb
+        offset: 0x58000800
+
     stm32_flash:
       FLASH:
         type: wb

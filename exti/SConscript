@@ -1,0 +1,21 @@
+Import('env')
+
+headers = []
+instances = []
+sources = []
+aliases = {}
+
+periph = env['PLATFORM_SPEC'].get('periph', {})
+
+if 'stm32_exti' in periph:
+    headers.append('stm32_exti.h')
+    for name, data in periph['stm32_exti'].items():
+        instances.append({
+            'type': 'STM32_EXTI_t<STM32_EXTI_reg_%s_t>' % data['type'],
+            'name': name,
+            'args': [data['offset']],
+        })
+
+env.Jinja2('exti.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases)
+
+Return('sources')
