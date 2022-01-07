@@ -18,6 +18,14 @@ namespace STM32 {
 		static auto const VREFINT_CAL_TEMP = 30;
 		static auto const VREFINT_CAL_VOLTAGE = 3.6f;
 		static auto const VREFINT_MIN_SAMPLING_USECS = 4;
+
+		/* A 32bit unique sequence for each device */
+		static uint32_t& UID64_UDN = *(uint32_t*) 0x1fff7580;
+		/* 24 bit vendor id, and an 8 bit part id, */
+		static uint32_t& UID64_PART = *(uint32_t*) 0x1fff7584;
+		static auto const UID64_VENDOR_ST = 0x0080E1;
+		static auto const UID64_PART_STM32WB_REV_YA = 0x26;
+		static auto const UID64_PART_STM32WB_REV_XB = 0x27;		
 #endif
 
 	}
