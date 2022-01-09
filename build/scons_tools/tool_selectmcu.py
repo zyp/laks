@@ -31,6 +31,7 @@ def SelectMCU(env, mcu, variant_dir = None):
 		LIBPATH = ['${LAKS_PATH}/ld_scripts'],
 		
 		LIB_SOURCES = [],
+		CPPDEFINES = ['LAKS'],
 	)
 
 	env.Replace(
