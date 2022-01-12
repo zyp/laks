@@ -28,6 +28,19 @@
       size: 10k
 
   periph:
+    stm32_dma:
+      DMA1:
+        type: v1
+        offset: 0x40020000
+      DMA2:
+        type: v1
+        offset: 0x40020400
+
+    stm32_dmamux:
+      DMAMUX1:
+        type: v1
+        offset: 0x40020800
+
     stm32_flash:
       FLASH:
         type: wb
@@ -59,19 +72,6 @@
       USART1:
         type: v2
         offset: 0x40013800
-
-    stm32_dma:
-      DMA1:
-        type: v1
-        offset: 0x40020000
-      DMA2:
-        type: v1
-        offset: 0x40020400
-
-    stm32_dmamux:
-      DMAMUX1:
-        type: v1
-        offset: 0x40020800
 
     rcc:
       RCC:
