@@ -1,0 +1,238 @@
+- match:
+    mem: b
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 128k
+
+- match:
+    mem: c
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 256k
+
+- mem:
+    ram:
+      origin: 0x20000000
+      size: 64k
+
+  periph:
+    stm32_dma:
+      DMA1:
+        type: v1
+        offset: 0x40020000
+      DMA2:
+        type: v1
+        offset: 0x40020400
+
+    stm32_exti:
+      EXTI:
+        type: l4
+        offset: 0x40010400
+
+    stm32_flash:
+      FLASH:
+        type: l4
+        offset: 0x40022000
+
+    stm32_gpio:
+      GPIOA:
+        offset: 0x48000000
+      GPIOB:
+        offset: 0x48000400
+      GPIOC:
+        offset: 0x48000800
+      GPIOD:
+        offset: 0x48000c00
+      GPIOE:
+        offset: 0x48001000
+
+    stm32_pwr:
+      PWR:
+        type: wb # Yes, wb has a couple of extras, but otherwise same.
+        offset: 0x40007000
+
+    stm32_rtc:
+      RTC:
+        offset: 0x40002800
+        backup_count: 32
+
+    stm32_timer:
+      TIM1:
+        offset: 0x40012C00
+      TIM2:
+        offset: 0x40000000
+      TIM3:
+        offset: 0x40000400
+      TIM6:
+        offset: 0x40001000
+      TIM7:
+        offset: 0x40001400
+      TIM15:
+        offset: 0x40014000
+      TIM16:
+        offset: 0x40014400
+      LPTIM1:
+        type: FIXME
+        offset: 0x40007c00
+      LPTIM2:
+        type: FIXME
+        offset: 0x40009400
+
+    stm32_uart:
+      USART1:
+        type: v2
+        offset: 0x40013800
+      USART2:
+        type: v2
+        offset: 0x40004400
+      USART3:
+        type: v2
+        offset: 0x40004800
+      USART4:
+        type: v2
+        offset: 0x40004c00
+      LPUART1:
+        type: FIXME
+        offset: 0x40008000
+
+    rcc:
+      RCC:
+        offset: 0x40021000
+        type: l4
+        bus:
+          AHB1:
+            DMA1: 0
+            DMA2: 1
+            FLASH: 8
+            CRC: 12
+            TSC: 16
+
+          AHB2:
+            GPIOA: 0
+            GPIOB: 1
+            GPIOC: 2
+            GPIOD: 3
+            GPIOE: 4
+            GPIOH: 7
+            ADC1: 13
+            AES1: 16
+            RNG1: 18
+
+          AHB3:
+            QUADSPI: 8
+
+          APB1_1:
+            TIM2: 0
+            TIM3: 1
+            TIM6: 4
+            TIM7: 5
+            LCD: 9
+            RTCAPB: 10
+            WWDG: 11
+            SPI2: 14
+            SPI3: 15
+            USART2: 17
+            USART3: 18
+            UART3: 19
+            I2C1: 21
+            I2C2: 22
+            I2C3: 23
+            CRS: 24
+            CAN1: 25
+            USB: 26
+            PWR: 28
+            DAC1: 29
+            OPAMP1: 30
+            LPTIM1: 31
+
+          APB1_2:
+            LPUART1: 0
+            I2C4: 1
+            SWPMI1: 2
+            LPTIM2: 5
+
+          APB2:
+            SYSCFG: 0
+            FW: 7
+            SDMMC1: 10
+            TIM1: 11
+            SPI1: 12
+            USART1: 14
+            TIM15: 16
+            TIM16: 17
+            SAI1: 21
+            DFSDM1: 24
+
+  interrupt:
+    irq:
+      0: WWDG
+      1: PVD
+      2: TAMP_STAMP
+      3: RTC_WKUP
+      4: FLASH
+      5: RCC
+      6: EXTI0
+      7: EXTI1
+      8: EXTI2
+      9: EXTI3
+      10: EXTI4
+      11: DMA1_CH1
+      12: DMA1_CH2
+      13: DMA1_CH3
+      14: DMA1_CH4
+      15: DMA1_CH5
+      16: DMA1_CH6
+      17: DMA1_CH7
+      18: ADC1
+      19: USB_HP
+      20: USB_LP
+      21: C2SEV
+      22: COMP
+      23: EXTI9_5
+      24: TIM1_BRK
+      25: TIM1_UP_TIM16
+      26: TIM1_TRG_COM_TIM17
+      27: TIM1_CC
+      28: TIM2
+      29: PKA
+      30: I2C1_EV
+      31: I2C1_ER
+      32: I2C3_EV
+      33: I2C3_ER
+      34: SPI1
+      35: SPI2
+      36: USART1
+      37: LPUART1
+      38: SAI1
+      39: TSC
+      40: EXTI15_10
+      41: RTC_Alarm
+      42: CRS_IT
+      43: SOTF_BLEACT_802ACT_RFPHASE
+      44: IPCC_C1_RX
+      45: IPCC_C1_TX
+      46: HSEM
+      47: LPTIM1
+      48: LPTIM2
+      49: LCD
+      50: QUADSPI
+      51: AES1
+      52: AES2
+      53: TRNG
+      54: FPU
+      55: DMA2_CH1
+      56: DMA2_CH2
+      57: DMA2_CH3
+      58: DMA2_CH4
+      59: DMA2_CH5
+      60: DMA2_CH6
+      61: DMA2_CH7
+      62: DMAMUX1_OVR
+
+  define:
+    - STM32WB
+
+  meta:
+    cpu: cortex-m4f
