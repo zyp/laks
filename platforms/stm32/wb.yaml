@@ -76,6 +76,11 @@
         type: wb
         offset: 0x58000400
 
+    stm32_rtc:
+      RTC:
+        offset: 0x40002800
+        backup_count: 20
+
     stm32_syscfg:
       SYSCFG:
         offset: 0x40010000

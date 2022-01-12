@@ -1,0 +1,24 @@
+Import('env')
+
+headers = []
+instances = []
+sources = []
+aliases = {}
+
+periph = env['PLATFORM_SPEC'].get('periph', {})
+
+if 'stm32_rtc' in periph:
+    headers.append('stm32_rtc.h')
+    for name, data in periph['stm32_rtc'].items():
+        # Default to version 2, with subseconds, the most common form.
+        real_type = data.get('type', 'v2ss')
+        instances.append({
+            'type': 'STM32_RTC_t<STM32_RTC_reg_%s_t>' % real_type,
+            'name': name,
+            'args': [data['offset']],
+        })
+
+env.Jinja2('rtc.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases)
+
+Return('sources')
+
