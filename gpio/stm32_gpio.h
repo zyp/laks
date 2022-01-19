@@ -32,10 +32,10 @@ class STM32_GPIO_v1_t : public mmio_ptr<STM32_GPIO_reg_v1_t> {
 		class Pin {
 			private:
 				const STM32_GPIO_v1_t& g;
-				int n;
 			
 			public:
-				constexpr Pin(const STM32_GPIO_v1_t& gpio, int pin) : g(gpio), n(pin) {}
+				const int n;
+				constexpr Pin(const STM32_GPIO_v1_t& gpio, const int pin) : g(gpio), n(pin) {}
 				
 				enum Mode {
 					Input = 0x4,
@@ -75,6 +75,10 @@ class STM32_GPIO_v1_t : public mmio_ptr<STM32_GPIO_reg_v1_t> {
 				
 				void toggle() {
 					set(!(g->ODR & (1 << n)));
+				}
+
+				unsigned get_portnum() {
+					return (((*(uint32_t*)&g) >>10) & 0xf) - 2;
 				}
 		};
 		
@@ -121,10 +125,10 @@ class STM32_GPIO_v2_t : public mmio_ptr<STM32_GPIO_reg_v2_t> {
 		class Pin {
 			private:
 				const STM32_GPIO_v2_t& g;
-				int n;
 			
 			public:
-				constexpr Pin(const STM32_GPIO_v2_t& gpio, int pin) : g(gpio), n(pin) {}
+				const int n;
+				constexpr Pin(const STM32_GPIO_v2_t& gpio, const int pin) : g(gpio), n(pin) {}
 				
 				enum Mode {
 					Input,
@@ -201,6 +205,10 @@ class STM32_GPIO_v2_t : public mmio_ptr<STM32_GPIO_reg_v2_t> {
 				
 				void toggle() {
 					set(!(g->ODR & (1 << n)));
+				}
+
+				unsigned get_portnum() {
+					return (((*(uint32_t*)&g) >>10) & 0xf);
 				}
 		};
 		
