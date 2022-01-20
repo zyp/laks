@@ -76,6 +76,10 @@
         type: wb
         offset: 0x58000400
 
+    stm32_syscfg:
+      SYSCFG:
+        offset: 0x40010000
+
     stm32_timer:
       TIM1:
         offset: 0x40012C00

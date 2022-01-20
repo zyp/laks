@@ -1,29 +1,25 @@
-#ifndef SYSCFG_H
-#define SYSCFG_H
+#pragma once
 
-#include <stdint.h>
+#include <mmio/mmio.h>
 
-#if defined(STM32L0)
+struct STM32_SYSCFG_reg_f4_t {
+	volatile uint32_t MEMRMP;
+	volatile uint32_t PMC;
+	volatile uint32_t EXTICR[4];
+	volatile uint32_t CMPCR;
+};
 
-struct SYSCFG_t {
+
+struct STM32_SYSCFG_reg_l0_t {
 	volatile uint32_t CFGR1;
 	volatile uint32_t CFGR2;
-	volatile uint32_t EXTICR1;
-	volatile uint32_t EXTICR2;
-	volatile uint32_t EXTICR3;
-	volatile uint32_t EXTICR4;
+	volatile uint32_t EXTICR[4];
 	volatile uint32_t COMP1_CTRL;
 	volatile uint32_t COMP2_CTRL;
 	volatile uint32_t CFGR3;
 };
 
-static SYSCFG_t& SYSCFG = *(SYSCFG_t*)0x40010000;
-
-#endif
-
-#if defined(STM32WB)
-
-struct SYSCFG_t {
+struct STM32_SYSCFG_reg_wb_t {
 	volatile uint32_t MEMRMP;
 	volatile uint32_t CFGR1;
 	volatile uint32_t EXTICR[4];
@@ -40,8 +36,9 @@ struct SYSCFG_t {
 	volatile uint32_t SIPCR;
 };
 
-static SYSCFG_t& SYSCFG = *(SYSCFG_t*)0x40010000;
 
-#endif
-
-#endif
+template <typename T>
+class STM32_SYSCFG_t : public mmio_ptr<T> {
+    public:
+        using mmio_ptr<T>::ptr;
+};

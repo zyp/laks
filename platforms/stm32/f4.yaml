@@ -54,6 +54,10 @@
       GPIOI:
         offset: 0x40022000
 
+    stm32_syscfg:
+      SYSCFG:
+        offset: 0x40013800
+
     stm32_timer:
       TIM1:
         offset: 0x40010000

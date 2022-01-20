@@ -16,3 +16,7 @@
         offset: 0x50000c00
       GPIOH:
         offset: 0x50001c00
+
+    stm32_syscfg:
+      SYSCFG:
+        offset: 0x40010000
