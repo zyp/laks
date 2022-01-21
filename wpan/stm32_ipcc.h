@@ -19,4 +19,36 @@ template <typename T>
 class STM32_IPCC_t : public mmio_ptr<T> {
 	public:
 		using mmio_ptr<T>::ptr;
+
+		bool tx_pending(uint32_t channel) const {
+			bool unmasked = ~(ptr()->C1MR) & ((1<<channel) << 16);
+			return unmasked && (!(ptr()->C1TOC2SR & (1<<channel)));
+		}
+
+		bool rx_pending(uint32_t channel) const {
+			bool unmasked = ~(ptr()->C1MR) & (1<<channel);
+			return unmasked && (ptr()->C2TOC1SR & (1<<channel));
+		}
+
+		void c1_set_flag(const uint32_t channel) const {
+			ptr()->C1SCR = (1<<channel) << 16;
+		}
+		void c1_clear_flag(const uint32_t channel) const {
+			ptr()->C1SCR = (1<<channel);
+		}
+
+		void enable_rx(const uint32_t channel) const {
+			ptr()->C1MR &= ~(1<<channel);
+		}
+		void disable_rx(const uint32_t channel) const {
+			ptr()->C1MR |= (1<<channel);
+		}
+
+		void enable_tx(const uint32_t channel) const {
+			ptr()->C1MR &= ~((1<<channel) << 16);
+		}
+		void disable_tx(const uint32_t channel) const {
+			ptr()->C1MR |= (1<<channel) << 16;
+		}
+
 };
