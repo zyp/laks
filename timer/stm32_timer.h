@@ -31,6 +31,18 @@ struct STM32_TIMER_reg_v1_t {
 	volatile uint32_t TISEL;
 };
 
+struct STM32_TIMER_reg_lpv1_t {
+	volatile uint32_t ISR;
+	volatile uint32_t ICR;
+	volatile uint32_t IER;
+	volatile uint32_t CFGR;
+	volatile uint32_t CR;
+	volatile uint32_t CMP;
+	volatile uint32_t ARR;
+	volatile uint32_t CNT;
+	volatile uint32_t OR;
+};
+
 template <typename T>
 class STM32_TIMER_t : public mmio_ptr<T> {
     public:

@@ -94,6 +94,12 @@
         offset: 0x40014400
       TIM17:
         offset: 0x40014800
+      LPTIM1:
+        type: lpv1
+        offset: 0x40007c00
+      LPTIM2:
+        type: lpv1
+        offset: 0x40009400
 
     stm32_uart:
       USART1:
