@@ -23,4 +23,12 @@ template <typename T>
 class STM32_HSEM_t : public mmio_ptr<T> {
 	public:
 		using mmio_ptr<T>::ptr;
+
+		bool get_lock_1step(uint32_t sem) const {
+			return ptr()->RLR[sem] == (uint32_t)((1<<31) | (4<<8)); // cpu1 coreid
+		}
+
+		void release(uint32_t sem, uint32_t process) const {
+			ptr()->R[sem] = (4<<8) | process;  // cpu1 coreid
+		}
 };
