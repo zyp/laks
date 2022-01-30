@@ -94,10 +94,10 @@
       TIM16:
         offset: 0x40014400
       LPTIM1:
-        type: FIXME
+        type: lpv1
         offset: 0x40007c00
       LPTIM2:
-        type: FIXME
+        type: lpv1
         offset: 0x40009400
 
     stm32_uart:
@@ -205,54 +205,82 @@
       15: DMA1_CH5
       16: DMA1_CH6
       17: DMA1_CH7
-      18: ADC1
-      19: USB_HP
-      20: USB_LP
-      21: C2SEV
-      22: COMP
+      18: ADC1_2
+      19: CAN1_TX
+      20: CAN1_RX0
+      21: CAN1_RX1
+      22: CAN1_SCRE
       23: EXTI9_5
-      24: TIM1_BRK
+      24: TIM1_BRK_TIM15
       25: TIM1_UP_TIM16
       26: TIM1_TRG_COM_TIM17
       27: TIM1_CC
       28: TIM2
-      29: PKA
-      30: I2C1_EV
-      31: I2C1_ER
-      32: I2C3_EV
-      33: I2C3_ER
-      34: SPI1
-      35: SPI2
-      36: USART1
-      37: LPUART1
-      38: SAI1
-      39: TSC
+      29: TIM3
+      30: TIM4
+      31: I2C1_EV
+      32: I2C1_ER
+      33: I2C2_EV
+      34: I2C2_ER
+      35: SPI1
+      36: SPI2
+      37: USART1
+      38: USART2
+      39: USART3
       40: EXTI15_10
       41: RTC_Alarm
-      42: CRS_IT
-      43: SOTF_BLEACT_802ACT_RFPHASE
-      44: IPCC_C1_RX
-      45: IPCC_C1_TX
-      46: HSEM
-      47: LPTIM1
-      48: LPTIM2
-      49: LCD
-      50: QUADSPI
-      51: AES1
-      52: AES2
-      53: TRNG
-      54: FPU
-      55: DMA2_CH1
-      56: DMA2_CH2
-      57: DMA2_CH3
-      58: DMA2_CH4
-      59: DMA2_CH5
-      60: DMA2_CH6
-      61: DMA2_CH7
-      62: DMAMUX1_OVR
+      42: FSDM1_FLT3
+      43: TIM8_BRK
+      44: TIM8_UP
+      45: TIM8_TRG_COM
+      46: TIM8_CC
+      47: ADC3
+      48: FMC
+      49: SDMMC1
+      50: TIM5
+      51: SPI3
+      52: UART4
+      53: UART5
+      54: TIM6_DACUNDER
+      55: TIM7
+      56: DMA2_CH1
+      57: DMA2_CH2
+      58: DMA2_CH3
+      59: DMA2_CH4
+      60: DMA2_CH5
+      61: DFSDM1_FLT0
+      62: DFSDM1_FLT1
+      63: DFSDM1_FLT2
+      64: COMP
+      65: LPTIM1
+      66: LPTIM2
+      67: OTG_FS
+      68: DMA2_CH6
+      69: DMA2_CH7
+      70: LPUART1
+      71: QUADSPI
+      72: I2C3_EV
+      73: I2C3_ER
+      74: SAI1
+      75: SAI2
+      76: SWPMI1
+      77: TSC
+      78: LCD
+      79: AES
+      80: RNG_HASH
+      81: FPU
+      82: HASH_CRS
+      83: I2C4_EV
+      84: I2C4_ER
+      85: DCMI
+      86: CAN2_TX
+      87: CAN2_RX0
+      88: CAN2_RX1
+      89: CAN2_SCR
+      90: DMA2D
 
   define:
-    - STM32WB
+    - STM32L4
 
   meta:
     cpu: cortex-m4f
