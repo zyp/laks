@@ -35,6 +35,13 @@ template <typename T>
 class STM32_PWR_t : public mmio_ptr<T> {
 	public:
 		using mmio_ptr<T>::ptr;
+
+		// WARNING - 3 bits on g0/g4/l4/l5/wb, 2 bits on f0/f1/f3/f4/f7/l0/l1
+		// (and only _1_ bit on h7!)
+		void set_lpms(uint32_t level) const {
+			ptr()->CR1 &= ~(0x7);
+			ptr()->CR1 |= (level);
+		}
 };
 
 // TODO - methods for pullup/pulldowns?
