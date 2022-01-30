@@ -12,6 +12,26 @@
       origin: 0x08000000
       size: 256k
 
+- match:
+    mem: e
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 512k
+    ram:
+      origin: 0x20000000
+      size: 128k
+
+- match:
+    mem: g
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 1024k
+    ram:
+      origin: 0x20000000
+      size: 128k
+
 - mem:
     ram:
       origin: 0x20000000
