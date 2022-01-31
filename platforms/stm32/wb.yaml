@@ -105,6 +105,9 @@
       USART1:
         type: v2
         offset: 0x40013800
+      LPUART1:
+        type: lpv1
+        offset: 0x40008000
 
     rcc:
       RCC:
