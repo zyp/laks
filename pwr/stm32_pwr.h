@@ -62,6 +62,13 @@ class STM32_PWR_t : public mmio_ptr<T> {
 			ptr()->CR1 &= ~(0x7);
 			ptr()->CR1 |= (level);
 		}
+
+		/// Sets the LPMS state for CPU2.  (only available on WB)
+		/// \param level
+		void set_lpms_c2(uint32_t level) const {
+			ptr()->C2CR1 &= ~(0x7);
+			ptr()->C2CR1 |= (level);
+		}
 };
 
 // TODO - methods for pullup/pulldowns?
