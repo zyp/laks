@@ -132,6 +132,50 @@ struct RCC_reg_l1_t {
 	volatile uint32_t CSR;
 };
 
+struct RCC_reg_l4_t {
+	volatile uint32_t CR;
+	volatile uint32_t ICSCR;
+	volatile uint32_t CFGR;
+	volatile uint32_t PLLCFGR;
+	volatile uint32_t PLLSAI1CFGR;
+	volatile uint32_t PLLSAI2CFGR;
+	volatile uint32_t CIER;
+	volatile uint32_t CIFR;
+	volatile uint32_t CICR;
+	uint32_t _1; // reserved 0x24
+	volatile uint32_t AHB1RSTR;
+	volatile uint32_t AHB2RSTR;
+	volatile uint32_t AHB3RSTR;
+	uint32_t _2; // reserved 0x34
+	volatile uint32_t APB1RSTR1;
+	volatile uint32_t APB1RSTR2;
+	volatile uint32_t APB2RSTR;
+	volatile uint32_t APB3RSTR;
+	volatile uint32_t AHB1ENR;
+	volatile uint32_t AHB2ENR;
+	volatile uint32_t AHB3ENR;
+	uint32_t _3; // reserved 0x54
+	volatile uint32_t APB1ENR1;
+	volatile uint32_t APB1ENR2;
+	volatile uint32_t APB2ENR;
+	uint32_t _4; // reserved 0x64
+	volatile uint32_t AHB1SMENR;
+	volatile uint32_t AHB2SMENR;
+	volatile uint32_t AHB3SMENR;
+	uint32_t _5; // reserved 0x74
+	volatile uint32_t APB1SMENR1;
+	volatile uint32_t APB1SMENR2;
+	volatile uint32_t APB2SMENR;
+	uint32_t _6; // reserved 0x84
+	volatile uint32_t CCIPR;
+	uint32_t _7; // reserved 0x8c
+	volatile uint32_t BDCR;
+	volatile uint32_t CSR;
+	volatile uint32_t CRRCR;
+	volatile uint32_t CCIPR2;
+};
+
+
 struct RCC_reg_wb_t {
 	volatile uint32_t CR;
 	volatile uint32_t ICSCR;

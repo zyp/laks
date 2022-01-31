@@ -78,6 +78,11 @@
         offset: 0x40002800
         backup_count: 32
 
+    stm32_syscfg:
+      SYSCFG:
+        type: wb # Yes, wb has a couple of extras, but otherwise same.
+        offset: 0x40010000
+
     stm32_timer:
       TIM1:
         offset: 0x40012C00
@@ -114,7 +119,7 @@
         type: v2
         offset: 0x40004c00
       LPUART1:
-        type: FIXME
+        type: lpv1
         offset: 0x40008000
 
     rcc:
@@ -128,6 +133,7 @@
             FLASH: 8
             CRC: 12
             TSC: 16
+            DMA2D: 17
 
           AHB2:
             GPIOA: 0
@@ -135,17 +141,25 @@
             GPIOC: 2
             GPIOD: 3
             GPIOE: 4
+            GPIOF: 5
+            GPIOG: 6
             GPIOH: 7
+            OTGFS: 12
             ADC1: 13
+            DCMI: 14
             AES1: 16
+            HASH: 17
             RNG1: 18
 
           AHB3:
+            FMC: 0
             QUADSPI: 8
 
           APB1_1:
             TIM2: 0
             TIM3: 1
+            TIM4: 2
+            TIM5: 3
             TIM6: 4
             TIM7: 5
             LCD: 9
@@ -155,12 +169,14 @@
             SPI3: 15
             USART2: 17
             USART3: 18
-            UART3: 19
+            UART4: 19
+            UART5: 20
             I2C1: 21
             I2C2: 22
             I2C3: 23
             CRS: 24
             CAN1: 25
+            CAN2: 26
             USB: 26
             PWR: 28
             DAC1: 29
@@ -179,10 +195,13 @@
             SDMMC1: 10
             TIM1: 11
             SPI1: 12
+            TIM8: 13
             USART1: 14
             TIM15: 16
             TIM16: 17
+            TIM17: 18
             SAI1: 21
+            SAI2: 22
             DFSDM1: 24
 
   interrupt:
