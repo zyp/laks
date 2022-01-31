@@ -44,4 +44,10 @@ template <typename T>
 class STM32_UART_t : public mmio_ptr<T> {
     public:
         using mmio_ptr<T>::ptr;
+
+	void write_blocking(uint8_t data) const {
+		// wait for TXE/TXFNF
+		while (!(ptr()->ISR & (1<<7)));
+		ptr()->TDR = data;
+	}
 };
