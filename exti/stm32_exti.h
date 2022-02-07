@@ -9,6 +9,7 @@ struct STM32_EXTI_reg_l4_t {
 	volatile uint32_t FTSR1;
 	volatile uint32_t SWIER1;
 	volatile uint32_t PR1;
+	uint32_t _reserved1[2];
 	volatile uint32_t IMR2;
 	volatile uint32_t EMR2;
 	volatile uint32_t RTSR2;
