@@ -26,6 +26,31 @@ struct STM32_RTC_reg_v2ss_t {
 	volatile uint32_t BKP[32]; /* max known 32, might be less, check DS */
 };
 
+struct STM32_RTC_reg_v3_t {
+	volatile uint32_t TR;
+	volatile uint32_t DR;
+	volatile uint32_t SSR;
+	volatile uint32_t ICSR;
+	volatile uint32_t PRER;
+	volatile uint32_t WUTR;
+	volatile uint32_t CR;
+	uint32_t _reserved1[2];
+	volatile uint32_t WPR;
+	volatile uint32_t CALR;
+	volatile uint32_t SHIFTR;
+	volatile uint32_t TSTR;
+	volatile uint32_t TSDR;
+	volatile uint32_t TSSSR;
+	volatile uint32_t ALRMAR;
+	volatile uint32_t ALRMASSR;
+	volatile uint32_t ALRMBR;
+	volatile uint32_t ALRMBSSR;
+	volatile uint32_t SR;
+	volatile uint32_t MISR;
+	volatile uint32_t SCR;
+};
+
+
 template <typename T>
 class STM32_RTC_t : public mmio_ptr<T> {
 	public:

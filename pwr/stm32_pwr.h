@@ -2,6 +2,26 @@
 
 #include <mmio/mmio.h>
 
+struct STM32_PWR_PULL_PORT_t {
+	volatile uint32_t PUCR;
+	volatile uint32_t PDCR;
+};
+
+struct STM32_PWR_reg_g4_t {
+	volatile uint32_t CR1;
+	volatile uint32_t CR2;
+	volatile uint32_t CR3;
+	volatile uint32_t CR4;
+	volatile uint32_t SR1;
+	volatile uint32_t SR2;
+	volatile uint32_t SCR;
+	uint32_t _reserved1;
+	volatile struct STM32_PWR_PULL_PORT_t PUPD[7];
+	uint32_t _reserved2[10];
+	volatile uint32_t CR5;
+};
+
+
 struct STM32_PWR_reg_wb_t {
 	volatile uint32_t CR1;
 	volatile uint32_t CR2;

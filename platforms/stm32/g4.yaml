@@ -1,0 +1,320 @@
+- match:
+    mem: 6
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 32k
+
+- match:
+    mem: 8
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 64k
+
+- match:
+    mem: b
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 128k
+
+- mem:
+    ram:
+      origin: 0x20000000
+      size: 32k
+
+  periph:
+    stm32_dma:
+      DMA1:
+        type: v1
+        offset: 0x40020000
+      DMA2:
+        type: v1
+        offset: 0x40020400
+
+    stm32_dmamux:
+      DMAMUX1:
+        type: v1
+        offset: 0x40020800
+
+    stm32_exti:
+      EXTI:
+        type: l4
+        offset: 0x40010400
+
+    stm32_flash:
+      FLASH:
+        type: g4
+        offset: 0x40022000
+
+    stm32_gpio:
+      GPIOA:
+        offset: 0x48000000
+      GPIOB:
+        offset: 0x48000400
+      GPIOC:
+        offset: 0x48000800
+      GPIOD:
+        offset: 0x48000c00
+      GPIOE:
+        offset: 0x48001000
+      GPIOF:
+        offset: 0x48001400
+      GPIOG:
+        offset: 0x48001800
+
+    stm32_pwr:
+      PWR:
+        type: g4
+        offset: 0x40007000
+
+    stm32_rtc:
+      RTC:
+        type: v3
+        offset: 0x40002800
+
+    stm32_syscfg:
+      SYSCFG:
+        type: wb # Yes, wb has a couple of extras, but otherwise same.
+        offset: 0x40010000
+
+    stm32_timer:
+      TIM1:
+        offset: 0x40012C00
+      TIM2:
+        offset: 0x40000000
+      TIM3:
+        offset: 0x40000400
+      TIM4:
+        offset: 0x40000800
+      TIM5:
+        offset: 0x40000c00
+      TIM6:
+        offset: 0x40001000
+      TIM7:
+        offset: 0x40001400
+      TIM8:
+        offset: 0x40013400
+      TIM15:
+        offset: 0x40014000
+      TIM16:
+        offset: 0x40014400
+      TIM17:
+        offset: 0x40014800
+      TIM20:
+        offset: 0x40015000
+      LPTIM1:
+        type: lpv1
+        offset: 0x40007c00
+
+    stm32_uart:
+      USART1:
+        type: v2
+        offset: 0x40013800
+      USART2:
+        type: v2
+        offset: 0x40004400
+      USART3:
+        type: v2
+        offset: 0x40004800
+      USART4:
+        type: v2
+        offset: 0x40004c00
+      USART5:
+        type: v2
+        offset: 0x40005000
+      LPUART1:
+        type: lpv1
+        offset: 0x40008000
+
+    rcc:
+      RCC:
+        offset: 0x40021000
+        type: l4
+        bus:
+          AHB1:
+            DMA1: 0
+            DMA2: 1
+            DMAMUX1: 2
+            CORDIC: 3
+            FMAC: 4
+            FLASH: 8
+            CRC: 12
+
+          AHB2:
+            GPIOA: 0
+            GPIOB: 1
+            GPIOC: 2
+            GPIOD: 3
+            GPIOE: 4
+            GPIOF: 5
+            GPIOG: 6
+            ADC1: 13
+            ADC12: 13
+            ADC3: 14
+            ADC345: 14
+            DAC1: 16
+            DAC2: 17
+            DAC3: 18
+            DAC4: 19
+            AES1: 24
+            RNG1: 26
+
+          AHB3:
+            FMC: 0
+            QUADSPI: 8
+
+          APB1_1:
+            TIM2: 0
+            TIM3: 1
+            TIM4: 2
+            TIM5: 3
+            TIM6: 4
+            TIM7: 5
+            CRS: 8
+            RTCAPB: 10
+            WWDG: 11
+            SPI2: 14
+            SPI3: 15
+            USART2: 17
+            USART3: 18
+            UART4: 19
+            UART5: 20
+            I2C1: 21
+            I2C2: 22
+            USB: 23
+            FDCAN1: 25
+            PWR: 28
+            I2C3: 30
+            LPTIM1: 31
+
+          APB1_2:
+            LPUART1: 0
+            I2C4: 1
+            UCPD1: 8
+
+          APB2:
+            SYSCFG: 0
+            TIM1: 11
+            SPI1: 12
+            TIM8: 13
+            USART1: 14
+            SPI4: 15
+            TIM15: 16
+            TIM16: 17
+            TIM17: 18
+            TIM20: 20
+            SAI1: 21
+            HRTIM: 26
+
+  interrupt:
+    irq:
+      0: WWDG
+      1: PVD
+      2: TAMP_STAMP
+      3: RTC_WKUP
+      4: FLASH
+      5: RCC
+      6: EXTI0
+      7: EXTI1
+      8: EXTI2
+      9: EXTI3
+      10: EXTI4
+      11: DMA1_CH1
+      12: DMA1_CH2
+      13: DMA1_CH3
+      14: DMA1_CH4
+      15: DMA1_CH5
+      16: DMA1_CH6
+      17: DMA1_CH7
+      18: ADC1_2
+      19: USB_HP
+      20: USB_LP
+      21: FDCAN_IT0
+      22: FDCAN_IT1
+      23: EXTI9_5
+      24: TIM1_BRK_TIM15
+      25: TIM1_UP_TIM16
+      26: TIM1_TRG_COM_TIM17
+      27: TIM1_CC
+      28: TIM2
+      29: TIM3
+      30: TIM4
+      31: I2C1_EV
+      32: I2C1_ER
+      33: I2C2_EV
+      34: I2C2_ER
+      35: SPI1
+      36: SPI2
+      37: USART1
+      38: USART2
+      39: USART3
+      40: EXTI15_10
+      41: RTC_Alarm
+      42: USB_WAKEUP
+      43: TIM8_BRK
+      44: TIM8_UP
+      45: TIM8_TRG_COM
+      46: TIM8_CC
+      47: ADC3
+      48: FSMC
+      49: LPTIM1
+      50: TIM5
+      51: SPI3
+      52: UART4
+      53: UART5
+      54: TIM6_DAC13UNDER
+      55: TIM7_DAC24UNDER
+      56: DMA2_CH1
+      57: DMA2_CH2
+      58: DMA2_CH3
+      59: DMA2_CH4
+      60: DMA2_CH5
+      61: ADC4
+      62: ADC5
+      63: UCPD1
+      64: COMP123
+      65: COMP456
+      66: COMP7
+      67: HRTIM_MASTER
+      68: HRTIM_TIMA
+      69: HRTIM_TIMB
+      70: HRTIM_TIMC
+      71: HRTIM_TIMD
+      72: HRTIM_TIME
+      73: HRTIM_FAULT
+      74: HRTIM_TIMF
+      75: CRS
+      76: SAI
+      77: TIM20_BRK
+      78: TIM20_UP
+      79: TIM20_TRG_COM
+      80: TIM20_CC
+      81: FPU
+      82: I2C4_EV
+      83: I2C4_ER
+      84: SPI4
+      85: AES
+      86: FDCAN2_IT0
+      87: FDCAN2_IT1
+      88: FDCAN3_IT0
+      89: FDCAN3_IT1
+      90: RNG
+      91: LPUART1
+      92: I2C3_EV
+      93: I2C3_ER
+      94: DMAMUX_OVR
+      95: QUADSPI
+      96: DMA1_CH8
+      97: DMA2_CH6
+      98: DMA2_CH7
+      99: DMA2_CH8
+      100: CORDIC
+      101: FMAC
+
+  define:
+    - STM32G4
+
+  meta:
+    cpu: cortex-m4f

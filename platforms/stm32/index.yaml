@@ -15,6 +15,10 @@
       -: !import f7.yaml
 
     - match:
+        family: g4
+      -: !import g4.yaml
+
+    - match:
         family: l1
       -: !import l1.yaml
 
