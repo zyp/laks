@@ -45,11 +45,17 @@ struct STM32_FLASH_reg_l4_t {
 	volatile uint32_t SR;
 	volatile uint32_t CR;
 	volatile uint32_t ECCR;
+	uint32_t _reserved1;
 	volatile uint32_t OPTR;
 	volatile uint32_t PCROP1SR;
 	volatile uint32_t PCROP1ER;
 	volatile uint32_t WRP1AR;
 	volatile uint32_t WRP1BR;
+	uint32_t _reserved2[4];
+	volatile uint32_t PCROP2SR;
+	volatile uint32_t PCROP2ER;
+	volatile uint32_t WRP2AR;
+	volatile uint32_t WRP2BR;
 };
 
 struct STM32_FLASH_reg_g4_t {
@@ -60,28 +66,31 @@ struct STM32_FLASH_reg_g4_t {
 	volatile uint32_t SR;
 	volatile uint32_t CR;
 	volatile uint32_t ECCR;
+	uint32_t _reserved1;
 	volatile uint32_t OPTR;
 	volatile uint32_t PCROP1SR;
 	volatile uint32_t PCROP1ER;
 	volatile uint32_t WRP1AR;
 	volatile uint32_t WRP1BR;
-	uint32_t _reserved1[4];
+	uint32_t _reserved2[4];
 	volatile uint32_t PCROP2SR;
 	volatile uint32_t PCROP2ER;
 	volatile uint32_t WRP2AR;
 	volatile uint32_t WRP2BR;
-	uint32_t _reserved2[7];
+	uint32_t _reserved3[7];
 	volatile uint32_t SEC1R;
 	volatile uint32_t SEC2R;
 };
 
 struct STM32_FLASH_reg_wb_t {
 	volatile uint32_t ACR;
+	uint32_t _reserved1;
 	volatile uint32_t KEYR;
 	volatile uint32_t OPTKEYR;
 	volatile uint32_t SR;
 	volatile uint32_t CR;
 	volatile uint32_t ECCR;
+	uint32_t _reserved2;
 	volatile uint32_t OPTR;
 	volatile uint32_t PCROP1ASR;
 	volatile uint32_t PCROP1AER;
@@ -90,11 +99,11 @@ struct STM32_FLASH_reg_wb_t {
 	volatile uint32_t PCROP1BSR;
 	volatile uint32_t PCROP1BER;
 	volatile uint32_t IPCCBR;
-	volatile uint32_t _reserved1[8];
+	uint32_t _reserved3[8];
 	volatile uint32_t C2ACR;
 	volatile uint32_t C2SR;
 	volatile uint32_t C2CR; // 0x64
-	volatile uint32_t _reserved2[7];
+	uint32_t _reserved4[7];
 	volatile uint32_t SFR; // 0x80
 	volatile uint32_t SRRVR;
 };
