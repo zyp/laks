@@ -204,4 +204,9 @@ class RCC_t : public mmio_ptr<T> {
         void enable(Bus dev) const {
             rcc::enable(*this, dev);
         }
+
+        template <typename Bus>
+        void disable(Bus dev) const {
+            rcc::disable(*this, dev);
+        }
 };

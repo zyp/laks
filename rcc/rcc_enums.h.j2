@@ -15,5 +15,10 @@ namespace rcc {
             rcc->{{ bus.split('_')[0] }}ENR{{ bus.split('_')[1] if '_' in bus else '' }} |= dev;
         }
 
+        template <typename T>
+        void disable(const T& rcc, {{ bus }}_dev dev) {
+            rcc->{{ bus.split('_')[0] }}ENR{{ bus.split('_')[1] if '_' in bus else '' }} &= ~(dev);
+        }
+
     {% endfor %}
 }
