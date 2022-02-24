@@ -18,64 +18,86 @@
       OTG_FS:
         offset: 0x50000000 
 
+    stm32_flash:
+      FLASH:
+        type: f1
+        offset: 0x40022000
+
+    stm32_gpio:
+      GPIOA:
+        offset: 0x40010800
+        type: v1
+      GPIOB:
+        offset: 0x40010c00
+        type: v1
+      GPIOC:
+        offset: 0x40011000
+        type: v1
+      GPIOD:
+        offset: 0x40011400
+        type: v1
+      GPIOE:
+        offset: 0x40011800
+        type: v1
+
     rcc:
       RCC:
         offset: 0x40021000
         type: f1
         bus:
           AHB:
-            0: DMA1
-            1: DMA2
-            2: SRAM
-            4: FLITF
-            6: CRC
-            8: FSMC
-            10: SDIO
-            12: USBFS
+            DMA1: 0
+            DMA2: 1
+            SRAM: 2
+            FLITF: 4
+            CRC: 6
+            FSMC: 8
+            SDIO: 10
+            USBFS: 12
 
           APB1:
-            0: TIM2
-            1: TIM3
-            2: TIM4
-            3: TIM5
-            4: TIM6
-            5: TIM7
-            6: TIM12
-            7: TIM13
-            8: TIM14
-            11: WWDG
-            14: SPI2
-            15: SPI3
-            17: USART2
-            18: USART3
-            19: UART4
-            20: UART5
-            21: I2C1
-            22: I2C2
-            25: CAN
-            27: BKP
-            28: PWR
-            29: DAC
+            TIM2: 0
+            TIM3: 1
+            TIM4: 2
+            TIM5: 3
+            TIM6: 4
+            TIM7: 5
+            TIM12: 6
+            TIM13: 7
+            TIM14: 8
+            WWDG: 11
+            SPI2: 14
+            SPI3: 15
+            USART2: 17
+            USART3: 18
+            UART4: 19
+            UART5: 20
+            I2C1: 21
+            I2C2: 22
+            CAN: 25
+            BKP: 27
+            PWR: 28
+            DAC: 29
 
           APB2:
-            0: AFIO
-            2: GPIOA
-            3: GPIOB
-            4: GPIOC
-            5: GPIOD
-            6: GPIOE
-            7: GPIOF
-            8: GPIOG
-            9: ADC1
-            10: ADC2
-            11: TIM1
-            12: SPI1
-            13: TIM8
-            14: USART1
-            15: ADC3
-            19: TIM9
-            20: TIM10
-            21: TIM11
+            AFIO: 0
+            GPIOA: 2
+            GPIOB: 3
+            GPIOC: 4
+            GPIOD: 5
+            GPIOE: 6
+            GPIOF: 7
+            GPIOG: 8
+            ADC1: 9
+            ADC2: 10
+            TIM1: 11
+            SPI1: 12
+            TIM8: 13
+            USART1: 14
+            ADC3: 15
+            TIM9: 19
+            TIM10: 20
+            TIM11: 21
 
   interrupt:
     irq:
