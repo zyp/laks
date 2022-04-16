@@ -44,22 +44,48 @@ struct STM32_UART_reg_lpv1_t {
 
 template <typename T>
 class STM32_UART_t : public mmio_ptr<T> {
-	static constexpr auto is_v1 = std::is_same_v<T, STM32_UART_reg_v1_t>;
-	static constexpr auto is_v2 = std::is_same_v<T, STM32_UART_reg_v2_t>;
-	static constexpr auto is_lpv1 = std::is_same_v<T, STM32_UART_reg_lpv1_t>;
-
     public:
         using mmio_ptr<T>::ptr;
 
-	void write_blocking(uint8_t data) const requires is_v1 {
-		// wait for TXE/TXFNF
-		while (!(ptr()->SR & (1<<7)));
-		ptr()->DR = data;
+	bool txe() const {
+		if constexpr (std::is_same_v<T, STM32_UART_reg_v1_t>) {
+			return ptr()->SR & (1 << 7);
+		} else {
+			return ptr()->ISR & (1 << 7);
+		}
 	}
 
-	void write_blocking(uint8_t data) const requires is_v2 || is_lpv1 {
-		// wait for TXE/TXFNF
-		while (!(ptr()->ISR & (1<<7)));
-		ptr()->TDR = data;
+	bool rxne() const {
+		if constexpr (std::is_same_v<T, STM32_UART_reg_v1_t>) {
+			return ptr()->SR & (1 << 5);
+		} else {
+			return ptr()->ISR & (1 << 5);
+		}
+	}
+
+	uint8_t read() const {
+		if constexpr (std::is_same_v<T, STM32_UART_reg_v1_t>) {
+			return ptr()->DR;
+		} else {
+			return ptr()->RDR;
+		}
+	}
+
+	void write(uint8_t data) const {
+		if constexpr (std::is_same_v<T, STM32_UART_reg_v1_t>) {
+			ptr()->DR = data;
+		} else {
+			ptr()->TDR = data;
+		}
+	}
+
+	uint8_t read_blocking() const {
+		while(!rxne());
+		return read();
+	}
+
+	void write_blocking(uint8_t data) const {
+		while(!txe());
+		write(data);
 	}
 };
