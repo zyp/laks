@@ -26,6 +26,20 @@
         offset: 0x40004400
         type: v2
 
+    stm32_i2c:
+      I2C1:
+        offset: 0x40005400
+        type: v2
+      I2C2:
+        offset: 0x40005800
+        type: v2
+      I2C3:
+        offset: 0x40005c00
+        type: v2
+      I2C4:
+        offset: 0x40006000
+        type: v2
+
     rcc:
       RCC:
         offset: 0x40023800

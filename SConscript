@@ -17,10 +17,10 @@ env.Append(
 		env.SConscript('syscfg/SConscript'),
 		env.SConscript('timer/SConscript'),
 		env.SConscript('uart/SConscript'),
+		env.SConscript('i2c/SConscript'),
 		env.SConscript('usb/SConscript'),
 		env.SConscript('wpan/SConscript'),
 		Glob('startup/*.cpp'),
-		Glob('i2c/*.cpp'),
 		Glob('os/*.cpp'),
 	],
 )

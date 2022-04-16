@@ -22,5 +22,6 @@ syscfg/syscfg.h
 timer/timer.h
 usb/usb.h
 uart/uart.h
+i2c/i2c.h
 wpan/hsem.h
 wpan/ipcc.h
