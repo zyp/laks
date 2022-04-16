@@ -40,6 +40,10 @@
         offset: 0x40006000
         type: v2
 
+    stm32_ltdc:
+      LTDC:
+        offset: 0x40016800
+
     rcc:
       RCC:
         offset: 0x40023800

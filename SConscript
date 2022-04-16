@@ -19,6 +19,7 @@ env.Append(
 		env.SConscript('uart/SConscript'),
 		env.SConscript('i2c/SConscript'),
 		env.SConscript('usb/SConscript'),
+		env.SConscript('display/SConscript'),
 		env.SConscript('wpan/SConscript'),
 		Glob('startup/*.cpp'),
 		Glob('os/*.cpp'),
