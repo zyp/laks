@@ -1,6 +1,9 @@
 #pragma once
 
 #include <coroutine>
+#include <optional>
+
+#include <cortex_m/critical_section.h>
 
 struct schedulable {
     schedulable* next = nullptr;
@@ -160,4 +163,44 @@ struct task : public schedulable {
     };
 
     task(std::coroutine_handle<promise_type> h) : schedulable(h) {}
+};
+
+struct async_flag : public schedulable {
+    bool ready;
+
+    async_flag() : ready(false) {}
+
+    bool await_ready() {
+        return ready;
+    }
+
+    bool await_suspend(std::coroutine_handle<> h) {
+        critical_section lock;
+
+        if(ready) {
+            return false;
+        } else {
+            awaiter = h;
+            return true;
+        }
+    }
+
+    void await_resume() {
+        critical_section lock;
+
+        awaiter = nullptr;
+        ready = false;
+    }
+
+    void set() {
+        if(ready) {
+            return;
+        }
+
+        ready = true;
+
+        if(awaiter) {
+            scheduler.schedule(*this);
+        }
+    }
 };
