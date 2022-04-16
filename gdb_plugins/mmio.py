@@ -94,3 +94,16 @@ class MMIOPtr(gdb.Function):
     return obj['p'].cast(t.pointer())
 
 MMIOPtr()
+
+class MMIORef(gdb.Function):
+  """
+  Usage is, for instance, p /x $mmio_ref(RCC)
+  """
+  def __init__(self):
+    gdb.Function.__init__(self, 'mmio_ref')
+
+  def invoke(self, obj):
+    t = get_mmio_ptr_type(obj.type)
+    return obj['p'].cast(t.pointer()).dereference()
+
+MMIORef()
