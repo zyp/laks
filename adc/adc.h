@@ -32,6 +32,10 @@ static ADC_t& ADC2 = *(ADC_t*)0x40012800;
 static ADC_t& ADC3 = *(ADC_t*)0x40013c00;
 #elif defined(STM32F4)
 
+#elif defined(STM32F7)
+static ADC_t& ADC1 = *(ADC_t*)0x40012000;
+static ADC_t& ADC2 = *(ADC_t*)0x40012100;
+static ADC_t& ADC3 = *(ADC_t*)0x40012200;
 #endif
 
 #endif 

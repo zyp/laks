@@ -9,7 +9,7 @@ void flash_init() {
 	// Set flash latency.
 	FLASH->ACR = 0x12;
 	
-	#elif defined(STM32F4)
+	#elif defined(STM32F4) || defined(STM32F7)
 	
 	// Set flash latency.
 	FLASH->ACR = 0x107;

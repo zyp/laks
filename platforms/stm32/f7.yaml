@@ -18,12 +18,77 @@
       size: 320k
 
   periph:
+    stm32_flash:
+      FLASH:
+        type: f4
+        offset: 0x40023c00
+
+    stm32_gpio:
+      GPIOA:
+        offset: 0x40020000
+      GPIOB:
+        offset: 0x40020400
+      GPIOC:
+        offset: 0x40020800
+      GPIOD:
+        offset: 0x40020c00
+      GPIOE:
+        offset: 0x40021000
+      GPIOF:
+        offset: 0x40021400
+      GPIOG:
+        offset: 0x40021800
+      GPIOH:
+        offset: 0x40021c00
+      GPIOI:
+        offset: 0x40022000
+      GPIOJ:
+        offset: 0x40022400
+      GPIOK:
+        offset: 0x40022800
+
+    stm32_timer:
+      TIM1:
+        offset: 0x40010000
+      TIM2:
+        offset: 0x40000000
+      TIM3:
+        offset: 0x40000400
+      TIM4:
+        offset: 0x40000800
+      TIM5:
+        offset: 0x40000c00
+      TIM6:
+        offset: 0x40001000
+      TIM7:
+        offset: 0x40001400
+      TIM8:
+        offset: 0x40010400
+
     stm32_uart:
       USART1:
         offset: 0x40011000
         type: v2
       USART2:
         offset: 0x40004400
+        type: v2
+      USART3:
+        offset: 0x40004800
+        type: v2
+      UART4:
+        offset: 0x40004c00
+        type: v2
+      UART5:
+        offset: 0x40005000
+        type: v2
+      USART6:
+        offset: 0x40011400
+        type: v2
+      UART7:
+        offset: 0x40007800
+        type: v2
+      UART8:
+        offset: 0x40007c00
         type: v2
 
     stm32_i2c:
@@ -40,9 +105,23 @@
         offset: 0x40006000
         type: v2
 
+    stm32_dma:
+      DMA1:
+        type: v2
+        offset: 0x40026000
+      DMA2:
+        type: v2
+        offset: 0x40026400
+
     stm32_ltdc:
       LTDC:
         offset: 0x40016800
+
+    dwc_otg:
+      OTG_FS:
+        offset: 0x50000000
+      OTG_HS:
+        offset: 0x40040000
 
     rcc:
       RCC:
@@ -59,8 +138,8 @@
             GPIOG: 6
             GPIOH: 7
             GPIOI: 8
-            GPIOJ: 8
-            GPIOK: 8
+            GPIOJ: 9
+            GPIOK: 10
             CRC: 12
             BKPSRAM: 18
             DTCMRAM: 20
@@ -237,6 +316,9 @@
       95: I2C4_EV
       96: I2C4_ER
       97: SPDIFRX
+
+  define:
+    - STM32F7
 
   meta:
     cpu: cortex-m7f

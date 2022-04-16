@@ -118,7 +118,7 @@ void rcc_init() {
 	#endif
 }
 
-#if defined(STM32F4)
+#if defined(STM32F4) || defined(STM32F7)
 void rcc_init(uint32_t osc_mhz, uint32_t sysclk_mhz) {
 	// Initialize flash.
 	flash_init();

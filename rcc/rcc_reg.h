@@ -85,6 +85,9 @@ struct RCC_reg_f4_t {
 	volatile uint32_t _2;
 	volatile uint32_t SSCGR;
 	volatile uint32_t PLLI2SCFGR;
+	volatile uint32_t PLLSAICFGR;
+	volatile uint32_t DCKCFGR1;
+	volatile uint32_t DCKCFGR2;
 };
 
 struct RCC_reg_l0_t {
