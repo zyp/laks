@@ -6,6 +6,7 @@ docs
 
 # Generated source files:
 ld_scripts/generated.ld
+adc/adc.h
 dma/dma.h
 exti/exti.h
 gpio/gpio.h

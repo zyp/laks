@@ -67,6 +67,26 @@
       origin: 0x10000000
 
   periph:
+    stm32_adc:
+      ADC1:
+        type: v2
+        offset: 0x50000000
+      ADC2:
+        type: v2
+        offset: 0x50000100
+      ADC3:
+        type: v2
+        offset: 0x50000400
+      ADC4:
+        type: v2
+        offset: 0x50000500
+      ADC_COMMON1:
+        type: v2
+        offset: 0x50000300
+      ADC_COMMON3:
+        type: v2
+        offset: 0x50000700
+
     stm32_dma:
       DMA1:
         type: v1

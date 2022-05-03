@@ -28,6 +28,14 @@
       size: 10k
 
   periph:
+    stm32_adc:
+      ADC1:
+        type: v2
+        offset: 0x50040000
+      ADC_COMMON1:
+        type: v2
+        offset: 0x50040300
+
     stm32_dma:
       DMA1:
         type: v1

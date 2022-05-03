@@ -1,5 +1,16 @@
 # This is incomplete, just preserving register addresses!
 - periph:
+    stm32_adc:
+      ADC1:
+        type: v1
+        offset: 0x40012400
+      ADC2:
+        type: v1
+        offset: 0x40012800
+      ADC3:
+        type: v1
+        offset: 0x40013c00
+
     stm32_flash:
       FLASH:
         type: f1

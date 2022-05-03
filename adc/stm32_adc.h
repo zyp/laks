@@ -1,9 +1,32 @@
-#ifndef ADC_F3_H
-#define ADC_F3_H
+#pragma once
 
-#include <stdint.h>
+#include <mmio/mmio.h>
 
-struct ADC_t {
+struct STM32_ADC_reg_v1_t {
+	volatile uint32_t SR;
+	volatile uint32_t CR1;
+	volatile uint32_t CR2;
+	volatile uint32_t SMPR1;
+	volatile uint32_t SMPR2;
+	volatile uint32_t JOFR1;
+	volatile uint32_t JOFR2;
+	volatile uint32_t JOFR3;
+	volatile uint32_t JOFR4;
+	volatile uint32_t HTR;
+	volatile uint32_t LTR;
+	volatile uint32_t SQR1;
+	volatile uint32_t SQR2;
+	volatile uint32_t SQR3;
+	volatile uint32_t JSQR;
+	volatile uint32_t JDR1;
+	volatile uint32_t JDR2;
+	volatile uint32_t JDR3;
+	volatile uint32_t JDR4;
+	volatile uint32_t DR;
+};
+
+
+struct STM32_ADC_reg_v2_t {
 	volatile uint32_t ISR;
 	volatile uint32_t IER;
 	volatile uint32_t CR;
@@ -41,22 +64,20 @@ struct ADC_t {
 	volatile uint32_t CALFACT;
 };
 
-struct ADC_COMMON_t {
+struct STM32_ADC_COMMON_reg_v2_t {
 	volatile uint32_t CSR;
 	uint32_t _reserved1;
 	volatile uint32_t CCR;
 };
 
-#if defined(STM32F3)
-static ADC_t& ADC1 = *(ADC_t*)0x50000000;
-static ADC_t& ADC2 = *(ADC_t*)0x50000100;
-static ADC_t& ADC3 = *(ADC_t*)0x50000400;
-static ADC_t& ADC4 = *(ADC_t*)0x50000500;
-static ADC_COMMON_t& ADC_COMMON1 = *(ADC_COMMON_t*)0x50000300;
-static ADC_COMMON_t& ADC_COMMON3 = *(ADC_COMMON_t*)0x50000700;
-#elif defined(STM32WB)
-static ADC_t& ADC1 = *(ADC_t*)0x50040000;
-static ADC_COMMON_t& ADC_COMMON1 = *(ADC_COMMON_t*)0x50040300;
-#endif
+template <typename T>
+class STM32_ADC_t : public mmio_ptr<T> {
+    public:
+        using mmio_ptr<T>::ptr;
+};
 
-#endif
+template <typename T>
+class STM32_ADC_COMMON_t : public mmio_ptr<T> {
+    public:
+        using mmio_ptr<T>::ptr;
+};
