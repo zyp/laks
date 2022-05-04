@@ -8,8 +8,16 @@ def SelectMCU(env, mcu, variant_dir = None):
 		print('Unknown MCU: %s' % mcu)
 		Exit(1)
 
+	detected_gcc = env.Detect([f'{toolchain}-gcc' for toolchain in spec['toolchains']])
+	if detected_gcc is None:
+		print('Couldn\'t find a suitable toolchain.')
+		print('Toolchains searched for:')
+		for toolchain in spec['toolchains']:
+			print(f' * {toolchain}')
+		Exit(1)
+
 	env.SetDefault(
-		TOOLCHAIN = '%s-' % spec['toolchains'][0],
+		TOOLCHAIN = detected_gcc[:-3],
 	)
 	
 	env.Replace(
