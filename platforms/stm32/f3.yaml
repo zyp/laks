@@ -80,10 +80,12 @@
       ADC4:
         type: v2
         offset: 0x50000500
-      ADC_COMMON1:
+
+    stm32_adc_common:
+      ADC12:
         type: v2
         offset: 0x50000300
-      ADC_COMMON3:
+      ADC345:
         type: v2
         offset: 0x50000700
 

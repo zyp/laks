@@ -32,7 +32,9 @@
       ADC1:
         type: v2
         offset: 0x50040000
-      ADC_COMMON1:
+
+    stm32_adc_common:
+      ADC12:
         type: v2
         offset: 0x50040300
 

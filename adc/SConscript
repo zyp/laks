@@ -11,19 +11,19 @@ periph = env['PLATFORM_SPEC'].get('periph', {})
 if 'stm32_adc' in periph:
     headers.append('stm32_adc.h')
     for name, data in periph['stm32_adc'].items():
-        if name.find("COMMON") > 0:
-            instances.append({
-                'type': 'STM32_ADC_COMMON_t<STM32_ADC_COMMON_reg_%s_t>' % data['type'],
-                'name': name,
-                'args': [data['offset']],
-            })
-        else:
-            instances.append({
-                'type': 'STM32_ADC_t<STM32_ADC_reg_%s_t>' % data['type'],
-                'name': name,
-                'args': [data['offset']],
-            })
+        instances.append({
+            'type': 'STM32_ADC_t<STM32_ADC_reg_%s_t>' % data['type'],
+            'name': name,
+            'args': [data['offset']],
+        })
 
+if 'stm32_adc_common' in periph:
+    for name, data in periph['stm32_adc_common'].items():
+        instances.append({
+            'type': 'STM32_ADC_COMMON_t<STM32_ADC_COMMON_reg_%s_t>' % data['type'],
+            'name': name,
+            'args': [data['offset']],
+        })
 
 env.Jinja2('adc.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases, type_aliases = type_aliases)
 

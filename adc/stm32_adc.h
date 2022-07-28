@@ -68,6 +68,7 @@ struct STM32_ADC_COMMON_reg_v2_t {
 	volatile uint32_t CSR;
 	uint32_t _reserved1;
 	volatile uint32_t CCR;
+	volatile uint32_t CDR;
 };
 
 template <typename T>
