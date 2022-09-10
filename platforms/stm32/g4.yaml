@@ -57,6 +57,10 @@
         type: v2
         offset: 0x50000700
 
+    stm32_opamp:
+      OPAMP:
+        offset: 0x40010300
+
     stm32_dma:
       DMA1:
         type: v1

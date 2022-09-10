@@ -25,6 +25,15 @@ if 'stm32_adc_common' in periph:
             'args': [data['offset']],
         })
 
+if 'stm32_opamp' in periph:
+    headers.append('stm32_opamp.h')
+    for name, data in periph['stm32_opamp'].items():
+        instances.append({
+            'type': 'STM32_OPAMP_t',
+            'name': name,
+            'args': [data['offset']],
+        })
+
 env.Jinja2('adc.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases, type_aliases = type_aliases)
 
 Return('sources')
