@@ -11,6 +11,7 @@ env = Environment(
         'tool_firmware',
         'tool_jinja2',
         'tool_platform_spec',
+        'tool_protonium',
     ],
 )
 
