@@ -162,6 +162,10 @@ struct task : public schedulable {
         void return_void() {}
     };
 
+    // Certain gcc builds hits a corner case triggering an internal error when trying to create a task.
+    // sizeof(task) == 8 appears to be one of the conditions, so we pad it as a workaround.
+    uint32_t _dummy;
+
     task(std::coroutine_handle<promise_type> h) : schedulable(h) {}
 };
 
