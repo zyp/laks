@@ -16,6 +16,15 @@ if 'stm32_uart' in periph:
             'args': [data['offset']],
         })
 
+if 'litex_uart' in periph:
+    headers.append('litex_uart.h')
+    for name, data in periph['litex_uart'].items():
+        instances.append({
+            'type': 'LiteX_UART_t',
+            'name': name,
+            'args': [data['offset']],
+        })
+
 env.Jinja2('uart.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases)
 
 Return('sources')
