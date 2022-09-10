@@ -33,7 +33,10 @@
       8: UEI
       9: SEI
       11: MEI
-  
+
+  startup:
+    - riscv_reset_handler
+
   toolchains:
     - riscv64-unknown-elf
 

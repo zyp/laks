@@ -1,0 +1,12 @@
+Import('env')
+
+sources = [
+    File('entry.cpp'),
+]
+
+startup = env['PLATFORM_SPEC'].get('startup', [])
+
+for file in startup:
+    sources.append(File(f'{file}.cpp'))
+
+Return('sources')
