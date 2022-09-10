@@ -1,6 +1,6 @@
 Import('env')
 
-headers = []
+headers = set()
 instances = []
 sources = []
 aliases = {}
@@ -8,22 +8,41 @@ aliases = {}
 periph = env['PLATFORM_SPEC'].get('periph', {})
 
 if 'stm32_dmamux' in periph:
-    headers.append('stm32_dmamux.h')
+    headers.add('stm32_dmamux.h')
     for name, data in periph['stm32_dmamux'].items():
         instances.append({
             'type': 'STM32_DMAMUX_t<STM32_DMAMUX_reg_%s_t>' % data['type'],
             'name': name,
             'args': [data['offset']],
         })
+
 if 'stm32_dma' in periph:
-    headers.append('stm32_dma.h')
+    headers.add('stm32_dma.h')
     for name, data in periph['stm32_dma'].items():
         instances.append({
             'type': 'STM32_DMA_t<STM32_DMA_reg_%s_t>' % data['type'],
             'name': name,
             'args': [data['offset']],
         })
-env.Jinja2('dma.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases)
 
+if 'litex_wishbone_dma_reader' in periph:
+    headers.add('litex_dma.h')
+    for name, data in periph['litex_wishbone_dma_reader'].items():
+        instances.append({
+            'type': 'LiteX_Wishbone_DMA_Reader_t',
+            'name': name,
+            'args': [data['offset']],
+        })
+
+if 'litex_wishbone_dma_writer' in periph:
+    headers.add('litex_dma.h')
+    for name, data in periph['litex_wishbone_dma_writer'].items():
+        instances.append({
+            'type': 'LiteX_Wishbone_DMA_Writer_t',
+            'name': name,
+            'args': [data['offset']],
+        })
+
+env.Jinja2('dma.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases)
 
 Return('sources')
