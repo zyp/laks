@@ -4,8 +4,24 @@
   cflags:
     - -march=rv32imac
     - -mabi=ilp32
-    - -msmall-data-limit=0
+
+- match:
+    cpu: rv32ima
   
+  cflags:
+    - -march=rv32ima
+    - -mabi=ilp32
+
+- match:
+    cpu: rv32im
+
+  cflags:
+    - -march=rv32im
+    - -mabi=ilp32
+
+- cflags:
+    - -msmall-data-limit=0
+
   interrupt:
     exception:
       0: InstructionMisaligned
