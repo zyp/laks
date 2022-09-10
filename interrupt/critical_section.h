@@ -2,6 +2,7 @@
 
 #include <cstdint>
 
+#ifdef CORTEX_M
 struct critical_section {
     uint32_t primask;
 
@@ -19,3 +20,18 @@ struct critical_section {
         asm volatile("msr primask, %0" :: "r" (primask));
     }
 };
+#endif
+
+#ifdef RISCV
+struct critical_section {
+    uint32_t mie;
+
+    critical_section() {
+        asm volatile("csrrw %0, mie, x0" : "=r" (mie));
+    }
+
+    ~critical_section() {
+        asm volatile("csrw mie, %0" :: "r" (mie));
+    }
+};
+#endif

@@ -36,3 +36,6 @@
   
   toolchains:
     - riscv64-unknown-elf
+
+  define:
+    - RISCV

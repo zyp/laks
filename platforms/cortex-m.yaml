@@ -21,6 +21,9 @@
   toolchains:
     - arm-none-eabi
 
+  define:
+    - CORTEX_M
+
 # cortex-m3
 - match:
     cpu: !re cortex-m3

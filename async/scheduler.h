@@ -3,7 +3,7 @@
 #include <coroutine>
 #include <optional>
 
-#include <cortex_m/critical_section.h>
+#include <interrupt/critical_section.h>
 
 struct schedulable {
     schedulable* next = nullptr;
