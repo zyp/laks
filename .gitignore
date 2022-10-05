@@ -14,6 +14,7 @@ interrupt/interrupt.h
 interrupt/interrupt_enums.h
 interrupt/default_handlers.cpp
 interrupt/vectors_*.cpp
+orbtrace/orbtrace.h
 pwr/pwr.h
 rcc/flash.h
 rcc/rcc.h

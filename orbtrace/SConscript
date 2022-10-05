@@ -1,0 +1,21 @@
+Import('env')
+
+headers = set()
+instances = []
+sources = []
+aliases = {}
+
+periph = env['PLATFORM_SPEC'].get('periph', {})
+
+if 'orbtrace_dbgif' in periph:
+    headers.add('orbtrace_dbgif.h')
+    for name, data in periph['orbtrace_dbgif'].items():
+        instances.append({
+            'type': 'Orbtrace_DBGIF_t',
+            'name': name,
+            'args': [data['offset']],
+        })
+
+env.Jinja2('orbtrace.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances, aliases = aliases)
+
+Return('sources')

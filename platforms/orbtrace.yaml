@@ -1,0 +1,42 @@
+- match:
+    mcu: !re orbtrace
+
+  mem:
+    flash:
+      origin: 0x20000000
+      size: 1M
+      #origin: 0x08400000
+      #size: 4M
+
+    ram:
+      origin: 0x20100000
+      size: 7M
+      #origin: 0x20000000
+      #size: 8M
+
+  periph:
+    litex_timer:
+      TIMER0:
+        offset: 0xf0002800
+
+    litex_uart:
+      UART:
+        offset: 0xf0003000
+
+    orbtrace_dbgif:
+      DBGIF:
+        offset: 0xf0004000
+
+    litex_wishbone_dma_writer:
+      CMSIS_DAP_OUT:
+        offset: 0xf0006000
+
+    litex_wishbone_dma_reader:
+      CMSIS_DAP_IN:
+        offset: 0xf0006800
+
+  interrupt:
+    irq: {}
+
+  meta:
+    cpu: rv32im

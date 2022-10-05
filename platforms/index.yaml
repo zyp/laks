@@ -9,6 +9,11 @@
   -: !import gd32v.yaml
 
 - match:
+    mcu: orbtrace
+
+  -: !import orbtrace.yaml
+
+- match:
     cpu: !re cortex-m
   
   -: !import cortex-m.yaml
