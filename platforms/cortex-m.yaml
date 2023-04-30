@@ -24,6 +24,13 @@
   define:
     - CORTEX_M
 
+# cortex-m0plus
+- match:
+    cpu: cortex-m0plus
+
+  cflags:
+    - -mcpu=cortex-m0plus
+
 # cortex-m3
 - match:
     cpu: !re cortex-m3

@@ -15,6 +15,11 @@
       -: !import f7.yaml
 
     - match:
+        family: g0
+        variant: b1
+      -: !import g0b1.yaml
+
+    - match:
         family: g4
       -: !import g4.yaml
 

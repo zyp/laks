@@ -175,6 +175,33 @@ struct RCC_reg_l4_t {
 	volatile uint32_t CCIPR2;
 };
 
+struct RCC_reg_g0_t {
+	volatile uint32_t CR;
+	volatile uint32_t ICSCR;
+	volatile uint32_t CFGR;
+	volatile uint32_t PLLCFGR;
+	uint32_t _1; // reserved 0x10
+	volatile uint32_t CRRCR;
+	volatile uint32_t CIER;
+	volatile uint32_t CIFR;
+	volatile uint32_t CICR;
+	volatile uint32_t IOPRSTR;
+	volatile uint32_t AHBRSTR;
+	volatile uint32_t APB1RSTR;
+	volatile uint32_t APB2RSTR;
+	volatile uint32_t IOPENR;
+	volatile uint32_t AHBENR;
+	volatile uint32_t APB1ENR;
+	volatile uint32_t APB2ENR;
+	volatile uint32_t IOPSMENR;
+	volatile uint32_t AHBSMENR;
+	volatile uint32_t APB1SMENR;
+	volatile uint32_t APB2SMENR;
+	volatile uint32_t CCIPR1;
+	volatile uint32_t CCIPR2;
+	volatile uint32_t BDCR;
+	volatile uint32_t CSR;
+};
 
 struct RCC_reg_wb_t {
 	volatile uint32_t CR;

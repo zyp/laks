@@ -1,0 +1,179 @@
+- match:
+    mem: b
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 128k
+
+- match:
+    mem: c
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 256k
+
+- match:
+    mem: e
+  mem:
+    flash:
+      origin: 0x08000000
+      size: 512k
+
+- mem:
+    ram:
+      origin: 0x20000000
+      size: 144k
+
+  periph:
+    stm32_flash:
+      FLASH:
+        type: g4 # Not completely identical, add g0 type later?
+        offset: 0x40022000
+
+    stm32_gpio:
+      GPIOA:
+        offset: 0x50000000
+      GPIOB:
+        offset: 0x50000400
+      GPIOC:
+        offset: 0x50000800
+      GPIOD:
+        offset: 0x50000c00
+      GPIOE:
+        offset: 0x50001000
+      GPIOF:
+        offset: 0x50001400
+
+    stm32_i2c:
+      I2C1:
+        offset: 0x40005400
+        type: v2
+      I2C2:
+        offset: 0x40005800
+        type: v2
+      I2C3:
+        offset: 0x40008800
+        type: v2
+
+    stm32_usb:
+      USB:
+        offset: 0x40005c00
+        buf_offset: 0x40009800
+        type: v3
+
+    stm32_uart:
+      USART1:
+        type: v2
+        offset: 0x40013800
+      USART2:
+        type: v2
+        offset: 0x40004400
+      USART3:
+        type: v2
+        offset: 0x40004800
+      USART4:
+        type: v2
+        offset: 0x40004c00
+      USART5:
+        type: v2
+        offset: 0x40005000
+
+    rcc:
+      RCC:
+        offset: 0x40021000
+        type: g0
+        bus:
+          AHB:
+            DMA1: 0
+            DMA2: 1
+            FLASH: 8
+            CRC: 12
+
+          APB1:
+            TIM2: 0
+            TIM3: 1
+            TIM4: 2
+            TIM6: 4
+            TIM7: 5
+            LPUART2: 7
+            USART5: 8
+            USART6: 9
+            RTCAPB: 10
+            WWDG: 11
+            FDCAN: 12
+            USB: 13
+            SPI2: 14
+            SPI3: 15
+            CRS: 16
+            USART2: 17
+            USART3: 18
+            USART4: 19
+            LPUART1: 20
+            I2C1: 21
+            I2C2: 22
+            I2C3: 23
+            CEC: 24
+            UCPD1: 25
+            UCPD2: 26
+            DBG: 27
+            PWR: 28
+            DAC1: 29
+            LPTIM2: 30
+            LPTIM1: 31
+
+          APB2:
+            SYSCFG: 0
+            TIM1: 11
+            SPI1: 12
+            USART1: 14
+            TIM14: 15
+            TIM15: 16
+            TIM16: 17
+            TIM17: 18
+            ADC: 20
+
+          IOP:
+            GPIOA: 0
+            GPIOB: 1
+            GPIOC: 2
+            GPIOD: 3
+            GPIOE: 4
+            GPIOF: 5
+
+  interrupt:
+    irq:
+      0: WWDG
+      1: PVD
+      2: RTC_TAMP
+      3: FLASH
+      4: RCC_CRS
+      5: EXTI0_1
+      6: EXTI2_3
+      7: EXTI4_15
+      8: USB
+      9: DMA1_CH1
+      10: DMA1_CH2_3
+      11: DMA1_CH4_7_DMAMUX_DMA2_Channel1_5
+      12: ADC_COMP
+      13: TIM1_BRK_UP_TRG_COM
+      14: TIM1_CC
+      15: TIM2
+      16: TIM3_TIM4
+      17: TIM6_DAC_LPTIM1
+      18: TIM7_LPTIM2
+      19: TIM14
+      20: TIM15
+      21: TIM16_FDCAN_IT0
+      22: TIM17_FDCAN_IT1
+      23: I2C1
+      24: I2C2_I2C3
+      25: SPI1
+      26: SPI2_SPI3
+      27: USART1
+      28: USART2_LPUART2
+      29: USART3_USART4_USART5_USART6_LPUART1
+      30: CEC
+      31: AES_RNG
+
+  meta:
+    cpu: cortex-m0plus
