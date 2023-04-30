@@ -14,6 +14,15 @@ if 'dwc_otg' in periph:
             'args': [data['offset']],
         })
 
+if 'stm32_usb' in periph:
+    headers.append('stm32_usb.h')
+    for name, data in periph['stm32_usb'].items():
+        instances.append({
+            'type': 'STM32_USB_t<STM32_USB_reg_%s_t>' % data['type'],
+            'name': name,
+            'args': [data['offset'], data['buf_offset']],
+        })
+
 env.Jinja2('usb.h', '../templates/periph_instances.h.j2', headers = headers, instances = instances)
 
 Return()
