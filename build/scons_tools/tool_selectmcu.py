@@ -1,12 +1,23 @@
 from SCons.Script import *
 
-def SelectMCU(env, mcu, variant_dir = None):
+def do_patch(target, source):
+	for k, v in source.items():
+		if k in target and isinstance(v, dict):
+			do_patch(target[k], v)
+		
+		else:
+			target[k] = v
+
+def SelectMCU(env, mcu, variant_dir = None, patch = None):
 
 	spec = env.PlatformSpec(mcu = mcu)
 
 	if len(spec) <= 1:
 		print('Unknown MCU: %s' % mcu)
 		Exit(1)
+
+	if patch:
+		do_patch(spec, patch)
 
 	detected_gcc = env.Detect([f'{toolchain}-gcc' for toolchain in spec['toolchains']])
 	if detected_gcc is None:
