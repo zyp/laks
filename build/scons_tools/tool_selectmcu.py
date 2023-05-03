@@ -46,9 +46,6 @@ def SelectMCU(env, mcu, variant_dir = None, patch = None):
 		ASFLAGS   = Split('-c -x assembler-with-cpp'),
 		LINKFLAGS = Split('-Wall -nostartfiles -Wl,-T${LINK_SCRIPT} -Wl,--gc-sections'),
 		
-		CPPPATH = ['${LAKS_PATH}'],
-		LIBPATH = ['${LAKS_PATH}/ld_scripts'],
-		
 		LIB_SOURCES = [],
 		CPPDEFINES = ['LAKS'],
 	)
@@ -61,6 +58,9 @@ def SelectMCU(env, mcu, variant_dir = None, patch = None):
 		CCFLAGS = spec.get('cflags', []),
 		LINKFLAGS = spec.get('cflags', []),
 		CPPDEFINES = spec.get('define', []),
+
+		CPPPATH = ['${LAKS_PATH}'],
+		LIBPATH = ['${LAKS_PATH}/ld_scripts'],
 	)
 	
 	env.SConscript('${LAKS_PATH}/SConscript', variant_dir = variant_dir, exports = 'env')
