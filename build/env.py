@@ -1,18 +1,3 @@
-import os
+# Old scons based project files will include this file, raise an exception.
 
-env = Environment(
-    ENV = os.environ,
-    LAKS_PATH = Dir('..'),
-
-    toolpath = ['scons_tools'],
-    tools = [
-        'default',
-        'tool_selectmcu',
-        'tool_firmware',
-        'tool_jinja2',
-        'tool_platform_spec',
-        'tool_protonium',
-    ],
-)
-
-Return('env')
+raise Exception('laks does not build with scons anymore, please switch to erect')
