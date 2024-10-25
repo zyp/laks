@@ -1,4 +1,12 @@
-#pragma once
+module;
+
+#include <mmio/mmio.h>
+
+import laks.periph.interrupt.enums;
+
+export module laks.periph.interrupt.plic;
+
+// This module is currently unused and needs some updates before it can be used.
 
 class PLIC_t {
 	private:

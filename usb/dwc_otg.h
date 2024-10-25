@@ -2,7 +2,8 @@
 #define DWC_OTG_H
 
 #include "generic.h"
-#include "dwc_otg_def.h"
+
+import laks.periph.usb.dwc_otg;
 
 class USB_otg : public USB_generic {
 	private:

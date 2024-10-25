@@ -1,8 +1,9 @@
 // This file is auto-generated from a template!
 // You should reconsider editing!
-#pragma once
 
-namespace rcc {
+export module laks.periph.rcc.enums;
+
+export namespace rcc {
     {% for bus, devices in buses.items() %}
         enum {{ bus }}_dev {
             {% for name, num in devices.items() %}

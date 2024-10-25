@@ -1,13 +1,24 @@
 // This file is auto-generated from a template!
 // You should reconsider editing!
-#pragma once
+
+module;
 
 {% for header in (headers if headers else []) %}
 #include "{{ header }}"
 {% endfor %}
 
+{% for module in (imports if imports else []) %}
+import {{ module }};
+{% endfor %}
+
+export module {{ module_name }};
+
+{% for module in (reexports if reexports else []) %}
+export import {{ module }};
+{% endfor %}
+
 {% for instance in (instances if instances else []) %}
-constexpr {{ instance.type }} {{ instance.name }}{
+export constexpr {{ instance.type }} {{ instance.name }}{
     {% for arg in instance.args %}
         {{ arg | hex }},
     {% endfor %}
@@ -15,9 +26,9 @@ constexpr {{ instance.type }} {{ instance.name }}{
 {% endfor %}
 
 {% for alias, ref in (aliases.items() if aliases else {}) %}
-constexpr auto {{ alias }} = {{ ref }};
+export constexpr auto {{ alias }} = {{ ref }};
 {% endfor %}
 
 {% for alias, ref in (type_aliases.items() if type_aliases else {}) %}
-using {{ alias }} = {{ ref }};
+export using {{ alias }} = {{ ref }};
 {% endfor %}

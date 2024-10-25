@@ -1,7 +1,8 @@
 #pragma once
 
 #include "generic.h"
-#include "stm32_usb_def.h"
+
+import laks.periph.usb.stm32;
 
 #include <type_traits>
 

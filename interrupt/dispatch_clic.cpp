@@ -1,4 +1,8 @@
-#include "interrupt.h"
+#include <cstdint>
+
+import laks.periph.interrupt;
+import laks.periph.interrupt.clic;
+import laks.periph.interrupt.enums;
 
 extern interrupt::vector_t vectors_exception[]; 
 extern interrupt::vector_t vectors_clic[]; 

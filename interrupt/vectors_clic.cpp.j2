@@ -1,4 +1,5 @@
-#include "interrupt.h"
+import laks.periph.interrupt;
+import laks.periph.interrupt.enums;
 
 interrupt::vector_t vectors_clic[] = {
     {% for i in range(interrupts.irq | max + 1 if interrupts.irq else interrupts.internal | max + 1 if interrupts.internal else 0) %}

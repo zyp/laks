@@ -1,8 +1,16 @@
-#include "rcc.h"
-#include "flash.h"
-#include "../syscfg/syscfg.h"
+module;
 
-void rcc_init() {
+#include <cstdint>
+
+export module laks.periph.rcc.init;
+
+import laks.periph.rcc;
+import laks.periph.flash;
+import laks.periph.syscfg;
+
+import laks.periph.flash.init;
+
+export void rcc_init() {
 	// Initialize flash.
 	flash_init();
 	
@@ -119,7 +127,7 @@ void rcc_init() {
 }
 
 #if defined(STM32F4) || defined(STM32F7)
-void rcc_init(uint32_t osc_mhz, uint32_t sysclk_mhz) {
+export void rcc_init(uint32_t osc_mhz, uint32_t sysclk_mhz) {
 	// Initialize flash.
 	flash_init();
 	

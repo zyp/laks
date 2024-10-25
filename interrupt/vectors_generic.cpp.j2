@@ -1,4 +1,4 @@
-#include "interrupt.h"
+import laks.periph.interrupt;
 
 {% for type, entries in interrupts.items() %}
     interrupt::vector_t vectors_{{ type }}[] = {

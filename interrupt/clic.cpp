@@ -1,17 +1,19 @@
-#pragma once
-
-#include "interrupt_enums.h"
+module;
 
 #include <mmio/mmio.h>
 
-struct CLIC_int_reg_t {
+import laks.periph.interrupt.enums;
+
+export module laks.periph.interrupt.clic;
+
+export struct CLIC_int_reg_t {
     volatile uint8_t IP;
     volatile uint8_t IE;
     volatile uint8_t ATTR;
     volatile uint8_t CTL;
 };
 
-struct CLIC_reg_t {
+export struct CLIC_reg_t {
     volatile uint32_t CFG;
     volatile uint32_t INFO;
     uint32_t _reserved[14];
@@ -20,8 +22,7 @@ struct CLIC_reg_t {
     CLIC_int_reg_t INT[4096];
 };
 
-
-class CLIC_t : public mmio_ptr<CLIC_reg_t> {
+export class CLIC_t : public mmio_ptr<CLIC_reg_t> {
 	public:
         void enable(interrupt::irq n) const {
             ptr()->INT[int(n)].IE = 1;

@@ -2,7 +2,7 @@
 
 #include <mmio/mmio.h>
 
-#include "rcc_enums.h"
+import laks.periph.rcc.enums;
 
 struct RCC_reg_f0_t {
 	volatile uint32_t CR;

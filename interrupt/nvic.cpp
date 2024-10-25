@@ -1,10 +1,12 @@
-#pragma once
-
-#include "interrupt_enums.h"
+module;
 
 #include <mmio/mmio.h>
 
-struct NVIC_reg_t {
+import laks.periph.interrupt.enums;
+
+export module laks.periph.interrupt.nvic;
+
+export struct NVIC_reg_t {
 	volatile uint32_t ISER[32];
 	volatile uint32_t ICER[32];
 	volatile uint32_t ISPR[32];
@@ -14,7 +16,7 @@ struct NVIC_reg_t {
 	volatile uint32_t STIR;
 };
 
-struct SCB_reg_t {
+export struct SCB_reg_t {
 	volatile uint32_t CPUID;
 	volatile uint32_t ICSR;
 	volatile uint32_t VTOR;
@@ -30,7 +32,7 @@ struct SCB_reg_t {
 	volatile uint32_t BFAR;
 };
 
-class NVIC_t : public mmio_ptr<NVIC_reg_t> {
+export class NVIC_t : public mmio_ptr<NVIC_reg_t> {
 	public:
         mmio_ptr<SCB_reg_t> SCB;
 

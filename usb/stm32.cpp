@@ -1,8 +1,10 @@
-#pragma once
+module;
 
 #include <mmio/mmio.h>
 
-struct STM32_USB_reg_v1_t {
+export module laks.periph.usb.stm32;
+
+export struct STM32_USB_reg_v1_t {
     volatile uint32_t EPR[16];
     volatile uint32_t CNTR;
     volatile uint32_t ISTR;
@@ -20,7 +22,7 @@ struct STM32_USB_reg_v1_t {
     using buf_t = volatile uint32_t;
 };
 
-struct STM32_USB_reg_v2_t {
+export struct STM32_USB_reg_v2_t {
     volatile uint32_t EPR[16];
     volatile uint32_t CNTR;
     volatile uint32_t ISTR;
@@ -40,7 +42,7 @@ struct STM32_USB_reg_v2_t {
     using buf_t = volatile uint16_t;
 };
 
-struct STM32_USB_reg_v3_t {
+export struct STM32_USB_reg_v3_t {
     volatile uint32_t EPR[16];
     volatile uint32_t CNTR;
     volatile uint32_t ISTR;
@@ -58,7 +60,7 @@ struct STM32_USB_reg_v3_t {
     using buf_t = volatile uint32_t;
 };
 
-template <typename T>
+export template <typename T>
 class STM32_USB_t : public mmio_ptr<T> {
 	public:
 		mmio_ptr<typename T::bufd_t> bufd;

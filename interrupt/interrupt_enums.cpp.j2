@@ -1,8 +1,8 @@
 // This file is auto-generated from a template!
 // You should reconsider editing!
-#pragma once
+export module laks.periph.interrupt.enums;
 
-namespace interrupt {
+export namespace interrupt {
     {% for type, entries in interrupts.items() %}
         enum class {{ type }} {
             {% for num, name in entries.items() %}

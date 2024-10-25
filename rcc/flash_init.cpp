@@ -1,9 +1,11 @@
-#include "flash.h"
+export module laks.periph.flash.init;
+
+import laks.periph.flash;
 
 /**
  * Configure the flash for maximum speed access.
  */
-void flash_init() {
+export void flash_init() {
 	#if defined(STM32F1) || defined(STM32F3)
 	
 	// Set flash latency.

@@ -1,10 +1,11 @@
-#pragma once
+module;
 
 #include <mmio/mmio.h>
-
 #include <type_traits>
 
-struct STM32_UART_reg_v1_t {
+export module laks.periph.uart.stm32;
+
+export struct STM32_UART_reg_v1_t {
 	volatile uint32_t SR;
 	volatile uint32_t DR;
 	volatile uint32_t BRR;
@@ -14,7 +15,7 @@ struct STM32_UART_reg_v1_t {
 	volatile uint32_t GTPR;
 };
 
-struct STM32_UART_reg_v2_t {
+export struct STM32_UART_reg_v2_t {
 	volatile uint32_t CR1;
 	volatile uint32_t CR2;
 	volatile uint32_t CR3;
@@ -29,7 +30,7 @@ struct STM32_UART_reg_v2_t {
 	volatile uint32_t PRESC; // Gx, L4+, Wx etc
 };
 
-struct STM32_UART_reg_lpv1_t {
+export struct STM32_UART_reg_lpv1_t {
 	volatile uint32_t CR1;
 	volatile uint32_t CR2;
 	volatile uint32_t CR3;
@@ -42,7 +43,7 @@ struct STM32_UART_reg_lpv1_t {
 	volatile uint32_t TDR;
 };
 
-template <typename T>
+export template <typename T>
 class STM32_UART_t : public mmio_ptr<T> {
     public:
         using mmio_ptr<T>::ptr;

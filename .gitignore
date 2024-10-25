@@ -3,27 +3,3 @@
 *.pyc
 __pycache__
 docs
-
-# Generated source files:
-ld_scripts/generated.ld
-adc/adc.h
-dma/dma.h
-exti/exti.h
-gpio/gpio.h
-interrupt/interrupt.h
-interrupt/interrupt_enums.h
-interrupt/default_handlers.cpp
-interrupt/vectors_*.cpp
-pwr/pwr.h
-rcc/flash.h
-rcc/rcc.h
-rcc/rcc_enums.h
-rtc/rtc.h
-syscfg/syscfg.h
-timer/timer.h
-usb/usb.h
-uart/uart.h
-i2c/i2c.h
-display/display.h
-wpan/hsem.h
-wpan/ipcc.h

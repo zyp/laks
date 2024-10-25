@@ -1,11 +1,12 @@
 // This file is auto-generated from a template!
 // You should reconsider editing!
-#include "interrupt.h"
+import laks.periph.interrupt;
+import laks.periph.interrupt.enums;
 
 void entry();
 extern int _ram_end;
 
-[[gnu::section(".vectors")]]
+[[gnu::section(".vectors"), gnu::used]]
 interrupt::vector_t vectors[] = {
 	(interrupt::vector_t)&_ram_end,
 	entry,
