@@ -2,7 +2,7 @@
     cpu: rv32imac
   
   cflags:
-    - -march=rv32imac
+    - -march=rv32imac_zicsr
     - -mabi=ilp32
     - -msmall-data-limit=0
   
@@ -38,6 +38,7 @@
     - riscv_reset_handler
 
   toolchains:
+    - riscv-none-elf
     - riscv64-unknown-elf
 
   define:
