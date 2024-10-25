@@ -8,7 +8,11 @@ import os
 
 laks_path = pathlib.Path(__file__).parent.parent.parent.relative_to(pathlib.Path('.').absolute())
 
-blueprints = [erect.load_blueprint(blueprint) for blueprint in laks_path.glob('*/build.py')]
+blueprints = [erect.load_blueprint(laks_path / dir / 'build.py') for dir in [
+    'startup',
+    'periph',
+    'legacy_sources',
+]]
 
 def do_patch(target, source):
     for k, v in source.items():
@@ -91,7 +95,9 @@ class Env(erect.Env):
         ]
         
         self.include_path = [
-            self.laks_path,
+            self.laks_path / 'compat_headers',
+            self.laks_path / 'legacy_headers', # TODO: Remove this once we don't have any legacy headers left.
+            self.laks_path, # TODO: Remove this once all headers are in compat_headers or legacy_headers.
         ]
 
         self.defines = [
